@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VietLearn.Api", "VietLearn.Api\VietLearn.Api.csproj", "{48911B36-EF67-41D2-B10C-05EAC7A90086}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VietLearn.Api", "VietLearn.Api\VietLearn.Api.csproj", "{48911B36-EF67-41D2-B10C-05EAC7A90086}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VietLearn.Api", "VietLearn.Api", "{762CEFD9-099D-450E-A6D4-09F628CD1EDC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VietLearn.Tests", "VietLearn.Tests\VietLearn.Tests.csproj", "{6B8577B2-FFAE-4A3D-B991-1435E920B010}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{48911B36-EF67-41D2-B10C-05EAC7A90086}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48911B36-EF67-41D2-B10C-05EAC7A90086}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48911B36-EF67-41D2-B10C-05EAC7A90086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B8577B2-FFAE-4A3D-B991-1435E920B010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B8577B2-FFAE-4A3D-B991-1435E920B010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B8577B2-FFAE-4A3D-B991-1435E920B010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B8577B2-FFAE-4A3D-B991-1435E920B010}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{48911B36-EF67-41D2-B10C-05EAC7A90086} = {762CEFD9-099D-450E-A6D4-09F628CD1EDC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E55E9BE-C117-4704-A0A6-16637E24DC85}
