@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VietLearn.Api.Models;
+using VietLearn.Api.Features.Lessons;
 
 namespace VietLearn.Api.Data
 {

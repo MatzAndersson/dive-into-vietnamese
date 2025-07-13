@@ -1,4 +1,4 @@
-﻿namespace VietLearn.Api.Models
+﻿namespace VietLearn.Api.Features.Lessons
 {
     public class Lesson
     {
