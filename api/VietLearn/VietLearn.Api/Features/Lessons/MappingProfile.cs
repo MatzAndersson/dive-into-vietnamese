@@ -7,7 +7,7 @@ namespace VietLearn.Api.Features.Lessons
         public MappingProfile()
         {
             CreateMap<Lesson, LessonDto>();   // entity → dto
-            CreateMap<Create.Command, Lesson>();
+            CreateMap<Create.CreateLessonCommand, Lesson>();
         }
     }
 }

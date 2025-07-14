@@ -9,11 +9,11 @@ namespace VietLearn.Api.Features.Lessons
     public static class Create
     {
         // ❶ request (shape matches POST body)
-        public record Command(string Title, string? Description)
+        public record CreateLessonCommand(string Title, string? Description)
             : IRequest<LessonDto>;
 
         // ❷ validation rules
-        public class Validator : AbstractValidator<Command>
+        public class Validator : AbstractValidator<CreateLessonCommand>
         {
             public Validator()
             {
@@ -24,7 +24,7 @@ namespace VietLearn.Api.Features.Lessons
         }
 
         // ❸ handler
-        public class Handler : IRequestHandler<Command, LessonDto>
+        public class Handler : IRequestHandler<CreateLessonCommand, LessonDto>
         {
             private readonly AppDbContext _db;
             private readonly IMapper _map;
@@ -35,7 +35,7 @@ namespace VietLearn.Api.Features.Lessons
                 _map = map;
             }
 
-            public async Task<LessonDto> Handle(Command cmd, CancellationToken ct)
+            public async Task<LessonDto> Handle(CreateLessonCommand cmd, CancellationToken ct)
             {
                 var entity = _map.Map<Lesson>(cmd);   // Map title/desc → entity
                 _db.Lessons.Add(entity);
