@@ -25,7 +25,7 @@ public class CreateHandlerTests
     {
         // arrange
         var handler = new Create.Handler(_db, _mapper);
-        var cmd = new Create.Command("Xin chào", "Greeting");
+        var cmd = new Create.CreateLessonCommand("Xin chào", "Greeting");
 
         // act
         LessonDto dto = await handler.Handle(cmd, CancellationToken.None);
