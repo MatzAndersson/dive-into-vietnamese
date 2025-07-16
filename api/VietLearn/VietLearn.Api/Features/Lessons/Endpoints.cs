@@ -24,14 +24,14 @@ namespace VietLearn.Api.Features.Lessons
             g.MapPut("/{id:int}", async (int id, IMediator med, Update.UpdateLessonCommand body) =>
             {
                 var dto = await med.Send(body with { Id = id });
-                return Results.Ok(dto);
+                return dto is null ? Results.NotFound() : Results.Ok(dto);
             });
 
             // DELETE /api/lessons/{id}
             g.MapDelete("/{id:int}", async (int id, IMediator med) =>
             {
-                await med.Send(new Delete.DeleteLessonCommand(id));
-                return Results.NoContent();
+                var success = await med.Send(new Delete.DeleteLessonCommand(id));
+                return success ? Results.NoContent() : Results.NotFound();
             });
 
             return app;
