@@ -12,8 +12,8 @@ using VietLearn.Api.Data;
 namespace VietLearn.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250714071309_SeedLessons_v2")]
-    partial class SeedLessons_v2
+    [Migration("20250721101342_SeedRealLessons")]
+    partial class SeedRealLessons
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,27 @@ namespace VietLearn.Api.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Say thanks",
                             Title = "Cảm ơn"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Asking someone's name",
+                            Title = "Bạn tên gì?"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "I don't understand",
+                            Title = "Tôi không hiểu"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Where is the toilet?",
+                            Title = "Nhà vệ sinh ở đâu?"
                         });
                 });
 #pragma warning restore 612, 618

@@ -1,7 +1,10 @@
 using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using VietLearn.Api.Data;
+using VietLearn.Api.Features.Behaviors;
 using VietLearn.Api.Features.Lessons;
+using VietLearn.Api.Middleware;
 
 
 
@@ -20,7 +23,13 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
 var app = builder.Build();
+
+app.UseMiddleware<ValidationExceptionMiddleware>();
+// Configure the HTTP request pipeline
 
 app.MapLessonEndpoints();
 
