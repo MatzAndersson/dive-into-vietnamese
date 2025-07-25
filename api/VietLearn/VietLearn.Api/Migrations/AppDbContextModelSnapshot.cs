@@ -50,35 +50,35 @@ namespace VietLearn.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 7, 25, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Say hello",
                             Title = "Xin chào"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 7, 25, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Say thanks",
                             Title = "Cảm ơn"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 7, 25, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Asking someone's name",
                             Title = "Bạn tên gì?"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 7, 25, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "I don't understand",
                             Title = "Tôi không hiểu"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 7, 25, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Where is the toilet?",
                             Title = "Nhà vệ sinh ở đâu?"
                         });

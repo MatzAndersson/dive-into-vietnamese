@@ -19,11 +19,11 @@ namespace VietLearn.Api.Data
                 .HasDefaultValueSql("timezone('utc', now())");
 
             modelBuilder.Entity<Lesson>().HasData(
-                new Lesson { Id = 1, Title = "Xin chào", Description = "Say hello" },
-                new Lesson { Id = 2, Title = "Cảm ơn", Description = "Say thanks" },
-                new Lesson { Id = 3, Title = "Bạn tên gì?", Description = "Asking someone's name" },
-                new Lesson { Id = 4, Title = "Tôi không hiểu", Description = "I don't understand" },
-                new Lesson { Id = 5, Title = "Nhà vệ sinh ở đâu?", Description = "Where is the toilet?" }
+                new Lesson { Id = 1, Title = "Xin chào", Description = "Say hello", CreatedAt = new DateTime(2025, 07, 25, 0, 0, 0, DateTimeKind.Utc) },
+                new Lesson { Id = 2, Title = "Cảm ơn", Description = "Say thanks", CreatedAt = new DateTime(2025, 07, 25, 0, 0, 0, DateTimeKind.Utc) },
+                new Lesson { Id = 3, Title = "Bạn tên gì?", Description = "Asking someone's name", CreatedAt = new DateTime(2025, 07, 25, 0, 0, 0, DateTimeKind.Utc) },
+                new Lesson { Id = 4, Title = "Tôi không hiểu", Description = "I don't understand", CreatedAt = new DateTime(2025, 07, 25, 0, 0, 0, DateTimeKind.Utc) },
+                new Lesson { Id = 5, Title = "Nhà vệ sinh ở đâu?", Description = "Where is the toilet?", CreatedAt = new DateTime(2025, 07, 25, 0, 0, 0, DateTimeKind.Utc) }
             );
         }
     }

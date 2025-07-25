@@ -12,7 +12,7 @@ public static class Delete
 
         public async Task<bool> Handle(DeleteLessonCommand request, CancellationToken ct)
         {
-            var entity = await _db.Lessons.FindAsync(new object?[] { request.Id }, ct);
+            var entity = await _db.Lessons.FindAsync(request.Id, ct);
             if (entity == null)
                 return false;
 
