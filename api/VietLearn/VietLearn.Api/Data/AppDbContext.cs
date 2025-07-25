@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VietLearn.Api.Features.Lessons;
+using VietLearn.Api.Features.Users;
 
 namespace VietLearn.Api.Data
 {
@@ -8,6 +9,8 @@ namespace VietLearn.Api.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Lesson> Lessons => Set<Lesson>();
+
+        public DbSet<User> Users => Set<User>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
