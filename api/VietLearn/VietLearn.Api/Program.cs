@@ -2,6 +2,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using VietLearn.Api.Data;
+using VietLearn.Api.Features.Auth;
 using VietLearn.Api.Features.Behaviors;
 using VietLearn.Api.Features.Lessons;
 using VietLearn.Api.Middleware;
@@ -48,4 +49,8 @@ app.MapControllers();
 
 app.Run();
 
+app.MapAuthEndpoints();
+
 public partial class Program { }
+
+
