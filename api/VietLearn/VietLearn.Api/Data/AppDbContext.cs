@@ -21,6 +21,10 @@ namespace VietLearn.Api.Data
                 .Property(l => l.CreatedAt)
                 .HasDefaultValueSql("timezone('utc', now())");
 
+            modelBuilder.Entity<User>()
+    .Property(u => u.CreatedAt)
+    .HasDefaultValueSql("timezone('utc', now())");
+
             modelBuilder.Entity<Lesson>().HasData(
                 new Lesson { Id = 1, Title = "Xin chào", Description = "Say hello", CreatedAt = new DateTime(2025, 07, 25, 0, 0, 0, DateTimeKind.Utc) },
                 new Lesson { Id = 2, Title = "Cảm ơn", Description = "Say thanks", CreatedAt = new DateTime(2025, 07, 25, 0, 0, 0, DateTimeKind.Utc) },

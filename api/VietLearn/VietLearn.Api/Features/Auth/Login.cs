@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using VietLearn.Api.Data;
 
 namespace VietLearn.Api.Features.Auth
 {
@@ -23,14 +25,18 @@ namespace VietLearn.Api.Features.Auth
     // Handler
     public class LoginHandler : IRequestHandler<LoginCommand, LoginResult?>
     {
+        private readonly AppDbContext _db;
+        public LoginHandler(AppDbContext db) => _db = db;
 
-        public Task<LoginResult?> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<LoginResult?> Handle(LoginCommand request, CancellationToken ct)
         {
-            // Replace with real lookup later!
-            if (request.Username == "teacher" && request.Password == "password")
-                return Task.FromResult<LoginResult?>(new LoginResult("dummy-jwt-token"));
+            var user = await _db.Users.SingleOrDefaultAsync(
+                u => u.Username == request.Username, ct);
 
-            return Task.FromResult<LoginResult?>(null);
+            if (user is null) return null;
+
+            var ok = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
+            return ok ? new LoginResult("dummy-jwt-token") : null;
         }
     }
 

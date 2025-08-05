@@ -21,6 +21,24 @@ namespace VietLearn.Api.Features.Auth
                     op.Description = "POST username and password. Returns dummy JWT if login is correct.";
                     return op;
                 });
+
+            app.MapPost("/api/auth/register",
+    async (RegisterCommand cmd, IMediator med) =>
+        (await med.Send(cmd))
+            ? Results.Ok()
+            : Results.BadRequest("Username already exists"))
+    .WithName("Register")
+    .WithTags("Auth")
+    .WithOpenApi(op =>
+    {
+        op.Summary = "Create a new user account.";
+        op.Description = "Username must be unique. Password is stored as a BCrypt hash.";
+        return op;
+    });
+
+
         }
+
+
     }
 }
