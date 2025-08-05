@@ -2,6 +2,7 @@
 using FluentValidation;
 using MediatR;
 using VietLearn.Api.Data;
+using VietLearn.Api.Features.Behaviors;
 
 
 namespace VietLearn.Api.Features.Lessons
@@ -10,7 +11,7 @@ namespace VietLearn.Api.Features.Lessons
     {
         // ❶ request (shape matches POST body)
         public record CreateLessonCommand(string Title, string? Description)
-            : IRequest<LessonDto>;
+            : IRequest<LessonDto>, IRequireApiKey;
 
         // ❷ validation rules
         public class Validator : AbstractValidator<CreateLessonCommand>

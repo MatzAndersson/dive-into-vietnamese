@@ -2,11 +2,12 @@
 using FluentValidation;
 using MediatR;
 using VietLearn.Api.Data;
+using VietLearn.Api.Features.Behaviors;
 using VietLearn.Api.Features.Lessons;
 
 public static class Update
 {
-    public record UpdateLessonCommand(int Id, string Title, string? Description) : IRequest<LessonDto>;
+    public record UpdateLessonCommand(int Id, string Title, string? Description) : IRequest<LessonDto>, IRequireApiKey;
 
     public class Validator : AbstractValidator<UpdateLessonCommand>
     {

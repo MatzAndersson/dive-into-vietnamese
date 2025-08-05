@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using VietLearn.Api.Data;
 using VietLearn.Api.Features.Auth;
 using VietLearn.Api.Features.Behaviors;
@@ -16,7 +17,31 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(o =>
+{
+    o.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+    {
+        Name = "X-API-KEY",
+        Type = SecuritySchemeType.ApiKey,
+        In = ParameterLocation.Header,
+        Description = "Paste the API key defined in appsettings.json."
+    });
+
+    o.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id   = "ApiKey"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblyContaining<Program>());   // scans current assembly
 builder.Services.AddAutoMapper(typeof(Program)); // same
@@ -26,6 +51,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ApiKeyBehavior<,>));
+
 
 var app = builder.Build();
 
@@ -41,15 +70,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapAuthEndpoints();
+
 app.Run();
 
-app.MapAuthEndpoints();
+
 
 public partial class Program { }
 

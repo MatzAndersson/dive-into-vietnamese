@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using VietLearn.Api.Data;
+using VietLearn.Api.Features.Behaviors;
 
 public static class Delete
 {
-    public record DeleteLessonCommand(int Id) : IRequest<bool>;
+    public record DeleteLessonCommand(int Id) : IRequest<bool>, IRequireApiKey;
 
     public class Handler : IRequestHandler<DeleteLessonCommand, bool>
     {
