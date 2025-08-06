@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="VietLearn.Tests\**" />
-    <Content Remove="VietLearn.Tests\**" />
-    <EmbeddedResource Remove="VietLearn.Tests\**" />
-    <None Remove="VietLearn.Tests\**" />
+    <Compile Remove="DiveIntoVietnamese.Tests\**" />
+    <Content Remove="DiveIntoVietnamese.Tests\**" />
+    <EmbeddedResource Remove="DiveIntoVietnamese.Tests\**" />
+    <None Remove="DiveIntoVietnamese.Tests\**" />
   </ItemGroup>
 
   <ItemGroup>
