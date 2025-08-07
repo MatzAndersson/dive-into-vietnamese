@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using VietLearn.Api.Data;
-using VietLearn.Api.Features.Behaviors;
+using DiveIntoVietnamese.Api.Data;
+using DiveIntoVietnamese.Api.Features.Behaviors;
 
 public static class Delete
 {

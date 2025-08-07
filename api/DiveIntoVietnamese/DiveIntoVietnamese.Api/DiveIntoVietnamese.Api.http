@@ -1,6 +1,6 @@
-@VietLearn.Api_HostAddress = http://localhost:5299
+@DiveIntoVietnamese.Api_HostAddress = http://localhost:5299
 
-GET {{VietLearn.Api_HostAddress}}/weatherforecast/
+GET {{DiveIntoVietnamese.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

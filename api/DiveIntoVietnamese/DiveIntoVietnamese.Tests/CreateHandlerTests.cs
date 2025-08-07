@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
-using VietLearn.Api.Data;
-using VietLearn.Api.Features.Lessons;
+using DiveIntoVietnamese.Api.Data;
+using DiveIntoVietnamese.Api.Features.Lessons;
 public class CreateHandlerTests
 {
     private readonly IMapper _mapper;

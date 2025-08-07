@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using VietLearn.Api.Data;
+using DiveIntoVietnamese.Api.Data;
 
-namespace VietLearn.Api.Features.Lessons
+namespace DiveIntoVietnamese.Api.Features.Lessons
 {
     public static class GetAll
     {

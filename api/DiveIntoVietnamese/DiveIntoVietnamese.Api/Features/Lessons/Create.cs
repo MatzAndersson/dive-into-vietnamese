@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using MediatR;
-using VietLearn.Api.Data;
-using VietLearn.Api.Features.Behaviors;
+using DiveIntoVietnamese.Api.Data;
+using DiveIntoVietnamese.Api.Features.Behaviors;
 
 
-namespace VietLearn.Api.Features.Lessons
+namespace DiveIntoVietnamese.Api.Features.Lessons
 {
     public static class Create
     {

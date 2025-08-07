@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using VietLearn.Api.Data;
+using DiveIntoVietnamese.Api.Data;
 
 #nullable disable
 
-namespace VietLearn.Api.Migrations
+namespace DiveIntoVietnamese.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20250725094603_AddUser")]
@@ -25,7 +25,7 @@ namespace VietLearn.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("VietLearn.Api.Features.Lessons.Lesson", b =>
+            modelBuilder.Entity("DiveIntoVietnamese.Api.Features.Lessons.Lesson", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,7 +87,7 @@ namespace VietLearn.Api.Migrations
                         });
                 });
 
-            modelBuilder.Entity("VietLearn.Api.Features.Users.User", b =>
+            modelBuilder.Entity("DiveIntoVietnamese.Api.Features.Users.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

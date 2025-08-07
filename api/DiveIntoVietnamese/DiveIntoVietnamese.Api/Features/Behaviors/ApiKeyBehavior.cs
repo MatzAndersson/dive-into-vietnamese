@@ -1,8 +1,9 @@
 ﻿using MediatR;
 
-namespace VietLearn.Api.Features.Behaviors
+namespace DiveIntoVietnamese.Api.Features.Behaviors
 {
     public class ApiKeyBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : notnull
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _config;

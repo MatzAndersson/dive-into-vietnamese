@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using MediatR;
-using VietLearn.Api.Data;
-using VietLearn.Api.Features.Behaviors;
-using VietLearn.Api.Features.Lessons;
+using DiveIntoVietnamese.Api.Data;
+using DiveIntoVietnamese.Api.Features.Behaviors;
+using DiveIntoVietnamese.Api.Features.Lessons;
 
 public static class Update
 {

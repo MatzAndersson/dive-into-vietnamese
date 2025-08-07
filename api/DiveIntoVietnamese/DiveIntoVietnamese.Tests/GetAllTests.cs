@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Shouldly;
 using System.Net.Http.Json;
-using VietLearn.Api.Features.Lessons;
+using DiveIntoVietnamese.Api.Features.Lessons;
 
 public class GetAllTests : IClassFixture<WebApplicationFactory<Program>>
 {

@@ -1,4 +1,4 @@
-﻿namespace VietLearn.Api.Features.Lessons
+﻿namespace DiveIntoVietnamese.Api.Features.Lessons
 {
     public sealed record LessonDto(
         int Id,

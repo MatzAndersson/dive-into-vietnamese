@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace VietLearn.Api.Migrations
+namespace DiveIntoVietnamese.Api.Migrations
 {
     /// <inheritdoc />
     public partial class AddUser : Migration

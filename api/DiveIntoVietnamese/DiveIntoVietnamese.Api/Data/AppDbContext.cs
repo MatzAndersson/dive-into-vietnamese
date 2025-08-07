@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using VietLearn.Api.Features.Lessons;
-using VietLearn.Api.Features.Users;
+﻿using DiveIntoVietnamese.Api.Features.Lessons;
+using DiveIntoVietnamese.Api.Features.Users;
+using Microsoft.EntityFrameworkCore;
 
-namespace VietLearn.Api.Data
+namespace DiveIntoVietnamese.Api.Data
 {
     public class AppDbContext : DbContext
     {

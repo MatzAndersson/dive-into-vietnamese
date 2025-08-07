@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <ProjectReference Include="..\VietLearn.Api\VietLearn.Api.csproj" />
+	  <ProjectReference Include="..\DiveIntoVietnamese.Api\DiveIntoVietnamese.Api.csproj" />
     
   </ItemGroup>
 

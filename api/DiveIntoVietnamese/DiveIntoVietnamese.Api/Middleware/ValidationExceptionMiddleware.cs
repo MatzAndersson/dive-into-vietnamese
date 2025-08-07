@@ -1,4 +1,4 @@
-﻿namespace VietLearn.Api.Middleware
+﻿namespace DiveIntoVietnamese.Api.Middleware
 {
     public class ValidationExceptionMiddleware
     {

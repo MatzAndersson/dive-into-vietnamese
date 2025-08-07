@@ -1,12 +1,12 @@
+using DiveIntoVietnamese.Api.Data;
+using DiveIntoVietnamese.Api.Features.Auth;
+using DiveIntoVietnamese.Api.Features.Behaviors;
+using DiveIntoVietnamese.Api.Features.Lessons;
+using DiveIntoVietnamese.Api.Middleware;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using VietLearn.Api.Data;
-using VietLearn.Api.Features.Auth;
-using VietLearn.Api.Features.Behaviors;
-using VietLearn.Api.Features.Lessons;
-using VietLearn.Api.Middleware;
 
 
 

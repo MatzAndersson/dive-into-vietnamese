@@ -1,7 +1,7 @@
 ﻿using MediatR;
 
 
-namespace VietLearn.Api.Features.Auth
+namespace DiveIntoVietnamese.Api.Features.Auth
 {
     public static class AuthEndpoints
     {

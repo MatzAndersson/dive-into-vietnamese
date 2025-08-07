@@ -1,4 +1,4 @@
-﻿namespace VietLearn.Api.Features.Auth
+﻿namespace DiveIntoVietnamese.Api.Features.Auth
 {
     public class ApiKeyFilter : IEndpointFilter
     {

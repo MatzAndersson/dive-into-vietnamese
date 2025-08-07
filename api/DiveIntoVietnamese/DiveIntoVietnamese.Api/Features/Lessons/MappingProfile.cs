@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace VietLearn.Api.Features.Lessons
+namespace DiveIntoVietnamese.Api.Features.Lessons
 {
     public class MappingProfile : Profile
     {

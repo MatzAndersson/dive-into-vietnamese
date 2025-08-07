@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace VietLearn.Api.Features.Lessons
+namespace DiveIntoVietnamese.Api.Features.Lessons
 {
     public static class Endpoints
     {

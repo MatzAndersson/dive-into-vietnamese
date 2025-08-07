@@ -2,7 +2,7 @@
 using Shouldly;
 using System.Net;
 using System.Net.Http.Json;
-using VietLearn.Api.Features.Lessons;
+using DiveIntoVietnamese.Api.Features.Lessons;
 
 public class UpdateDeleteTests : IClassFixture<WebApplicationFactory<Program>>
 {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace VietLearn.Api.Migrations
+namespace DiveIntoVietnamese.Api.Migrations
 {
     /// <inheritdoc />
     public partial class AddUserCreatedAt : Migration

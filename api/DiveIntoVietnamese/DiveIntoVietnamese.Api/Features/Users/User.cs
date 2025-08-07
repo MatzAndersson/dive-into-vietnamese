@@ -1,4 +1,4 @@
-﻿namespace VietLearn.Api.Features.Users
+﻿namespace DiveIntoVietnamese.Api.Features.Users
 {
     public class User
     {

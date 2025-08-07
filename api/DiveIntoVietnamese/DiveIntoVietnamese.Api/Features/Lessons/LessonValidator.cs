@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace VietLearn.Api.Features.Lessons
+namespace DiveIntoVietnamese.Api.Features.Lessons
 {
     public class LessonValidator : AbstractValidator<Create.CreateLessonCommand>
     {

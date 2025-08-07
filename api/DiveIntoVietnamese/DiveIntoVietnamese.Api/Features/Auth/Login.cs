@@ -1,9 +1,9 @@
-﻿using FluentValidation;
+﻿using DiveIntoVietnamese.Api.Data;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using VietLearn.Api.Data;
 
-namespace VietLearn.Api.Features.Auth
+namespace DiveIntoVietnamese.Api.Features.Auth
 {
 
     // Command
