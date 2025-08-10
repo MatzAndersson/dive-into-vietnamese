@@ -16,6 +16,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+const string ViteDev = "ViteDev";
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy(ViteDev, p => p
+        .WithOrigins("http://localhost:5173")   // Vite dev server
+        .AllowAnyHeader()                       // needed for X-API-KEY
+        .AllowAnyMethod());                     // GET/POST/PUT/DELETE
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(o =>
 {
@@ -61,7 +71,7 @@ var app = builder.Build();
 app.UseMiddleware<ValidationExceptionMiddleware>();
 // Configure the HTTP request pipeline
 
-app.MapLessonEndpoints();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -73,7 +83,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(ViteDev);
+
+
+
 app.UseAuthorization();
+
+app.MapLessonEndpoints();
 
 app.MapControllers();
 
