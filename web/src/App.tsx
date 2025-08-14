@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useQuery } from '@tanstack/react-query';
+import { getLessons } from './features/lessons/api';
+import CreateLessonForm from './features/lessons/CreateLessonForm';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const { data, isPending, error } = useQuery({ queryKey: ['lessons'], queryFn: getLessons });
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="max-w-3xl mx-auto p-6 space-y-6">
+      <h1 className="text-2xl font-semibold">Lessons</h1>
 
-export default App
+      <section className="rounded-xl border p-4">
+        <h2 className="font-medium mb-2">Create</h2>
+        <CreateLessonForm />
+      </section>
+
+      <section className="space-y-3">
+        {isPending && <div>Loading…</div>}
+        {error && <div className="text-red-600">Failed to load</div>}
+        {data?.map((l) => (
+          <div key={l.id} className="rounded-xl border p-4">
+            <div className="font-medium">{l.title}</div>
+            <div className="text-sm opacity-70">{l.description}</div>
+          </div>
+        ))}
+      </section>
+    </div>
+  );
+}
