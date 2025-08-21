@@ -13,9 +13,12 @@ export async function createLesson(input: { title: string; description?: string 
     headers: {
       'Content-Type': 'application/json',
      'X-API-KEY': API_KEY ?? '' // Use the API key from environment variables  
+     
     },
     body: JSON.stringify(input),
+    
   });
   if (!r.ok) throw new Error(`${r.status}`);
   return LessonSchema.parse(await r.json());
+  
 }
