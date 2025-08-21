@@ -1,4 +1,5 @@
 import { LessonsSchema, LessonSchema } from './schema';
+import { API_KEY } from '../../env';
 
 export async function getLessons() {
   const r = await fetch('/api/lessons');
@@ -11,7 +12,7 @@ export async function createLesson(input: { title: string; description?: string 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // 'X-API-KEY': import.meta.env.VITE_API_KEY ?? '' // uncomment if your POST is protected
+     'X-API-KEY': API_KEY, // Use the API key from environment variables  
     },
     body: JSON.stringify(input),
   });

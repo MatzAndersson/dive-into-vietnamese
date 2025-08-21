@@ -1,22 +1,25 @@
-﻿namespace DiveIntoVietnamese.Api.Features.Auth
+﻿// Features/Auth/ApiKeyFilter.cs
+namespace DiveIntoVietnamese.Api.Features.Auth;
+
+public sealed class ApiKeyFilter : IEndpointFilter
 {
-    public class ApiKeyFilter : IEndpointFilter
+    private const string HeaderName = "X-API-KEY";
+    private readonly string? _expected;
+
+    public ApiKeyFilter(IConfiguration config) => _expected = config["ApiKey"];
+
+    public ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext ctx, EndpointFilterDelegate next)
     {
-        private readonly IConfiguration _config;
+        // Fail-closed if no key configured (safer). If you want a dev fallback, swap the next two lines.
+        if (string.IsNullOrWhiteSpace(_expected))
+            return new(Results.Unauthorized());
 
-        public ApiKeyFilter(IConfiguration config)
+        if (!ctx.HttpContext.Request.Headers.TryGetValue(HeaderName, out var got) ||
+            !string.Equals(got.ToString(), _expected, StringComparison.Ordinal))
         {
-            _config = config;
+            return new(Results.Unauthorized());
         }
 
-        public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
-        {
-            var httpContext = context.HttpContext;
-            var apiKey = httpContext.Request.Headers["X-API-KEY"].FirstOrDefault();
-            var requiredKey = _config["ApiKey"];
-            if (apiKey != requiredKey)
-                return Results.Unauthorized();
-            return await next(context);
-        }
+        return next(ctx);
     }
 }

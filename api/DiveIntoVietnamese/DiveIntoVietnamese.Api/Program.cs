@@ -37,20 +37,7 @@ builder.Services.AddSwaggerGen(o =>
         Description = "Paste the API key defined in appsettings.json."
     });
 
-    o.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id   = "ApiKey"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
+
 });
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblyContaining<Program>());   // scans current assembly

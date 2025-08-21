@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using DiveIntoVietnamese.Api.Features.Auth;
+using MediatR;
+using Microsoft.OpenApi.Models;
 
 namespace DiveIntoVietnamese.Api.Features.Lessons
 {
@@ -12,6 +14,9 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             // GET /api/lessons
             g.MapGet("/", async (IMediator med) =>
                 Results.Ok(await med.Send(new GetAll.Query())));
+
+            var secured = g.MapGroup("/")
+                       .AddEndpointFilter<ApiKeyFilter>();
 
             // POST /api/lessons
             g.MapPost("/", async (IMediator med, Create.CreateLessonCommand body) =>
@@ -35,6 +40,21 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             });
 
             return app;
+        }
+
+        // Helper to mark only these operations as requiring the ApiKey in Swagger
+        private static OpenApiOperation AddApiKeyRequirement(OpenApiOperation op)
+        {
+            op.Security =
+            [
+                new()
+            {
+                [ new OpenApiSecurityScheme
+                    { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "ApiKey" } }
+                ] = []
+            }
+            ];
+            return op;
         }
     }
 }
