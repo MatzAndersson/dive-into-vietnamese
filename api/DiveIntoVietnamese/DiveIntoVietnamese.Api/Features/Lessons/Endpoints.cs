@@ -13,37 +13,36 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
 
             // GET /api/lessons
             g.MapGet("/", async (IMediator med) =>
-                Results.Ok(await med.Send(new GetAll.Query())));
+             Results.Ok(await med.Send(new GetAll.Query()))).WithOpenApi();
 
-            var secured = g.MapGroup("/")
-                       .AddEndpointFilter<ApiKeyFilter>();
+            var secured = g.MapGroup("/").AddEndpointFilter<ApiKeyFilter>();
 
             // POST /api/lessons
-            g.MapPost("/", async (IMediator med, Create.CreateLessonCommand body) =>
+            secured.MapPost("/", async (IMediator med, Create.CreateLessonCommand body) =>
             {
                 var dto = await med.Send(body);
                 return Results.Created($"/api/lessons/{dto.Id}", dto);
-            });
+            }).WithOpenApi(RequireApiKey);
 
             // PUT /api/lessons/{id}
-            g.MapPut("/{id:int}", async (int id, IMediator med, Update.UpdateLessonCommand body) =>
+            secured.MapPut("/{id:int}", async (int id, IMediator med, Update.UpdateLessonCommand body) =>
             {
                 var dto = await med.Send(body with { Id = id });
                 return dto is null ? Results.NotFound() : Results.Ok(dto);
-            });
+            }).WithOpenApi(RequireApiKey);
 
             // DELETE /api/lessons/{id}
-            g.MapDelete("/{id:int}", async (int id, IMediator med) =>
+            secured.MapDelete("/{id:int}", async (int id, IMediator med) =>
             {
                 var success = await med.Send(new Delete.DeleteLessonCommand(id));
                 return success ? Results.NoContent() : Results.NotFound();
-            });
+            }).WithOpenApi(RequireApiKey);
 
             return app;
         }
 
         // Helper to mark only these operations as requiring the ApiKey in Swagger
-        private static OpenApiOperation AddApiKeyRequirement(OpenApiOperation op)
+        private static OpenApiOperation RequireApiKey(OpenApiOperation op)
         {
             op.Security =
             [
