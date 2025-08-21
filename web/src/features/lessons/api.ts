@@ -12,7 +12,7 @@ export async function createLesson(input: { title: string; description?: string 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-     'X-API-KEY': API_KEY, // Use the API key from environment variables  
+     'X-API-KEY': API_KEY ?? '' // Use the API key from environment variables  
     },
     body: JSON.stringify(input),
   });

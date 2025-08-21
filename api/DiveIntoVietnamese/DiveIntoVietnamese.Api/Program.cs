@@ -50,7 +50,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ApiKeyBehavior<,>));
+
 
 
 var app = builder.Build();
