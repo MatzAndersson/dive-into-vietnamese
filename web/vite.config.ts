@@ -10,7 +10,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://localhost:7243', // your ASP.NET URL
+        target: 'https://localhost:7075', // your ASP.NET URL
         changeOrigin: true,
         secure: false,
       },
