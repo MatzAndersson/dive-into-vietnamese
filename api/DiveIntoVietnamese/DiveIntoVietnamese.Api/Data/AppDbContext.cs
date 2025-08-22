@@ -21,9 +21,14 @@ namespace DiveIntoVietnamese.Api.Data
                 .Property(l => l.CreatedAt)
                 .HasDefaultValueSql("timezone('utc', now())");
 
+            // ✅ Ensure valid default for enum (Beginner = 1)
+            modelBuilder.Entity<Lesson>()
+                .Property(l => l.Level)
+                .HasDefaultValue(LessonLevel.Beginner);
+
             modelBuilder.Entity<User>()
-    .Property(u => u.CreatedAt)
-    .HasDefaultValueSql("timezone('utc', now())");
+                .Property(u => u.CreatedAt)
+                .HasDefaultValueSql("timezone('utc', now())");
 
 
         }
