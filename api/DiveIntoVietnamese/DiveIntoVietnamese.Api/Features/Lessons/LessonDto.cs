@@ -4,6 +4,8 @@
         int Id,
         string Title,
         string? Description,
+        LessonLevel Level,
+        string? ImageUrl,
         DateTime CreatedAt
     );
 }

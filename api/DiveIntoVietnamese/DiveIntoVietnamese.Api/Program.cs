@@ -5,8 +5,10 @@ using DiveIntoVietnamese.Api.Features.Lessons;
 using DiveIntoVietnamese.Api.Middleware;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 
 
@@ -37,7 +39,20 @@ builder.Services.AddSwaggerGen(o =>
         Description = "Paste the API key defined in appsettings.json."
     });
 
-
+    o.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "ApiKey"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
 });
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblyContaining<Program>());   // scans current assembly
@@ -50,10 +65,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.Configure<JsonOptions>(o =>
+    o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();   // applies schema
+    await DevSeeder.SeedAsync(db);      // seeds if empty
+}
+
 
 app.UseMiddleware<ValidationExceptionMiddleware>();
 // Configure the HTTP request pipeline
