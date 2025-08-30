@@ -12,8 +12,9 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             var g = app.MapGroup("/api/lessons").WithTags("Lessons");
 
             // GET /api/lessons
-            g.MapGet("/", async (IMediator med) =>
-             Results.Ok(await med.Send(new GetAll.Query()))).WithOpenApi();
+            g.MapGet("/", async ([AsParameters] GetAll.Query q, IMediator med)
+            => Results.Ok(await med.Send(q)))
+           .WithOpenApi();
 
             var secured = g.MapGroup("/").AddEndpointFilter<ApiKeyFilter>();
 
