@@ -4,7 +4,7 @@ export const LessonSchema = z.object({
   title: z.string(),
   description: z.string().optional(),
   level: z.enum(["Beginner", "Intermediate", "Advanced"]),
-  imageUrl: z.string().url().optional(),
+  imageUrl: z.string().optional().or(z.literal("")),
   createdAt: z.string(),
 });
 export const LessonsSchema = z.array(LessonSchema);
