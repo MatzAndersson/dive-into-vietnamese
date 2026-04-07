@@ -10,7 +10,7 @@
 - Lesson page exists: yes
 - API connected: yes, frontend is making fetch requests to lessons endpoint and receiving 200/201 responses
 
-- i18n installed: no
+- i18n installed: 
 - Locale switcher exists: no
 ## What works
 ## What is broken
@@ -18,5 +18,7 @@
 ## MVP target
 ## Next concrete coding task
 Next concrete coding task:
-Install and configure i18n for English + Vietnamese UI
+i18n installed: yes
+Locale switcher exists: no
+Current status: i18n is configured and the lessons page UI is wired for translation
 

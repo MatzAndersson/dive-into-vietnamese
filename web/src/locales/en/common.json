@@ -1,0 +1,19 @@
+{
+  "create": "Create",
+  "title": "Title",
+  "description": "Description",
+  "save": "Save",
+  "saving": "Saving…",
+  "searchLessons": "Search lessons...",
+  "all": "All",
+  "beginner": "Beginner",
+  "intermediate": "Intermediate",
+  "advanced": "Advanced",
+  "delete": "Delete",
+  "deleteLesson": "Delete lesson",
+  "deleteLessonConfirm": "Delete \"{{title}}\"?",
+  "noLessonsFound": "No lessons found.",
+  "loading": "Loading...",
+  "failedToLoad": "Failed to load",
+  "deleteFailed": "Delete failed"
+}

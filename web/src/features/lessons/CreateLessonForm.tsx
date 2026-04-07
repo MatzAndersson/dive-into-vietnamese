@@ -1,6 +1,7 @@
 import { useEffect, useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { createLesson } from './api';
 
 type CreateResult = { ok: true } | { error: string };
@@ -21,15 +22,17 @@ async function createAction(
 }
 
 function SubmitBtn() {
+  const { t } = useTranslation();
   const { pending } = useFormStatus();
   return (
     <button className="px-3 py-2 rounded bg-black text-white" disabled={pending}>
-      {pending ? 'Saving…' : 'Save'}
+      {pending ? t('saving') : t('save')}
     </button>
   );
 }
 
 export default function CreateLessonForm() {
+  const { t } = useTranslation();
   const qc = useQueryClient();
 
   // ⬇️ you were missing this destructure
@@ -45,8 +48,8 @@ export default function CreateLessonForm() {
 
   return (
     <form action={action} className="space-y-3">
-      <input name="title" placeholder="Title" className="border p-2 w-full rounded" required />
-      <textarea name="description" placeholder="Description" className="border p-2 w-full rounded" />
+      <input name="title" placeholder={t("title")} className="border p-2 w-full rounded" required />
+      <textarea name="description" placeholder={t("description")} className="border p-2 w-full rounded" />
       <SubmitBtn />
       {state && 'error' in state && <p className="text-red-600">{state.error}</p>}
     </form>

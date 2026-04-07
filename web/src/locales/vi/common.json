@@ -1,0 +1,19 @@
+{
+  "create": "Tạo",
+  "title": "Tiêu đề",
+  "description": "Mô tả",
+  "save": "Lưu",
+  "saving": "Đang lưu…",
+  "searchLessons": "Tìm bài học...",
+  "all": "Tất cả",
+  "beginner": "Sơ cấp",
+  "intermediate": "Trung cấp",
+  "advanced": "Nâng cao",
+  "delete": "Xóa",
+   "deleteLesson": "Xóa bài học",
+  "deleteLessonConfirm": "Xóa \"{{title}}\"?",
+  "noLessonsFound": "Không tìm thấy bài học nào.",
+  "loading": "Đang tải...",
+  "failedToLoad": "Tải thất bại",
+  "deleteFailed": "Xóa thất bại"
+}

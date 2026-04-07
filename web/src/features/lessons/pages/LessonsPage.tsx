@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 import FilterBar from "../components/FilterBar";
 import LessonCard from "../components/LessonCard";
@@ -10,6 +11,7 @@ import { listLessons, deleteLesson } from "../api";
 import type { Lesson, LessonLevel } from "../types";
 
 export default function LessonsPage() {
+  const { t } = useTranslation();
   const [sp] = useSearchParams();
   const q = sp.get("q") ?? undefined;
 
@@ -41,7 +43,7 @@ export default function LessonsPage() {
     },
     onError: (err, _id, ctx) => {
       if (ctx?.previous) qc.setQueryData(ctx.key!, ctx.previous);
-      alert((err as Error).message || "Delete failed");
+      alert((err as Error).message || t("deleteFailed"));
     },
     onSettled: () => qc.invalidateQueries({ queryKey: ["lessons"] }),
   });
@@ -50,22 +52,22 @@ export default function LessonsPage() {
     <div className="space-y-4">
       {/* Optional: keep create on the same page */}
       <section className="rounded-xl border p-4">
-        <h2 className="font-medium mb-2">Create</h2>
+        <h2 className="font-medium mb-2">{t("create")}</h2>
         <CreateLessonForm />
       </section>
 
       <FilterBar />
 
-      {isPending && <div className="animate-pulse text-gray-500">Loading…</div>}
+      {isPending && <div className="animate-pulse text-gray-500">{t("loading")}</div>}
 
       {error && (
         <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700">
-          {(error as Error).message || "Failed to load"}
+          {(error as Error).message || t("failedToLoad")}
         </div>
       )}
 
       {!isPending && (data?.length ?? 0) === 0 && (
-        <div className="text-gray-600">No lessons found.</div>
+        <div className="text-gray-600">{t("noLessonsFound")}</div>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
