@@ -11,7 +11,7 @@ import { listLessons, deleteLesson } from "../api";
 import type { Lesson, LessonLevel } from "../types";
 
 export default function LessonsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [sp] = useSearchParams();
   const q = sp.get("q") ?? undefined;
 
@@ -38,7 +38,11 @@ export default function LessonsPage() {
       const key = ["lessons", { q, level }];
       await qc.cancelQueries({ queryKey: key });
       const previous = qc.getQueryData<Lesson[]>(key);
-      if (previous) qc.setQueryData<Lesson[]>(key, previous.filter(l => l.id !== id));
+      if (previous)
+        qc.setQueryData<Lesson[]>(
+          key,
+          previous.filter((l) => l.id !== id),
+        );
       return { previous, key };
     },
     onError: (err, _id, ctx) => {
@@ -50,7 +54,31 @@ export default function LessonsPage() {
 
   return (
     <div className="space-y-4">
-      {/* Optional: keep create on the same page */}
+      <div className="flex justify-end gap-2">
+        <button
+          type="button"
+          onClick={() => i18n.changeLanguage("en")}
+          className={`px-3 py-1 rounded border ${
+            i18n.language.startsWith("en")
+              ? "bg-black text-white"
+              : "bg-white text-black"
+          }`}
+        >
+          EN
+        </button>
+
+        <button
+          type="button"
+          onClick={() => i18n.changeLanguage("vi")}
+          className={`px-3 py-1 rounded border ${
+            i18n.language.startsWith("vi")
+              ? "bg-black text-white"
+              : "bg-white text-black"
+          }`}
+        >
+          VI
+        </button>
+      </div>
       <section className="rounded-xl border p-4">
         <h2 className="font-medium mb-2">{t("create")}</h2>
         <CreateLessonForm />
@@ -58,7 +86,9 @@ export default function LessonsPage() {
 
       <FilterBar />
 
-      {isPending && <div className="animate-pulse text-gray-500">{t("loading")}</div>}
+      {isPending && (
+        <div className="animate-pulse text-gray-500">{t("loading")}</div>
+      )}
 
       {error && (
         <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700">
@@ -71,8 +101,12 @@ export default function LessonsPage() {
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {data?.map(l => (
-          <LessonCard key={l.id} lesson={l} onDelete={id => del.mutateAsync(id)} />
+        {data?.map((l) => (
+          <LessonCard
+            key={l.id}
+            lesson={l}
+            onDelete={(id) => del.mutateAsync(id)}
+          />
         ))}
       </div>
     </div>
