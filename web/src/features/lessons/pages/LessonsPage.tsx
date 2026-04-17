@@ -58,7 +58,7 @@ export default function LessonsPage() {
         <button
           type="button"
           onClick={() => i18n.changeLanguage("en")}
-          className={`px-3 py-1 rounded border ${
+          className={`cursor-pointer transition hover:opacity-90 disabled:cursor-not-allowed px-3 py-1 rounded border ${
             i18n.language.startsWith("en")
               ? "bg-black text-white"
               : "bg-white text-black"
@@ -70,7 +70,7 @@ export default function LessonsPage() {
         <button
           type="button"
           onClick={() => i18n.changeLanguage("vi")}
-          className={`px-3 py-1 rounded border ${
+          className={`cursor-pointer transition hover:opacity-90 disabled:cursor-not-allowed px-3 py-1 rounded border ${
             i18n.language.startsWith("vi")
               ? "bg-black text-white"
               : "bg-white text-black"

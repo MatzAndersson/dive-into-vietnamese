@@ -25,7 +25,7 @@ function SubmitBtn() {
   const { t } = useTranslation();
   const { pending } = useFormStatus();
   return (
-    <button className="px-3 py-2 rounded bg-black text-white" disabled={pending}>
+    <button className="cursor-pointer transition hover:opacity-90 disabled:cursor-not-allowed px-3 py-2 rounded bg-black text-white" disabled={pending}>
       {pending ? t('saving') : t('save')}
     </button>
   );

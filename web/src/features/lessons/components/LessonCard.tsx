@@ -65,7 +65,7 @@ export default function LessonCard({
       <button
         onClick={confirmDelete}
         disabled={busy}
-        className="absolute top-2 right-2 text-xs px-2 py-1 rounded-md bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 disabled:opacity-50"
+        className="absolute top-2 right-2 text-xs px-2 py-1 rounded-md border border-red-200 bg-red-50 text-red-700 cursor-pointer transition hover:bg-red-100 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
         title={t("deleteLesson")}
       >
         {busy ? "..." : t("delete")}
