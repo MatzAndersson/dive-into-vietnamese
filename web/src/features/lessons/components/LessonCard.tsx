@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Lesson } from "../types";
+import { Link } from "react-router-dom";
 
 export default function LessonCard({
   lesson,
@@ -49,7 +50,11 @@ export default function LessonCard({
 
       <div className="p-4">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="font-semibold text-lg line-clamp-1">{lesson.title}</h3>
+          <Link to={`/lessons/${lesson.id}`} className="hover:underline">
+            <h3 className="font-semibold text-lg line-clamp-1">
+              {lesson.title}
+            </h3>
+          </Link>
           <span className="text-xs rounded-full px-2 py-1 border bg-gray-50">
             {getLevelLabel(lesson.level)}
           </span>
