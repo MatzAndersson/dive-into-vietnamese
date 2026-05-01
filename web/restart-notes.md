@@ -17,25 +17,28 @@
 ## What to ignore for now
 ## MVP target
 ## Next concrete coding task
-Next concrete coding task:
-i18n installed: yes
-Locale switcher exists: no
-Current status: i18n is configured and the lessons page UI is wired for translation
-
 Completed:
-- verified backend/frontend/API flow
-- fixed imageUrl schema issue
-- installed and configured i18n
-- added English + Vietnamese locale files
-- localized main lessons page UI
-- added EN/VI language switcher
-- added basic button hover/cursor polish
+- added GET /api/lessons/{id} backend endpoint
+- added getLessonById frontend API function
+- created lesson detail page
+- added /lessons/:id route
+- made lesson cards clickable
+- verified detail page loads real lesson data
 
-Backlog:
+
+
+
+
+## Backlog:
 - TypeScript config warning: baseUrl is deprecated, clean up later
 
 Next likely task:
 - lesson detail page
 or
 - refine lesson content structure for localization-first design
+Next concrete coding task:
+i18n installed: yes
+Locale switcher exists: no
+Current status: i18n is configured and the lessons page UI is wired for translation
+
 
