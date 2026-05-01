@@ -17,6 +17,42 @@
 ## What to ignore for now
 ## MVP target
 ## Next concrete coding task
+Next 1h session:
+
+Make explanation dynamic from the backend, and keep vocabulary static for one more session
+
+Why:
+
+one clear output
+smaller scope
+directly improves content structure
+strengthens the “localized support content” direction
+avoids overcomplicating the model too quickly
+
+So the output becomes:
+
+“Each lesson now has its own explanation text.”
+
+## Completed tasks per session
+Completed:
+- polished lesson detail page layout
+- added explanation section
+- added simple vocabulary section
+- page now feels like a real lesson flow, not just CRUD
+
+Completed:
+- added GET /api/lessons/{id} backend endpoint
+- added getLessonById frontend API function
+- created lesson detail page
+- added /lessons/:id route
+- made lesson cards clickable
+- verified detail page loads real lesson data
+
+
+
+
+## Backlog:
+Next 1h session:
 lägg till en enkel audio player på lesson detail page
 
 Det är nog det starkaste nästa steget, eftersom dina mål också betonar audio-based learning flows och en mer verklig learning experience
@@ -38,27 +74,6 @@ Det skulle ge dig ett väldigt tydligt nästa hopp från:
 lesson page med struktur
 till
 lesson page med faktiskt lärinnehåll
-## Completed tasks per session
-Completed:
-- polished lesson detail page layout
-- added explanation section
-- added simple vocabulary section
-- page now feels like a real lesson flow, not just CRUD
-
-Completed:
-- added GET /api/lessons/{id} backend endpoint
-- added getLessonById frontend API function
-- created lesson detail page
-- added /lessons/:id route
-- made lesson cards clickable
-- verified detail page loads real lesson data
-
-
-
-
-## Backlog:
-Next 1h session:
-
 
 
 - TypeScript config warning: baseUrl is deprecated, clean up later
