@@ -18,6 +18,14 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
 
             var secured = g.MapGroup("/").AddEndpointFilter<ApiKeyFilter>();
 
+            // GET /api/lessons/{id}
+            g.MapGet("/{id:int}", async (int id, IMediator med) =>
+            {
+                var dto = await med.Send(new GetById.Query(id));
+                return dto is null ? Results.NotFound() : Results.Ok(dto);
+            })
+            .WithOpenApi();
+
             // POST /api/lessons
             secured.MapPost("/", async (IMediator med, Create.CreateLessonCommand body) =>
             {

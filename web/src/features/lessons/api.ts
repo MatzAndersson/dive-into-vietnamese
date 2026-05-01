@@ -10,6 +10,10 @@ export async function listLessons(params: { level?: LessonLevel; q?: string }) {
   const data = await api.get<unknown>(`/api/lessons${suffix}`);
   return LessonsSchema.parse(data);
 }
+export async function getLessonById(id: number) {
+  const data = await api.get<unknown>(`/api/lessons/${id}`);
+  return LessonSchema.parse(data);
+}
 
 export async function createLesson(input: { title: string; description?: string; level?: LessonLevel; imageUrl?: string }) {
   const data = await api.post<unknown>("/api/lessons", input);
