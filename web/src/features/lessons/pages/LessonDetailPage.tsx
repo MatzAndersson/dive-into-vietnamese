@@ -2,6 +2,33 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getLessonById } from "../api";
 
+type VocabularyItem = {
+  vietnamese: string;
+  english: string;
+  pronunciation?: string;
+};
+
+function parseVocabulary(vocabularyJson?: string | null): VocabularyItem[] {
+  if (!vocabularyJson) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(vocabularyJson);
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.filter(
+      (item): item is VocabularyItem =>
+        typeof item.vietnamese === "string" && typeof item.english === "string",
+    );
+  } catch {
+    return [];
+  }
+}
+
 export default function LessonDetailPage() {
   const { id } = useParams();
   const lessonId = Number(id);
@@ -15,6 +42,8 @@ export default function LessonDetailPage() {
     queryFn: () => getLessonById(lessonId),
     enabled: Number.isFinite(lessonId),
   });
+
+  const vocabularyItems = parseVocabulary(lesson?.vocabularyJson);
 
   if (!Number.isFinite(lessonId)) {
     return (
@@ -83,20 +112,6 @@ export default function LessonDetailPage() {
           )}
 
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
-            <h2 className="mb-3 text-xl font-semibold text-gray-900">Audio</h2>
-
-            {lesson.audioUrl ? (
-              <audio controls src={lesson.audioUrl} className="w-full">
-                Your browser does not support the audio element.
-              </audio>
-            ) : (
-              <p className="leading-7 text-gray-500 italic">
-                No audio has been added for this lesson yet.
-              </p>
-            )}
-          </section>
-
-          <section className="rounded-2xl border bg-white p-6 shadow-sm">
             <h2 className="mb-3 text-xl font-semibold text-gray-900">
               Explanation
             </h2>
@@ -111,26 +126,46 @@ export default function LessonDetailPage() {
           </section>
 
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
+            <h2 className="mb-3 text-xl font-semibold text-gray-900">Audio</h2>
+
+            {lesson.audioUrl ? (
+              <audio controls src={lesson.audioUrl} className="w-full">
+                Your browser does not support the audio element.
+              </audio>
+            ) : (
+              <p className="leading-7 text-gray-500 italic">
+                No audio has been added for this lesson yet.
+              </p>
+            )}
+          </section>
+
+          <section className="rounded-2xl border bg-white p-6 shadow-sm">
             <h2 className="mb-4 text-xl font-semibold text-gray-900">
               Vocabulary
             </h2>
 
-            <ul className="space-y-3">
-              <li className="rounded-xl border p-3">
-                <p className="font-medium text-gray-900">bạn</p>
-                <p className="text-sm text-gray-600">you / friend</p>
-              </li>
+            {vocabularyItems.length > 0 ? (
+              <ul className="space-y-3">
+                {vocabularyItems.map((item) => (
+                  <li key={item.vietnamese} className="rounded-xl border p-3">
+                    <p className="font-medium text-gray-900">
+                      {item.vietnamese}
+                    </p>
+                    <p className="text-sm text-gray-600">{item.english}</p>
 
-              <li className="rounded-xl border p-3">
-                <p className="font-medium text-gray-900">tên</p>
-                <p className="text-sm text-gray-600">name</p>
-              </li>
-
-              <li className="rounded-xl border p-3">
-                <p className="font-medium text-gray-900">gì</p>
-                <p className="text-sm text-gray-600">what</p>
-              </li>
-            </ul>
+                    {item.pronunciation && (
+                      <p className="mt-1 text-sm text-gray-500">
+                        Pronunciation: {item.pronunciation}
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="leading-7 text-gray-500 italic">
+                No vocabulary has been added for this lesson yet.
+              </p>
+            )}
           </section>
         </>
       )}

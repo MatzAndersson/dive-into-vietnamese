@@ -17,6 +17,15 @@
 ## What to ignore for now
 ## MVP target
 ## Current State
+
+- dynamic title
+- dynamic level
+- dynamic description
+- dynamic image
+- dynamic explanation
+- dynamic audio player
+- dynamic vocabulary
+
 Lesson detail page now supports:
 - dynamic title
 - dynamic level
@@ -56,6 +65,18 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+
+05/02
+Completed:
+- added `VocabularyJson` to backend lesson model and DTO
+- added `VocabularyJson` to create command
+- created and applied EF migration
+- verified Swagger response includes `vocabularyJson`
+- created/tested a lesson with vocabulary JSON
+- added `vocabularyJson` to frontend Zod schema
+- added safe vocabulary parsing in `LessonDetailPage`
+- replaced hardcoded vocabulary with dynamic backend content
+- added fallback text when no vocabulary exists
 05/02
 
 Completed:

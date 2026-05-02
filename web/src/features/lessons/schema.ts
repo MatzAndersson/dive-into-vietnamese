@@ -8,5 +8,6 @@ export const LessonSchema = z.object({
   audioUrl: z.string().nullable().optional(),
   createdAt: z.string(),
   explanation: z.string().nullable().optional(),
+  vocabularyJson: z.string().nullable().optional(),
 });
 export const LessonsSchema = z.array(LessonSchema);
