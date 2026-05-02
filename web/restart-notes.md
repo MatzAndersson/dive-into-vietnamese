@@ -123,7 +123,11 @@ Completed:
 
 
 ## Backlog:
-- make vocabulary dynamic
+Backlog:
+- separate student-facing lesson list from admin/teacher CRUD later
+- for demo polish, hide create form and delete buttons from `/lessons`
+- later create `/admin/lessons` for create/edit/delete
+- Turn /lessons into a clean student-facing lesson browser
 - update PUT endpoint to support Explanation, ImageUrl, Level, and AudioUrl
 - later add transcript/word-level audio support
 - later explore TTS or generated audio workflow
