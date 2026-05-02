@@ -16,17 +16,21 @@
 ## What is broken
 ## What to ignore for now
 ## MVP target
+## Current State
+Lesson detail page now supports:
+- dynamic title
+- dynamic level
+- dynamic description
+- dynamic image
+- dynamic explanation
+- dynamic lesson-level audio
+- static vocabulary section
 ## Next concrete coding task
 Next 1h session:
 
 Add a simple audio player to LessonDetailPage.
 
-First 30 min:
-- add `AudioUrl` to `Lesson`
-- add `AudioUrl` to `LessonDto`
-- add `AudioUrl` to `CreateLessonCommand`
-- create and apply EF migration
-- verify `audioUrl` appears in Swagger
+
 
 Second 30 min:
 - add `audioUrl` to frontend Zod schema
@@ -42,26 +46,28 @@ Backlog:
 - handle transcript/audio sync later
 - fix TypeScript baseUrl warning later
 
+Future transcript/vocabulary direction:
+- Long-term goal is clickable Vietnamese text.
+- Users should be able to click individual words to see spelling, pronunciation, translation, and audio.
+- Vocabulary items may later have their own `AudioUrl`.
+- Transcript segments may later support sentence-level audio/timing.
+- Anki export can later use selected vocabulary items or sentences.
+- For now, keep the current `AudioUrl` as lesson-level audio only.
 
-
-
-Next 1h session:
-
-Make explanation dynamic from the backend, and keep vocabulary static for one more session
-
-Why:
-
-one clear output
-smaller scope
-directly improves content structure
-strengthens the “localized support content” direction
-avoids overcomplicating the model too quickly
-
-So the output becomes:
-
-“Each lesson now has its own explanation text.”
 
 ## Completed tasks per session
+05/02
+
+Completed:
+- added `AudioUrl` to backend lesson model and DTO
+- added `AudioUrl` to create command
+- created and applied EF migration
+- verified Swagger response includes `audioUrl`
+- created a test lesson with an audio URL
+- added `audioUrl` to frontend Zod schema
+- rendered a simple audio player on lesson detail page
+- verified the audio player works
+
 05/02
 Completed:
 
@@ -96,28 +102,10 @@ Completed:
 
 
 ## Backlog:
-Next 1h session:
-lägg till en enkel audio player på lesson detail page
-
-Det är nog det starkaste nästa steget, eftersom dina mål också betonar audio-based learning flows och en mer verklig learning experience
-
-En bra uppdelning vore:
-
-Första 30 min
-
-lägg till audioUrl i backendmodell/DTO om det inte redan finns
-seeda en lektion med en test-audiofil eller placeholder-url
-
-Andra 30 min
-
-rendera en enkel HTML audio player på detail page
-visa rubrik som Audio
-verifiera att spelaren fungerar på sidan
-
-Det skulle ge dig ett väldigt tydligt nästa hopp från:
-lesson page med struktur
-till
-lesson page med faktiskt lärinnehåll
+- make vocabulary dynamic
+- update PUT endpoint to support Explanation, ImageUrl, Level, and AudioUrl
+- later add transcript/word-level audio support
+- later explore TTS or generated audio workflow
 
 
 - TypeScript config warning: baseUrl is deprecated, clean up later

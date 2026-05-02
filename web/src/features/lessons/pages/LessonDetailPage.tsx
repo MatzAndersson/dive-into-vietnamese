@@ -83,6 +83,20 @@ export default function LessonDetailPage() {
           )}
 
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
+            <h2 className="mb-3 text-xl font-semibold text-gray-900">Audio</h2>
+
+            {lesson.audioUrl ? (
+              <audio controls src={lesson.audioUrl} className="w-full">
+                Your browser does not support the audio element.
+              </audio>
+            ) : (
+              <p className="leading-7 text-gray-500 italic">
+                No audio has been added for this lesson yet.
+              </p>
+            )}
+          </section>
+
+          <section className="rounded-2xl border bg-white p-6 shadow-sm">
             <h2 className="mb-3 text-xl font-semibold text-gray-900">
               Explanation
             </h2>
