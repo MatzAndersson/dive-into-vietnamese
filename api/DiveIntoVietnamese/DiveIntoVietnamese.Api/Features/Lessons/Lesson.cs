@@ -10,6 +10,7 @@
         public DateTime CreatedAt { get; set; }
         public string? Explanation { get; set; }
         public string? AudioUrl { get; set; }
+        public string? VocabularyJson { get; set; }
 
     }
 }
