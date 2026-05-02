@@ -8,6 +8,7 @@
         public LessonLevel Level { get; set; } = LessonLevel.Beginner;
         public string? ImageUrl { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string? Explanation { get; set; }
 
     }
 }

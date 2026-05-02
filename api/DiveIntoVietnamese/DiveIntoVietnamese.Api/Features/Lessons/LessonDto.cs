@@ -6,6 +6,7 @@
         string? Description,
         LessonLevel Level,
         string? ImageUrl,
-        DateTime CreatedAt
+        DateTime CreatedAt,
+        string? Explanation
     );
 }
