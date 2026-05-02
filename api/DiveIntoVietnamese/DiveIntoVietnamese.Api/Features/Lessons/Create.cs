@@ -10,7 +10,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
     public static class Create
     {
         // ❶ request (shape matches POST body)
-        public record CreateLessonCommand(string Title, string? Description, LessonLevel Level, string? ImageUrl, string? Explanation)
+        public record CreateLessonCommand(string Title, string? Description, LessonLevel Level, string? ImageUrl, string? Explanation, string? AudioUrl)
             : IRequest<LessonDto>, IRequireApiKey;
 
         // ❷ validation rules
@@ -27,6 +27,8 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                 RuleFor(x => x.ImageUrl).MaximumLength(1000);
 
                 RuleFor(x => x.Explanation).MaximumLength(2000);
+
+                RuleFor(x => x.AudioUrl).MaximumLength(1000);
 
             }
         }

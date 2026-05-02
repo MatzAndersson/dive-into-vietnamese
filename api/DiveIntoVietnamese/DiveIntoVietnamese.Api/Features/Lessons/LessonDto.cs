@@ -7,6 +7,7 @@
         LessonLevel Level,
         string? ImageUrl,
         DateTime CreatedAt,
-        string? Explanation
+        string? Explanation,
+        string? AudioUrl
     );
 }
