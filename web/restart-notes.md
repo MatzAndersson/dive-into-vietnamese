@@ -34,6 +34,22 @@ So the output becomes:
 “Each lesson now has its own explanation text.”
 
 ## Completed tasks per session
+05/02
+Completed:
+
+added Explanation field to lesson backend model and DTO
+added migration and updated database
+updated frontend lesson schema with explanation
+replaced hardcoded explanation text with dynamic backend content
+renamed React Query data to lesson for clearer code
+created and tested a lesson with real explanation text
+lesson detail page now shows lesson-specific explanations
+
+Note:
+
+vocabulary is still static
+PUT endpoint still needs updating later for explanation/level/imageUrl
+05/01
 Completed:
 - polished lesson detail page layout
 - added explanation section

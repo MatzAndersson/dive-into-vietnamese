@@ -6,7 +6,11 @@ export default function LessonDetailPage() {
   const { id } = useParams();
   const lessonId = Number(id);
 
-  const { data, isPending, error } = useQuery({
+  const {
+    data: lesson,
+    isPending,
+    error,
+  } = useQuery({
     queryKey: ["lesson", lessonId],
     queryFn: () => getLessonById(lessonId),
     enabled: Number.isFinite(lessonId),
@@ -43,7 +47,7 @@ export default function LessonDetailPage() {
         </div>
       )}
 
-      {data && (
+      {lesson && (
         <>
           <section className="space-y-4 rounded-2xl border bg-white p-6 shadow-sm">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -52,27 +56,27 @@ export default function LessonDetailPage() {
                   Lesson
                 </p>
                 <h1 className="text-3xl font-bold text-gray-900">
-                  {data.title}
+                  {lesson.title}
                 </h1>
               </div>
 
               <span className="inline-flex w-fit rounded-full border bg-gray-50 px-3 py-1 text-sm text-gray-700">
-                {data.level}
+                {lesson.level}
               </span>
             </div>
 
-            {data.description && (
+            {lesson.description && (
               <p className="max-w-2xl text-base leading-7 text-gray-700">
-                {data.description}
+                {lesson.description}
               </p>
             )}
           </section>
 
-          {data.imageUrl && (
+          {lesson.imageUrl && (
             <section className="overflow-hidden rounded-2xl border bg-white shadow-sm">
               <img
-                src={data.imageUrl}
-                alt={data.title}
+                src={lesson.imageUrl}
+                alt={lesson.title}
                 className="h-auto max-h-[420px] w-full object-cover"
               />
             </section>
@@ -82,14 +86,14 @@ export default function LessonDetailPage() {
             <h2 className="mb-3 text-xl font-semibold text-gray-900">
               Explanation
             </h2>
-            <p className="leading-7 text-gray-700">
-              In this lesson, learners practice asking someone’s name in a
-              simple everyday context. This is useful in first meetings and
-              basic introductions.
-            </p>
-            <p className="mt-3 text-sm text-gray-500">
-              Vietnamese focus: asking for someone’s name politely.
-            </p>
+
+            {lesson.explanation ? (
+              <p className="leading-7 text-gray-700">{lesson.explanation}</p>
+            ) : (
+              <p className="leading-7 text-gray-500 italic">
+                No explanation has been added for this lesson yet.
+              </p>
+            )}
           </section>
 
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
