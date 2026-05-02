@@ -19,6 +19,34 @@
 ## Next concrete coding task
 Next 1h session:
 
+Add a simple audio player to LessonDetailPage.
+
+First 30 min:
+- add `AudioUrl` to `Lesson`
+- add `AudioUrl` to `LessonDto`
+- add `AudioUrl` to `CreateLessonCommand`
+- create and apply EF migration
+- verify `audioUrl` appears in Swagger
+
+Second 30 min:
+- add `audioUrl` to frontend Zod schema
+- render simple `<audio controls>` player on `LessonDetailPage`
+- show fallback text if no audio exists
+- create/test one lesson with an audio URL
+- verify the player appears on the detail page
+
+Backlog:
+- update PUT later
+- add playback speed UI later
+- make vocabulary dynamic later
+- handle transcript/audio sync later
+- fix TypeScript baseUrl warning later
+
+
+
+
+Next 1h session:
+
 Make explanation dynamic from the backend, and keep vocabulary static for one more session
 
 Why:
@@ -93,7 +121,8 @@ lesson page med faktiskt lärinnehåll
 
 
 - TypeScript config warning: baseUrl is deprecated, clean up later
-
+- Update `PUT /api/lessons/{id}` to support `Level`, `ImageUrl`, and `Explanation`, or
+- Start adding a simple dynamic lesson body/transcript field.
 
 or
 - refine lesson content structure for localization-first design
