@@ -1,11 +1,13 @@
 export type LessonLevel = "Beginner" | "Intermediate" | "Advanced";
 
-
 export interface Lesson {
-id: number;
-title: string;
-description?: string;
-level: LessonLevel;
-imageUrl?: string | null;  // Add | null to match the schema
-createdAt: string;
+  id: number;
+  title: string;
+  description?: string | null;
+  level: LessonLevel;
+  imageUrl?: string | null;
+  audioUrl?: string | null;
+  createdAt: string;
+  explanation?: string | null;
+  vocabularyJson?: string | null;
 }

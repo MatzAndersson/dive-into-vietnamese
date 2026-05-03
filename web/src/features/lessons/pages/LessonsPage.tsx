@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
@@ -14,20 +14,38 @@ export default function LessonsPage() {
   const { t, i18n } = useTranslation();
   const [sp] = useSearchParams();
   const q = sp.get("q") ?? undefined;
+  const { level: levelParam } = useParams<{ level?: string }>();
 
   // Only accept our known levels from the URL
   const level = useMemo<LessonLevel | undefined>(() => {
+    const allowedFromPath: Record<string, LessonLevel> = {
+      beginner: "Beginner",
+      intermediate: "Intermediate",
+      advanced: "Advanced",
+    };
+
+    if (levelParam) {
+      return allowedFromPath[levelParam.toLowerCase()];
+    }
+
     const raw = sp.get("level");
-    const allowed = ["Beginner", "Intermediate", "Advanced"] as const;
-    return (allowed as readonly string[]).includes(raw ?? "")
+    const allowedFromQuery = ["Beginner", "Intermediate", "Advanced"] as const;
+
+    return (allowedFromQuery as readonly string[]).includes(raw ?? "")
       ? (raw as LessonLevel)
       : undefined;
-  }, [sp]);
+  }, [levelParam, sp]);
 
   // Fetch
   const qc = useQueryClient();
-  const { data, isPending, error } = useQuery<Lesson[]>({
-    queryKey: ["lessons", { q, level }],
+  const lessonsQueryKey = ["lessons", { q, level }] as const;
+
+  const {
+    data: lessons = [],
+    isPending,
+    error,
+  } = useQuery<Lesson[], Error>({
+    queryKey: lessonsQueryKey,
     queryFn: () => listLessons({ q, level }),
   });
 
@@ -35,7 +53,7 @@ export default function LessonsPage() {
   const del = useMutation({
     mutationFn: (id: number) => deleteLesson(id),
     onMutate: async (id: number) => {
-      const key = ["lessons", { q, level }];
+      const key = lessonsQueryKey;
       await qc.cancelQueries({ queryKey: key });
       const previous = qc.getQueryData<Lesson[]>(key);
       if (previous)
@@ -51,6 +69,10 @@ export default function LessonsPage() {
     },
     onSettled: () => qc.invalidateQueries({ queryKey: ["lessons"] }),
   });
+
+  const pageTitle = level
+    ? t("lessonsForLevel", { level: t(level.toLowerCase()) })
+    : t("allLessons");
 
   return (
     <div className="space-y-4">
@@ -84,6 +106,10 @@ export default function LessonsPage() {
         <CreateLessonForm />
       </section>
 
+      <header>
+        <h1 className="text-3xl font-bold tracking-tight">{pageTitle}</h1>
+        <p className="mt-2 text-slate-600">{t("chooseLesson")}</p>
+      </header>
       <FilterBar />
 
       {isPending && (
@@ -96,12 +122,12 @@ export default function LessonsPage() {
         </div>
       )}
 
-      {!isPending && (data?.length ?? 0) === 0 && (
+      {!isPending && lessons.length === 0 && (
         <div className="text-gray-600">{t("noLessonsFound")}</div>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {data?.map((l) => (
+        {lessons.map((l) => (
           <LessonCard
             key={l.id}
             lesson={l}

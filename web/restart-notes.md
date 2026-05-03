@@ -1,4 +1,6 @@
 ## Backend status
+
+
 - API starts: yes
 - Swagger works: yes
 - Lessons endpoint works: yes
@@ -37,6 +39,22 @@ Lesson detail page now supports:
 ## Next concrete coding task
 Next 1h session:
 
+Split learner pages from admin/dev lesson management.
+
+Goal:
+- learner pages should not show create/delete controls
+- admin/dev tools should move to `/admin/lessons`
+
+Steps:
+- create `AdminLessonsPage.tsx`
+- copy current CRUD-style `LessonsPage` into it
+- add route `/admin/lessons`
+- remove `CreateLessonForm` from learner `LessonsPage`
+- remove delete buttons from learner lesson cards
+- keep search/filter and clickable lesson cards on learner pages
+
+
+Next 1h session:
 Add a simple audio player to LessonDetailPage.
 
 
@@ -65,6 +83,19 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+
+05/03
+Completed:
+- created shared `Navbar` component
+- added `Home`, `Beginner`, `Intermediate`, `Advanced` navigation
+- added navbar i18n keys for EN/VI
+- added `/levels/:level` route
+- updated `LessonsPage` to read level from route with `useParams`
+- mapped route levels to lesson levels: `beginner`, `intermediate`, `advanced`
+- kept old query filter support for `/lessons?level=...`
+- fixed lesson type mismatch by allowing nullable API fields
+- cleared old Vite starter CSS from `App.css`
+- verified level navigation and filtering works
 
 05/02
 Completed:
@@ -123,6 +154,11 @@ Completed:
 
 
 ## Backlog:
+
+- later upgrade `CreateLessonForm` with existing fields: level, imageUrl, explanation, audioUrl, vocabularyJson
+- later add new content fields one at a time: conversationJson, questionsJson, grammarJson
+- keep full auth/CMS/teacher dashboard postponed
+
 Backlog:
 - separate student-facing lesson list from admin/teacher CRUD later
 - for demo polish, hide create form and delete buttons from `/lessons`

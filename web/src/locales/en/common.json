@@ -15,5 +15,15 @@
   "noLessonsFound": "No lessons found.",
   "loading": "Loading...",
   "failedToLoad": "Failed to load",
-  "deleteFailed": "Delete failed"
+  "deleteFailed": "Delete failed",
+  "allLessons": "All lessons",
+  "lessonsForLevel": "{{level}} lessons",
+  "chooseLesson": "Choose a lesson to start practising Vietnamese.",
+
+  "nav": {
+    "home": "Home",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  }
 }
