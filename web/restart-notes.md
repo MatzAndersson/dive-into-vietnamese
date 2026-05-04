@@ -37,6 +37,21 @@ Lesson detail page now supports:
 - dynamic lesson-level audio
 - static vocabulary section
 ## Next concrete coding task
+
+Create a real landing page.
+
+Goal:
+- make `/` a proper learner-facing home page instead of only redirecting
+- show a short hero section
+- show level cards for Beginner, Intermediate, Advanced
+- link cards to `/levels/beginner`, `/levels/intermediate`, `/levels/advanced`
+
+Suggested steps:
+- create `HomePage.tsx`
+- update `/` route to render `HomePage`
+- add level cards using shared level data
+- add EN/VI i18n keys for landing page text
+
 Next 1h session:
 
 Split learner pages from admin/dev lesson management.
@@ -83,7 +98,17 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
-
+05/04
+Completed:
+- created `AdminLessonsPage`
+- added `/admin/lessons` route
+- kept create/delete lesson tools on admin page
+- cleaned learner-facing `LessonsPage`
+- removed `CreateLessonForm` from learner pages
+- removed delete buttons from learner lesson cards
+- updated `LessonCard` so delete button only shows when `onDelete` exists
+- confirmed `/admin/lessons` still has admin/dev tools
+- confirmed `/levels/beginner`, `/levels/intermediate`, `/levels/advanced` are learner-facing only
 05/03
 Completed:
 - created shared `Navbar` component
@@ -154,6 +179,13 @@ Completed:
 
 
 ## Backlog:
+
+Backlog:
+- upgrade `CreateLessonForm` with existing fields: level, imageUrl, explanation, audioUrl, vocabularyJson
+- later add `ConversationJson`
+- later add `QuestionsJson`
+- later add `GrammarJson`
+- later protect `/admin/lessons` with ASP.NET Identity
 
 - later upgrade `CreateLessonForm` with existing fields: level, imageUrl, explanation, audioUrl, vocabularyJson
 - later add new content fields one at a time: conversationJson, questionsJson, grammarJson
