@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Navbar } from "./components/layout/Navbar";
 import LessonsPage from "./features/lessons/pages/LessonsPage";
 import LessonDetailPage from "./features/lessons/pages/LessonDetailPage";
+import AdminLessonsPage from "./features/lessons/pages/AdminLessonsPage";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route path="/lessons" element={<LessonsPage />} />
           <Route path="/levels/:level" element={<LessonsPage />} />
           <Route path="/lessons/:id" element={<LessonDetailPage />} />
+          <Route path="/admin/lessons" element={<AdminLessonsPage />} />
         </Routes>
       </main>
     </>
