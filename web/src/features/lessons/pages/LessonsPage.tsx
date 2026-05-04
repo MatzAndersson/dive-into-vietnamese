@@ -1,13 +1,12 @@
 import { useMemo } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 import FilterBar from "../components/FilterBar";
 import LessonCard from "../components/LessonCard";
-import CreateLessonForm from "../CreateLessonForm";
 
-import { listLessons, deleteLesson } from "../api";
+import { listLessons } from "../api";
 import type { Lesson, LessonLevel } from "../types";
 
 export default function LessonsPage() {
@@ -37,7 +36,7 @@ export default function LessonsPage() {
   }, [levelParam, sp]);
 
   // Fetch
-  const qc = useQueryClient();
+
   const lessonsQueryKey = ["lessons", { q, level }] as const;
 
   const {
@@ -47,27 +46,6 @@ export default function LessonsPage() {
   } = useQuery<Lesson[], Error>({
     queryKey: lessonsQueryKey,
     queryFn: () => listLessons({ q, level }),
-  });
-
-  // Optimistic delete
-  const del = useMutation({
-    mutationFn: (id: number) => deleteLesson(id),
-    onMutate: async (id: number) => {
-      const key = lessonsQueryKey;
-      await qc.cancelQueries({ queryKey: key });
-      const previous = qc.getQueryData<Lesson[]>(key);
-      if (previous)
-        qc.setQueryData<Lesson[]>(
-          key,
-          previous.filter((l) => l.id !== id),
-        );
-      return { previous, key };
-    },
-    onError: (err, _id, ctx) => {
-      if (ctx?.previous) qc.setQueryData(ctx.key!, ctx.previous);
-      alert((err as Error).message || t("deleteFailed"));
-    },
-    onSettled: () => qc.invalidateQueries({ queryKey: ["lessons"] }),
   });
 
   const pageTitle = level
@@ -101,10 +79,6 @@ export default function LessonsPage() {
           VI
         </button>
       </div>
-      <section className="rounded-xl border p-4">
-        <h2 className="font-medium mb-2">{t("create")}</h2>
-        <CreateLessonForm />
-      </section>
 
       <header>
         <h1 className="text-3xl font-bold tracking-tight">{pageTitle}</h1>
@@ -127,12 +101,8 @@ export default function LessonsPage() {
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {lessons.map((l) => (
-          <LessonCard
-            key={l.id}
-            lesson={l}
-            onDelete={(id) => del.mutateAsync(id)}
-          />
+        {lessons.map((lesson) => (
+          <LessonCard key={lesson.id} lesson={lesson} />
         ))}
       </div>
     </div>

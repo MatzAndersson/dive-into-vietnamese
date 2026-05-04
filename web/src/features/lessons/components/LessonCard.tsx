@@ -8,7 +8,7 @@ export default function LessonCard({
   onDelete,
 }: {
   lesson: Lesson;
-  onDelete: (id: number) => Promise<void>;
+  onDelete?: (id: number) => Promise<void>;
 }) {
   const { t } = useTranslation();
   const [busy, setBusy] = useState(false);
@@ -31,7 +31,7 @@ export default function LessonCard({
 
     setBusy(true);
     try {
-      await onDelete(lesson.id);
+      await onDelete?.(lesson.id);
     } finally {
       setBusy(false);
     }
@@ -66,15 +66,17 @@ export default function LessonCard({
           </p>
         )}
       </div>
-
-      <button
-        onClick={confirmDelete}
-        disabled={busy}
-        className="absolute top-2 right-2 text-xs px-2 py-1 rounded-md border border-red-200 bg-red-50 text-red-700 cursor-pointer transition hover:bg-red-100 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-        title={t("deleteLesson")}
-      >
-        {busy ? "..." : t("delete")}
-      </button>
+      {onDelete && (
+        <button
+          type="button"
+          onClick={confirmDelete}
+          disabled={busy}
+          className="absolute top-2 right-2 text-xs px-2 py-1 rounded-md border border-red-200 bg-red-50 text-red-700 cursor-pointer transition hover:bg-red-100 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+          title={t("deleteLesson")}
+        >
+          {busy ? "..." : t("delete")}
+        </button>
+      )}
     </div>
   );
 }
