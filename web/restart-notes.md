@@ -100,6 +100,21 @@ Future transcript/vocabulary direction:
 ## Completed tasks per session
 05/05
 Completed:
+- upgraded `CreateLessonForm` with existing backend/frontend fields
+- added level select
+- added image URL field
+- added explanation field
+- added conversation audio URL field using existing `audioUrl`
+- added vocabulary JSON field
+- updated `createLesson` input type in `api.ts`
+- confirmed `LessonSchema` already supports the richer fields
+- tested creating a richer lesson from `/admin/lessons`
+- confirmed explanation renders on lesson detail page
+- confirmed vocabulary renders when using the expected JSON shape
+- confirmed image and audio work with valid direct URLs
+
+05/05
+Completed:
 - moved EN/VI language switcher into `Navbar`
 - made language switching available globally
 - removed duplicate language buttons from `LessonsPage`
@@ -199,10 +214,16 @@ Completed:
 
 Backlog:
 
-- upgrade `CreateLessonForm` with existing fields: level, imageUrl, explanation, audioUrl, vocabularyJson
+Backlog:
+Backlog:
+- improve CreateLessonForm usability and design
+- add helper/example text for valid vocabulary JSON shape
+- rename lesson detail heading from `Audio` to `Conversation audio`
+- later support vocabulary item audio URLs
 - later add `ConversationJson`
 - later add `QuestionsJson`
 - later add `GrammarJson`
+
 - later protect `/admin/lessons` with ASP.NET Identity
 
 - later upgrade `CreateLessonForm` with existing fields: level, imageUrl, explanation, audioUrl, vocabularyJson

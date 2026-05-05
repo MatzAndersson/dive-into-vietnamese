@@ -1,10 +1,16 @@
-import { useEffect, useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
-import { useQueryClient } from '@tanstack/react-query';
-import { useTranslation } from 'react-i18next';
-import { createLesson } from './api';
+import { useEffect, useActionState } from "react";
+import { useFormStatus } from "react-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { createLesson } from "./api";
+import type { LessonLevel } from "./types";
 
 type CreateResult = { ok: true } | { error: string };
+
+const emptyToUndefined = (value: FormDataEntryValue | null) => {
+  const text = String(value ?? "").trim();
+  return text.length > 0 ? text : undefined;
+};
 
 async function createAction(
   _prev: CreateResult | null,
@@ -12,21 +18,32 @@ async function createAction(
 ): Promise<CreateResult> {
   try {
     await createLesson({
-      title: String(fd.get('title') ?? ''),
-      description: String(fd.get('description') ?? ''),
+      title: String(fd.get("title") ?? "").trim(),
+      description: emptyToUndefined(fd.get("description")),
+      level: String(fd.get("level") ?? "Beginner") as LessonLevel,
+      imageUrl: emptyToUndefined(fd.get("imageUrl")),
+      explanation: emptyToUndefined(fd.get("explanation")),
+      audioUrl: emptyToUndefined(fd.get("audioUrl")),
+      vocabularyJson: emptyToUndefined(fd.get("vocabularyJson")),
     });
+
     return { ok: true };
   } catch (e) {
-    return { error: e instanceof Error ? e.message : 'Failed' };
+    return { error: e instanceof Error ? e.message : "Failed" };
   }
 }
 
 function SubmitBtn() {
   const { t } = useTranslation();
   const { pending } = useFormStatus();
+
   return (
-    <button className="cursor-pointer transition hover:opacity-90 disabled:cursor-not-allowed px-3 py-2 rounded bg-black text-white" disabled={pending}>
-      {pending ? t('saving') : t('save')}
+    <button
+      type="submit"
+      className="cursor-pointer rounded bg-black px-3 py-2 text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+      disabled={pending}
+    >
+      {pending ? t("saving") : t("save")}
     </button>
   );
 }
@@ -35,23 +52,75 @@ export default function CreateLessonForm() {
   const { t } = useTranslation();
   const qc = useQueryClient();
 
-  // ⬇️ you were missing this destructure
-  const [state, action] =
-    useActionState<CreateResult | null, FormData>(createAction, null);
+  const [state, action] = useActionState<CreateResult | null, FormData>(
+    createAction,
+    null
+  );
 
-  // refresh list when state flips to { ok: true }
   useEffect(() => {
-    if (state && 'ok' in state) {
-      void qc.invalidateQueries({ queryKey: ['lessons'] });
+    if (state && "ok" in state) {
+      void qc.invalidateQueries({ queryKey: ["lessons"] });
     }
   }, [state, qc]);
 
   return (
     <form action={action} className="space-y-3">
-      <input name="title" placeholder={t("title")} className="border p-2 w-full rounded" required />
-      <textarea name="description" placeholder={t("description")} className="border p-2 w-full rounded" />
+      <input
+        name="title"
+        placeholder={t("title")}
+        className="w-full rounded border p-2"
+        required
+      />
+
+      <textarea
+        name="description"
+        placeholder={t("description")}
+        className="w-full rounded border p-2"
+      />
+
+      <select
+        name="level"
+        defaultValue="Beginner"
+        className="w-full rounded border p-2"
+      >
+        <option value="Beginner">{t("beginner")}</option>
+        <option value="Intermediate">{t("intermediate")}</option>
+        <option value="Advanced">{t("advanced")}</option>
+      </select>
+
+      <input
+        name="imageUrl"
+        placeholder="Image URL"
+        className="w-full rounded border p-2"
+      />
+
+      <textarea
+        name="explanation"
+        placeholder="Explanation"
+        className="min-h-28 w-full rounded border p-2"
+      />
+
+      <input
+        name="audioUrl"
+        placeholder="Conversation audio URL"
+        className="w-full rounded border p-2"
+      />
+
+      <textarea
+        name="vocabularyJson"
+        placeholder='Vocabulary JSON, e.g. [{"vi":"xin chào","en":"hello","audioUrl":""}]'
+        className="min-h-32 w-full rounded border p-2 font-mono text-sm"
+      />
+
       <SubmitBtn />
-      {state && 'error' in state && <p className="text-red-600">{state.error}</p>}
+
+      {state && "error" in state && (
+        <p className="text-red-600">{state.error}</p>
+      )}
+
+      {state && "ok" in state && (
+        <p className="text-green-700">Lesson created.</p>
+      )}
     </form>
   );
 }

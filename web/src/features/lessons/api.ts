@@ -15,7 +15,13 @@ export async function getLessonById(id: number) {
   return LessonSchema.parse(data);
 }
 
-export async function createLesson(input: { title: string; description?: string; level?: LessonLevel; imageUrl?: string }) {
+export async function createLesson(input: { title: string;
+  description?: string;
+  level?: LessonLevel;
+  imageUrl?: string;
+  explanation?: string;
+  audioUrl?: string;
+  vocabularyJson?: string; }) {
   const data = await api.post<unknown>("/api/lessons", input);
   return LessonSchema.parse(data);
 }
