@@ -98,6 +98,15 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+05/05
+Completed:
+- created `HomePage`
+- changed `/` from redirect to real landing page
+- added hero section for Dive Into Vietnamese
+- added Beginner, Intermediate, Advanced level cards
+- linked level cards to `/levels/beginner`, `/levels/intermediate`, `/levels/advanced`
+- added EN/VI i18n keys for homepage text
+- confirmed landing page works in browser
 05/04
 Completed:
 - created `AdminLessonsPage`
@@ -181,6 +190,10 @@ Completed:
 ## Backlog:
 
 Backlog:
+
+- later move EN/VI language switcher into `Navbar`
+- consider text labels first; flags can be added later as visual polish
+
 - upgrade `CreateLessonForm` with existing fields: level, imageUrl, explanation, audioUrl, vocabularyJson
 - later add `ConversationJson`
 - later add `QuestionsJson`

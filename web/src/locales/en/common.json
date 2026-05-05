@@ -25,5 +25,26 @@
     "beginner": "Beginner",
     "intermediate": "Intermediate",
     "advanced": "Advanced"
+  },
+  "home": {
+    "eyebrow": "Southern Vietnamese learning",
+    "title": "Learn Vietnamese through clear lessons, audio, vocabulary, and grammar.",
+    "subtitle": "Choose your level and practise practical Vietnamese with structured lesson content and learner-friendly explanations.",
+    "startButton": "Start with beginner lessons",
+    "chooseLevel": "Choose your level",
+    "levels": {
+      "beginner": {
+        "title": "Beginner",
+        "description": "Start with pronunciation, simple words, and everyday phrases."
+      },
+      "intermediate": {
+        "title": "Intermediate",
+        "description": "Build longer conversations and understand common grammar patterns."
+      },
+      "advanced": {
+        "title": "Advanced",
+        "description": "Practise natural Vietnamese with richer texts, audio, and detailed explanations."
+      }
+    }
   }
 }

@@ -10,7 +10,7 @@
   "intermediate": "Trung cấp",
   "advanced": "Nâng cao",
   "delete": "Xóa",
-   "deleteLesson": "Xóa bài học",
+  "deleteLesson": "Xóa bài học",
   "deleteLessonConfirm": "Xóa \"{{title}}\"?",
   "noLessonsFound": "Không tìm thấy bài học nào.",
   "loading": "Đang tải...",
@@ -18,12 +18,33 @@
   "deleteFailed": "Xóa thất bại",
   "allLessons": "Tất cả bài học",
   "lessonsForLevel": "Bài học {{level}}",
-  "chooseLesson": "Chọn một bài học để bắt đầu luyện tiếng Việt.", 
+  "chooseLesson": "Chọn một bài học để bắt đầu luyện tiếng Việt.",
 
   "nav": {
     "home": "Trang chủ",
     "beginner": "Sơ cấp",
     "intermediate": "Trung cấp",
     "advanced": "Nâng cao"
+  },
+  "home": {
+    "eyebrow": "Học tiếng Việt giọng miền Nam",
+    "title": "Học tiếng Việt qua bài học rõ ràng, âm thanh, từ vựng và ngữ pháp.",
+    "subtitle": "Chọn trình độ của bạn và luyện tiếng Việt thực tế với nội dung bài học có cấu trúc rõ ràng.",
+    "startButton": "Bắt đầu với bài sơ cấp",
+    "chooseLevel": "Chọn trình độ",
+    "levels": {
+      "beginner": {
+        "title": "Sơ cấp",
+        "description": "Bắt đầu với phát âm, từ đơn giản và câu giao tiếp hằng ngày."
+      },
+      "intermediate": {
+        "title": "Trung cấp",
+        "description": "Luyện hội thoại dài hơn và hiểu các mẫu ngữ pháp thường gặp."
+      },
+      "advanced": {
+        "title": "Nâng cao",
+        "description": "Luyện tiếng Việt tự nhiên với bài học dài hơn, âm thanh và giải thích chi tiết."
+      }
+    }
   }
 }
