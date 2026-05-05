@@ -100,6 +100,14 @@ Future transcript/vocabulary direction:
 ## Completed tasks per session
 05/05
 Completed:
+- moved EN/VI language switcher into `Navbar`
+- made language switching available globally
+- removed duplicate language buttons from `LessonsPage`
+- removed duplicate language buttons from `AdminLessonsPage`
+- confirmed language switcher works on learner pages and admin page
+
+05/05
+Completed:
 - created `HomePage`
 - changed `/` from redirect to real landing page
 - added hero section for Dive Into Vietnamese
@@ -190,9 +198,6 @@ Completed:
 ## Backlog:
 
 Backlog:
-
-- later move EN/VI language switcher into `Navbar`
-- consider text labels first; flags can be added later as visual polish
 
 - upgrade `CreateLessonForm` with existing fields: level, imageUrl, explanation, audioUrl, vocabularyJson
 - later add `ConversationJson`

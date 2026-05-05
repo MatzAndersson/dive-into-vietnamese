@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 export function Navbar() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive
@@ -33,6 +33,31 @@ export function Navbar() {
             {t("nav.advanced")}
           </NavLink>
         </nav>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => i18n.changeLanguage("en")}
+            className={`cursor-pointer rounded border px-3 py-1 text-sm transition hover:opacity-90 ${
+              i18n.language.startsWith("en")
+                ? "bg-black text-white"
+                : "bg-white text-black"
+            }`}
+          >
+            EN
+          </button>
+
+          <button
+            type="button"
+            onClick={() => i18n.changeLanguage("vi")}
+            className={`cursor-pointer rounded border px-3 py-1 text-sm transition hover:opacity-90 ${
+              i18n.language.startsWith("vi")
+                ? "bg-black text-white"
+                : "bg-white text-black"
+            }`}
+          >
+            VI
+          </button>
+        </div>
       </div>
     </header>
   );

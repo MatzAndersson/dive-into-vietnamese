@@ -11,7 +11,7 @@ import { listLessons, deleteLesson } from "../api";
 import type { Lesson, LessonLevel } from "../types";
 
 export default function AdminLessonsPage() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [sp] = useSearchParams();
   const q = sp.get("q") ?? undefined;
   const { level: levelParam } = useParams<{ level?: string }>();
@@ -76,31 +76,6 @@ export default function AdminLessonsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end gap-2">
-        <button
-          type="button"
-          onClick={() => i18n.changeLanguage("en")}
-          className={`cursor-pointer transition hover:opacity-90 disabled:cursor-not-allowed px-3 py-1 rounded border ${
-            i18n.language.startsWith("en")
-              ? "bg-black text-white"
-              : "bg-white text-black"
-          }`}
-        >
-          EN
-        </button>
-
-        <button
-          type="button"
-          onClick={() => i18n.changeLanguage("vi")}
-          className={`cursor-pointer transition hover:opacity-90 disabled:cursor-not-allowed px-3 py-1 rounded border ${
-            i18n.language.startsWith("vi")
-              ? "bg-black text-white"
-              : "bg-white text-black"
-          }`}
-        >
-          VI
-        </button>
-      </div>
       <section className="rounded-xl border p-4">
         <h2 className="font-medium mb-2">{t("create")}</h2>
         <CreateLessonForm />
