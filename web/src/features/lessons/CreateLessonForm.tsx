@@ -11,10 +11,45 @@ const emptyToUndefined = (value: FormDataEntryValue | null) => {
   const text = String(value ?? "").trim();
   return text.length > 0 ? text : undefined;
 };
+const validateVocabularyJson = (value: string | undefined) => {
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+
+    if (!Array.isArray(parsed)) {
+      throw new Error("Vocabulary JSON must be an array.");
+    }
+
+    const hasInvalidItem = parsed.some(
+      (item) =>
+        typeof item !== "object" ||
+        item === null ||
+        typeof item.vietnamese !== "string" ||
+        typeof item.english !== "string",
+    );
+
+    if (hasInvalidItem) {
+      throw new Error(
+        "Each vocabulary item must include vietnamese and english fields.",
+      );
+    }
+
+    return value;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+
+    throw new Error("Invalid vocabulary JSON.");
+  }
+};
 
 async function createAction(
   _prev: CreateResult | null,
-  fd: FormData
+  fd: FormData,
 ): Promise<CreateResult> {
   try {
     await createLesson({
@@ -24,7 +59,9 @@ async function createAction(
       imageUrl: emptyToUndefined(fd.get("imageUrl")),
       explanation: emptyToUndefined(fd.get("explanation")),
       audioUrl: emptyToUndefined(fd.get("audioUrl")),
-      vocabularyJson: emptyToUndefined(fd.get("vocabularyJson")),
+      vocabularyJson: validateVocabularyJson(
+        emptyToUndefined(fd.get("vocabularyJson")),
+      ),
     });
 
     return { ok: true };
@@ -54,7 +91,7 @@ export default function CreateLessonForm() {
 
   const [state, action] = useActionState<CreateResult | null, FormData>(
     createAction,
-    null
+    null,
   );
 
   useEffect(() => {
@@ -94,6 +131,10 @@ export default function CreateLessonForm() {
         className="w-full rounded border p-2"
       />
 
+      <p className="text-xs text-slate-500">
+        Use a direct image URL ending in .jpg, .png, or .webp.
+      </p>
+
       <textarea
         name="explanation"
         placeholder="Explanation"
@@ -105,12 +146,19 @@ export default function CreateLessonForm() {
         placeholder="Conversation audio URL"
         className="w-full rounded border p-2"
       />
+      <p className="text-xs text-slate-500">
+        Use a direct audio URL ending in .mp3, .wav, or .ogg.
+      </p>
 
       <textarea
         name="vocabularyJson"
-        placeholder='Vocabulary JSON, e.g. [{"vi":"xin chào","en":"hello","audioUrl":""}]'
+        placeholder='[{"vietnamese":"xin chào","english":"hello"}]'
         className="min-h-32 w-full rounded border p-2 font-mono text-sm"
       />
+
+      <p className="text-xs text-slate-500">
+        {`Expected format: [{"vietnamese":"xin chào","english":"hello"}]`}
+      </p>
 
       <SubmitBtn />
 

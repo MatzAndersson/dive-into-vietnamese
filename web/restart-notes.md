@@ -38,6 +38,31 @@ Lesson detail page now supports:
 - static vocabulary section
 ## Next concrete coding task
 
+Next 1h session:
+Goal: make existing lessons editable for the fields we already support.
+
+First 30 min:
+- inspect backend update endpoint / command
+- check whether `PUT /api/lessons/{id}` supports:
+  - title
+  - description
+  - level
+  - imageUrl
+  - explanation
+  - audioUrl
+  - vocabularyJson
+
+Second 30 min:
+- update backend/frontend types if needed
+- prepare a simple edit flow or at least make the API ready for editing
+
+2. check whether backend `PUT /api/lessons/{id}` supports all current fields
+3. add/edit lesson function for current fields
+4. polish `AdminLessonsPage`
+5. add `ConversationJson`
+6. add `QuestionsJson`
+7. add `GrammarJson`
+
 Create a real landing page.
 
 Goal:
@@ -98,6 +123,33 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+09/05
+Completed:
+- improved `CreateLessonForm` usability and safety
+- kept existing technical field name `audioUrl`
+- clarified audio field visually as “Conversation audio URL”
+- added helper text for image URLs
+- added helper text for conversation audio URLs
+- added vocabulary JSON helper text with the expected format
+- added `validateVocabularyJson`
+- allowed empty vocabulary JSON field
+- added validation that vocabulary JSON must be valid JSON
+- added validation that vocabulary JSON must be an array
+- added validation that each vocabulary item must include `vietnamese` and `english`
+- confirmed invalid vocabulary JSON now shows a clear error message
+- confirmed lesson creation still works from `/admin/lessons`
+
+Notes:
+- `audioUrl` was not renamed because it is already used across the backend, API, frontend schema, frontend type, and lesson detail page
+- vocabulary JSON currently uses this shape:
+
+[
+  {
+    "vietnamese": "xin chào",
+    "english": "hello"
+  }
+]
+
 05/05
 Completed:
 - upgraded `CreateLessonForm` with existing backend/frontend fields
@@ -212,9 +264,39 @@ Completed:
 
 ## Backlog:
 
-Backlog:
+- add edit lesson function in `/admin/lessons`
+- update backend `PUT /api/lessons/{id}` to support all current fields:
+  - title
+  - description
+  - level
+  - imageUrl
+  - explanation
+  - audioUrl
+  - vocabularyJson
+- add edit form/modal in frontend admin page
+- prefill edit form with existing lesson data
+- invalidate React Query lesson list and detail queries after update
 
-Backlog:
+- later improve `LessonDetailPage` layout inspired by MandarinBean:
+  - reuse the lesson/card image as a wide banner or hero image on the detail page
+  - place title/level/summary over or near the banner
+  - add toggle buttons for learner display options
+  - first useful toggle: show/hide translation
+  - possible later toggles: show/hide vocabulary, show/hide grammar notes, show/hide extra explanation
+- do not prioritize pronunciation/transliteration as a general feature for Vietnamese
+  - unlike Chinese pinyin, pronunciation support is mostly useful for beginner/pronunciation lessons
+  - for normal lessons, focus more on translation, audio, vocabulary, grammar, and comprehension
+
+  - later improve `LessonDetailPage` layout inspired by MandarinBean:
+  - reuse the lesson/card image as a wide banner or hero image on the detail page
+  - place title/level/summary over or near the banner
+  - add toggle buttons for learner display options
+  - first useful toggle: show/hide translation
+  - possible later toggles: show/hide vocabulary, show/hide grammar notes, show/hide extra explanation
+- do not prioritize pronunciation/transliteration as a general feature for Vietnamese
+  - unlike Chinese pinyin, pronunciation support is mostly useful for beginner/pronunciation lessons
+  - for normal lessons, focus more on translation, audio, vocabulary, grammar, and comprehension
+
 Backlog:
 - improve CreateLessonForm usability and design
 - add helper/example text for valid vocabulary JSON shape
