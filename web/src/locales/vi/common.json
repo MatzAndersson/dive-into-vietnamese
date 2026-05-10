@@ -46,5 +46,10 @@
         "description": "Luyện tiếng Việt tự nhiên với bài học dài hơn, âm thanh và giải thích chi tiết."
       }
     }
-  }
+  },
+
+  "editLesson": "Chỉnh sửa bài học",
+  "cancel": "Hủy",
+  "saveChanges": "Lưu thay đổi",
+  "edit": "Chỉnh sửa"
 }

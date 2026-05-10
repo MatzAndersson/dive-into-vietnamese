@@ -46,5 +46,10 @@
         "description": "Practise natural Vietnamese with richer texts, audio, and detailed explanations."
       }
     }
-  }
+  },
+
+  "editLesson": "Edit lesson",
+  "cancel": "Cancel",
+  "saveChanges": "Save changes",
+  "edit": "Edit"
 }

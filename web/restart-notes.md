@@ -17,6 +17,7 @@
 ## What works
 ## What is broken
 ## What to ignore for now
+This repeats the create-form validation for now. Later we can move it to a shared helper.
 ## MVP target
 ## Current State
 
@@ -123,6 +124,40 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+10/05
+Completed:
+- expanded backend `UpdateLessonCommand` to support current lesson fields
+- updated backend `PUT /api/lessons/{id}` handler to save:
+  - title
+  - description
+  - level
+  - imageUrl
+  - explanation
+  - audioUrl
+  - vocabularyJson
+- confirmed `src/lib/api.ts` already supports `api.put`
+- added `updateLesson` function in `src/features/lessons/api.ts`
+- added simple edit flow in `/admin/lessons`
+- added Edit button for each lesson
+- added prefilled edit form for current lesson fields
+- changed edit form into a modal instead of inline form
+- added `key={editingLesson.id}` so switching lessons resets the form correctly
+- added vocabulary JSON validation before update
+- added cursor pointer styling to edit modal buttons
+- confirmed updates save correctly
+- confirmed updated lesson data renders correctly
+
+Notes:
+- Edit/Delete button placement in the cards still needs layout polish.
+- Current temporary layout has Edit button outside the card.
+- Better future card layout:
+  - level badge in top-right
+  - Edit/Delete buttons inside the card at the bottom
+  - better handling of missing/broken images
+
+Next:
+- polish `LessonCard` admin actions/layout
+- then continue with `ConversationJson`, `QuestionsJson`, or `GrammarJson`
 10/05
 Completed:
 - checked backend `PUT /api/lessons/{id}` endpoint
@@ -278,6 +313,11 @@ Completed:
 
 
 ## Backlog:
+
+Fix later:
+- redesign card layout so level badge is top-right
+- move Edit/Delete buttons to the bottom inside the card
+- handle cards with missing/broken images better
 
 - add edit lesson function in `/admin/lessons`
 - update backend `PUT /api/lessons/{id}` to support all current fields:

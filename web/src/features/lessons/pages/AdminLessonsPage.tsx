@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -7,11 +7,53 @@ import FilterBar from "../components/FilterBar";
 import LessonCard from "../components/LessonCard";
 import CreateLessonForm from "../CreateLessonForm";
 
-import { listLessons, deleteLesson } from "../api";
+import { listLessons, deleteLesson, updateLesson } from "../api";
 import type { Lesson, LessonLevel } from "../types";
+
+const emptyToUndefined = (value: FormDataEntryValue | null) => {
+  const text = String(value ?? "").trim();
+  return text.length > 0 ? text : undefined;
+};
+
+const validateVocabularyJson = (value: string | undefined) => {
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+
+    if (!Array.isArray(parsed)) {
+      throw new Error("Vocabulary JSON must be an array.");
+    }
+
+    const hasInvalidItem = parsed.some(
+      (item) =>
+        typeof item !== "object" ||
+        item === null ||
+        typeof item.vietnamese !== "string" ||
+        typeof item.english !== "string",
+    );
+
+    if (hasInvalidItem) {
+      throw new Error(
+        "Each vocabulary item must include vietnamese and english fields.",
+      );
+    }
+
+    return value;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+
+    throw new Error("Invalid vocabulary JSON.");
+  }
+};
 
 export default function AdminLessonsPage() {
   const { t } = useTranslation();
+  const [editingLesson, setEditingLesson] = useState<Lesson | null>(null);
   const [sp] = useSearchParams();
   const q = sp.get("q") ?? undefined;
   const { level: levelParam } = useParams<{ level?: string }>();
@@ -49,6 +91,33 @@ export default function AdminLessonsPage() {
     queryFn: () => listLessons({ q, level }),
   });
 
+  const update = useMutation({
+    mutationFn: async (fd: FormData) => {
+      if (!editingLesson) {
+        throw new Error("No lesson selected for editing.");
+      }
+
+      return updateLesson(editingLesson.id, {
+        title: String(fd.get("title") ?? "").trim(),
+        description: emptyToUndefined(fd.get("description")),
+        level: String(fd.get("level") ?? "Beginner") as LessonLevel,
+        imageUrl: emptyToUndefined(fd.get("imageUrl")),
+        explanation: emptyToUndefined(fd.get("explanation")),
+        audioUrl: emptyToUndefined(fd.get("audioUrl")),
+        vocabularyJson: validateVocabularyJson(
+          emptyToUndefined(fd.get("vocabularyJson")),
+        ),
+      });
+    },
+    onSuccess: () => {
+      setEditingLesson(null);
+      void qc.invalidateQueries({ queryKey: ["lessons"] });
+    },
+    onError: (err) => {
+      alert((err as Error).message || "Failed to update lesson");
+    },
+  });
+
   // Optimistic delete
   const del = useMutation({
     mutationFn: (id: number) => deleteLesson(id),
@@ -81,6 +150,92 @@ export default function AdminLessonsPage() {
         <CreateLessonForm />
       </section>
 
+      {editingLesson && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4">
+          <section className="mt-10 w-full max-w-3xl rounded-xl bg-white p-4 shadow-xl">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <h2 className="font-medium">{t("editLesson")}</h2>
+
+              <button
+                type="button"
+                className="cursor-pointer rounded border px-3 py-1 text-sm hover:bg-slate-50"
+                onClick={() => setEditingLesson(null)}
+              >
+                {t("cancel")}
+              </button>
+            </div>
+
+            <form
+              key={editingLesson.id}
+              className="space-y-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                update.mutate(new FormData(e.currentTarget));
+              }}
+            >
+              <input
+                name="title"
+                defaultValue={editingLesson.title}
+                className="w-full rounded border p-2"
+                required
+              />
+
+              <textarea
+                name="description"
+                defaultValue={editingLesson.description ?? ""}
+                className="w-full rounded border p-2"
+              />
+
+              <select
+                name="level"
+                defaultValue={editingLesson.level}
+                className="w-full rounded border p-2"
+              >
+                <option value="Beginner">{t("beginner")}</option>
+                <option value="Intermediate">{t("intermediate")}</option>
+                <option value="Advanced">{t("advanced")}</option>
+              </select>
+
+              <input
+                name="imageUrl"
+                defaultValue={editingLesson.imageUrl ?? ""}
+                placeholder="Image URL"
+                className="w-full rounded border p-2"
+              />
+
+              <textarea
+                name="explanation"
+                defaultValue={editingLesson.explanation ?? ""}
+                placeholder="Explanation"
+                className="min-h-28 w-full rounded border p-2"
+              />
+
+              <input
+                name="audioUrl"
+                defaultValue={editingLesson.audioUrl ?? ""}
+                placeholder="Conversation audio URL"
+                className="w-full rounded border p-2"
+              />
+
+              <textarea
+                name="vocabularyJson"
+                defaultValue={editingLesson.vocabularyJson ?? ""}
+                placeholder='[{"vietnamese":"xin chào","english":"hello"}]'
+                className="min-h-32 w-full rounded border p-2 font-mono text-sm"
+              />
+
+              <button
+                type="submit"
+                disabled={update.isPending}
+                className="cursor-pointer rounded bg-black px-3 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {update.isPending ? t("saving") : t("saveChanges")}
+              </button>
+            </form>
+          </section>
+        </div>
+      )}
+
       <header>
         <h1 className="text-3xl font-bold tracking-tight">{pageTitle}</h1>
         <p className="mt-2 text-slate-600">{t("chooseLesson")}</p>
@@ -103,11 +258,17 @@ export default function AdminLessonsPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {lessons.map((l) => (
-          <LessonCard
-            key={l.id}
-            lesson={l}
-            onDelete={(id) => del.mutateAsync(id)}
-          />
+          <div key={l.id} className="space-y-2">
+            <LessonCard lesson={l} onDelete={(id) => del.mutateAsync(id)} />
+
+            <button
+              type="button"
+              className="w-full cursor-pointer rounded border px-3 py-2 text-sm hover:bg-slate-50"
+              onClick={() => setEditingLesson(l)}
+            >
+              {t("edit")}
+            </button>
+          </div>
         ))}
       </div>
     </div>
