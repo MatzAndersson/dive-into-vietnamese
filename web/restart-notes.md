@@ -123,6 +123,21 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+10/05
+Completed:
+- checked backend `PUT /api/lessons/{id}` endpoint
+- confirmed endpoint existed but only updated title and description
+- expanded `UpdateLessonCommand` to support current lesson fields
+- updated backend handler to save:
+  - title
+  - description
+  - level
+  - imageUrl
+  - explanation
+  - audioUrl
+  - vocabularyJson
+- confirmed `src/lib/api.ts` already has `api.put`
+- added frontend `updateLesson` function in `src/features/lessons/api.ts`
 09/05
 Completed:
 - improved `CreateLessonForm` usability and safety
