@@ -126,6 +126,16 @@ Future transcript/vocabulary direction:
 ## Completed tasks per session
 10/05
 Completed:
+- refactored `LessonCard` to support optional `actions`
+- moved admin Edit/Delete actions into the card instead of placing Edit below the card
+- moved level badge to the top-right of the card image area
+- added an intentional missing-image placeholder instead of broken/empty image space
+- kept learner cards clean by only showing admin actions when passed from `AdminLessonsPage`
+- updated `AdminLessonsPage` to pass Edit/Delete buttons through `LessonCard` actions
+- confirmed learner lesson cards still work
+- confirmed admin Edit/Delete actions still work
+10/05
+Completed:
 - expanded backend `UpdateLessonCommand` to support current lesson fields
 - updated backend `PUT /api/lessons/{id}` handler to save:
   - title
@@ -313,6 +323,24 @@ Completed:
 
 
 ## Backlog:
+
+Next:
+1. polish `LessonDetailPage` hero/banner layout
+2. make lesson cards mostly clickable + subtle hover effect
+3. add `ConversationJson`
+4. add `QuestionsJson` (or is it exercises?)
+5. add `GrammarJson`
+
+Notes / future polish:
+- make most or all of the lesson card clickable, not only the title
+- add subtle hover effect to cards, for example slight lift, shadow, or background change
+- improve lesson detail page image layout
+- instead of showing lesson image as a separate content block, consider using it as a wide hero/banner background
+- use MandarinBean-inspired detail layout as reference:
+  - dark or visually distinct hero section
+  - title and metadata over/near the banner
+  - audio/transcript content below
+- keep admin card layout separate from learner-facing card behavior where needed
 
 Fix later:
 - redesign card layout so level badge is top-right

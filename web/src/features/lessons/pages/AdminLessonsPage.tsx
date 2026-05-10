@@ -258,17 +258,38 @@ export default function AdminLessonsPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {lessons.map((l) => (
-          <div key={l.id} className="space-y-2">
-            <LessonCard lesson={l} onDelete={(id) => del.mutateAsync(id)} />
+          <LessonCard
+            key={l.id}
+            lesson={l}
+            actions={
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  className="flex-1 cursor-pointer rounded border px-3 py-2 text-sm hover:bg-slate-50"
+                  onClick={() => setEditingLesson(l)}
+                >
+                  {t("edit")}
+                </button>
 
-            <button
-              type="button"
-              className="w-full cursor-pointer rounded border px-3 py-2 text-sm hover:bg-slate-50"
-              onClick={() => setEditingLesson(l)}
-            >
-              {t("edit")}
-            </button>
-          </div>
+                <button
+                  type="button"
+                  disabled={del.isPending}
+                  className="flex-1 cursor-pointer rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  onClick={() => {
+                    if (
+                      !confirm(t("deleteLessonConfirm", { title: l.title }))
+                    ) {
+                      return;
+                    }
+
+                    void del.mutateAsync(l.id);
+                  }}
+                >
+                  {del.isPending ? "..." : t("delete")}
+                </button>
+              </div>
+            }
+          />
         ))}
       </div>
     </div>

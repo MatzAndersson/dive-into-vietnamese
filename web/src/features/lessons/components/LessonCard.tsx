@@ -1,17 +1,16 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Lesson } from "../types";
 import { Link } from "react-router-dom";
+import type { ReactNode } from "react";
 
 export default function LessonCard({
   lesson,
-  onDelete,
+  actions,
 }: {
   lesson: Lesson;
-  onDelete?: (id: number) => Promise<void>;
+  actions?: ReactNode;
 }) {
   const { t } = useTranslation();
-  const [busy, setBusy] = useState(false);
 
   const getLevelLabel = (level: Lesson["level"]) => {
     switch (level) {
@@ -26,57 +25,44 @@ export default function LessonCard({
     }
   };
 
-  const confirmDelete = async () => {
-    if (!confirm(t("deleteLessonConfirm", { title: lesson.title }))) return;
-
-    setBusy(true);
-    try {
-      await onDelete?.(lesson.id);
-    } finally {
-      setBusy(false);
-    }
-  };
-
   return (
-    <div className="relative rounded-2xl shadow-sm border overflow-hidden bg-white">
-      {lesson.imageUrl && (
-        <img
-          src={lesson.imageUrl}
-          alt=""
-          className="h-40 w-full object-cover"
-          loading="lazy"
-        />
-      )}
+    <div className="flex h-full flex-col overflow-hidden rounded-2xl border bg-white shadow-sm">
+      <div className="relative">
+        {lesson.imageUrl ? (
+          <img
+            src={lesson.imageUrl}
+            alt=""
+            className="h-40 w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex h-40 w-full items-center justify-center bg-slate-100 text-slate-400">
+            <span className="text-sm font-medium uppercase tracking-widest">
+              {t("vietnameseLesson")}
+            </span>
+          </div>
+        )}
 
-      <div className="p-4">
-        <div className="flex items-center justify-between gap-2">
-          <Link to={`/lessons/${lesson.id}`} className="hover:underline">
-            <h3 className="font-semibold text-lg line-clamp-1">
-              {lesson.title}
-            </h3>
-          </Link>
-          <span className="text-xs rounded-full px-2 py-1 border bg-gray-50">
-            {getLevelLabel(lesson.level)}
-          </span>
-        </div>
+        <span className="absolute right-2 top-2 rounded-full border bg-white/90 px-2 py-1 text-xs shadow-sm">
+          {getLevelLabel(lesson.level)}
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col p-4">
+        <Link to={`/lessons/${lesson.id}`} className="hover:underline">
+          <h3 className="line-clamp-1 text-lg font-semibold">
+            {lesson.title}
+          </h3>
+        </Link>
 
         {lesson.description && (
-          <p className="text-sm text-gray-600 mt-2 line-clamp-3">
+          <p className="mt-2 line-clamp-3 text-sm text-gray-600">
             {lesson.description}
           </p>
         )}
+
+        {actions && <div className="mt-auto pt-4">{actions}</div>}
       </div>
-      {onDelete && (
-        <button
-          type="button"
-          onClick={confirmDelete}
-          disabled={busy}
-          className="absolute top-2 right-2 text-xs px-2 py-1 rounded-md border border-red-200 bg-red-50 text-red-700 cursor-pointer transition hover:bg-red-100 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-          title={t("deleteLesson")}
-        >
-          {busy ? "..." : t("delete")}
-        </button>
-      )}
     </div>
   );
 }
