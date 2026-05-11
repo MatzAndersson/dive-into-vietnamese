@@ -124,6 +124,15 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+11/05
+Completed:
+LessonDetailPage hero/banner layout:
+- replaced separate image block with a hero/banner section
+- uses `lesson.imageUrl` as full-width background-style image
+- added dark overlay for readability
+- placed level, title, and description inside the hero
+- added fallback hero when no image exists
+- kept explanation, audio, and vocabulary below the hero
 10/05
 Completed:
 - refactored `LessonCard` to support optional `actions`
@@ -328,8 +337,12 @@ Next:
 1. polish `LessonDetailPage` hero/banner layout
 2. make lesson cards mostly clickable + subtle hover effect
 3. add `ConversationJson`
-4. add `QuestionsJson` (or is it exercises?)
-5. add `GrammarJson`
+4. add `QuestionsJson` 
+5. add `GrammarJson` Should have the grammar example, row for explanation, row for examples
+ add exercises 
+ answer key
+
+ !!Vocabulary = 4 column table, VN word, EN word, Vn Sentence, En Sentence!!
 
 Notes / future polish:
 - make most or all of the lesson card clickable, not only the title

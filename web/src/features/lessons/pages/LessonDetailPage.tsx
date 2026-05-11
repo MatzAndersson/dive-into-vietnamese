@@ -78,38 +78,45 @@ export default function LessonDetailPage() {
 
       {lesson && (
         <>
-          <section className="space-y-4 rounded-2xl border bg-white p-6 shadow-sm">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <div className="space-y-2">
-                <p className="text-sm font-medium uppercase tracking-wide text-gray-500">
-                  Lesson
-                </p>
-                <h1 className="text-3xl font-bold text-gray-900">
-                  {lesson.title}
-                </h1>
+          <section className="overflow-hidden rounded-2xl border bg-white shadow-sm">
+            <div className="relative min-h-[320px]">
+              {lesson.imageUrl ? (
+                <img
+                  src={lesson.imageUrl}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-slate-900" />
+              )}
+
+              <div className="absolute inset-0 bg-black/50" />
+
+              <div className="relative flex min-h-[320px] flex-col justify-end p-6 text-white sm:p-8">
+                <div className="max-w-2xl space-y-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="rounded-full border border-white/30 bg-white/15 px-3 py-1 text-sm">
+                      {lesson.level}
+                    </span>
+
+                    <span className="text-sm font-medium uppercase tracking-wide text-white/75">
+                      Lesson
+                    </span>
+                  </div>
+
+                  <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                    {lesson.title}
+                  </h1>
+
+                  {lesson.description && (
+                    <p className="max-w-xl text-base leading-7 text-white/85">
+                      {lesson.description}
+                    </p>
+                  )}
+                </div>
               </div>
-
-              <span className="inline-flex w-fit rounded-full border bg-gray-50 px-3 py-1 text-sm text-gray-700">
-                {lesson.level}
-              </span>
             </div>
-
-            {lesson.description && (
-              <p className="max-w-2xl text-base leading-7 text-gray-700">
-                {lesson.description}
-              </p>
-            )}
           </section>
-
-          {lesson.imageUrl && (
-            <section className="overflow-hidden rounded-2xl border bg-white shadow-sm">
-              <img
-                src={lesson.imageUrl}
-                alt={lesson.title}
-                className="h-auto max-h-[420px] w-full object-cover"
-              />
-            </section>
-          )}
 
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
             <h2 className="mb-3 text-xl font-semibold text-gray-900">
