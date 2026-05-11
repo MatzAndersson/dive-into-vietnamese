@@ -5,7 +5,8 @@ import { getLessonById } from "../api";
 type VocabularyItem = {
   vietnamese: string;
   english: string;
-  pronunciation?: string;
+  vietnameseExample?: string;
+  englishExample?: string;
 };
 
 function parseVocabulary(vocabularyJson?: string | null): VocabularyItem[] {
@@ -148,22 +149,38 @@ export default function LessonDetailPage() {
             </h2>
 
             {vocabularyItems.length > 0 ? (
-              <ul className="space-y-3">
-                {vocabularyItems.map((item) => (
-                  <li key={item.vietnamese} className="rounded-xl border p-3">
-                    <p className="font-medium text-gray-900">
-                      {item.vietnamese}
-                    </p>
-                    <p className="text-sm text-gray-600">{item.english}</p>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[720px] border-collapse text-left text-sm">
+                  <thead>
+                    <tr className="border-b bg-slate-50 text-slate-700">
+                      <th className="p-3 font-semibold">Vietnamese</th>
+                      <th className="p-3 font-semibold">English</th>
+                      <th className="p-3 font-semibold">Example sentence</th>
+                      <th className="p-3 font-semibold">Translation</th>
+                    </tr>
+                  </thead>
 
-                    {item.pronunciation && (
-                      <p className="mt-1 text-sm text-gray-500">
-                        Pronunciation: {item.pronunciation}
-                      </p>
-                    )}
-                  </li>
-                ))}
-              </ul>
+                  <tbody>
+                    {vocabularyItems.map((item, index) => (
+                      <tr
+                        key={`${item.vietnamese}-${index}`}
+                        className="border-b last:border-b-0"
+                      >
+                        <td className="p-3 font-medium text-gray-900">
+                          {item.vietnamese}
+                        </td>
+                        <td className="p-3 text-gray-700">{item.english}</td>
+                        <td className="p-3 text-gray-700">
+                          {item.vietnameseExample || "—"}
+                        </td>
+                        <td className="p-3 text-gray-700">
+                          {item.englishExample || "—"}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : (
               <p className="leading-7 text-gray-500 italic">
                 No vocabulary has been added for this lesson yet.

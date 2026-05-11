@@ -124,7 +124,26 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+
+11/05
 10/05
+Completed:
+- upgraded `vocabularyJson` to support a richer 4-field structure:
+  - `vietnamese`
+  - `english`
+  - `vietnameseExample`
+  - `englishExample`
+- updated `LessonDetailPage` to render vocabulary as a 4-column table
+- changed table headings to:
+  - Vietnamese
+  - Meaning
+  - Example sentence
+  - Translation
+- updated vocabulary validation in both create and edit flows
+- updated vocabulary placeholder/helper text in both create and edit forms
+- confirmed create/edit works with the new vocabulary shape
+- confirmed vocabulary renders correctly on the lesson detail page
+11/05
 Completed:
 - polished `LessonDetailPage` hero/banner layout
 - replaced separate lesson image block with a full-width hero/banner section
@@ -346,7 +365,43 @@ Next:
  add exercises 
  answer key
 
+ - build teacher-friendly vocabulary row editor instead of raw JSON textarea
+- extract shared vocabulary validation to avoid duplication
+- add Grammar field:
+  - grammar case
+  - explanation
+  - sentence example
+- add Exercises field below Grammar
+- add answer key modal/popup for exercises
+- apply fonts and color palette as design tokens once received
+
+
+ What is still missing:
+- vocabulary table headings are currently likely hardcoded and should later be moved to i18n keys
+- raw JSON textarea is still not teacher-friendly
+- create/edit forms still require technical JSON input
+- old lessons may need to be updated manually to the new 4-field vocabulary shape
+- vocabulary table may need responsive/mobile polish later
+- no separate vocabulary row editor yet
+- no vocabulary item audio yet
+- no sorting/reordering of vocabulary items yet
+
  !!Vocabulary = 4 column table, VN word, EN word, Vn Sentence, En Sentence!!
+
+ Vocabulary table
+- Vietnamese word
+- English word
+- Vietnamese example sentence
+- English sentence meaning
+
+Grammar section
+- Grammar case
+- Explanation
+- Sentence example
+
+Exercises section
+- Exercise content
+- Answer key shown in modal/popup
 
 11/05
  Notes / future polish:

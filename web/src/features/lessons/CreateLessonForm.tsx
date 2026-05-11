@@ -28,12 +28,14 @@ const validateVocabularyJson = (value: string | undefined) => {
         typeof item !== "object" ||
         item === null ||
         typeof item.vietnamese !== "string" ||
-        typeof item.english !== "string",
+        typeof item.english !== "string" ||
+        typeof item.vietnameseExample !== "string" ||
+        typeof item.englishExample !== "string",
     );
 
     if (hasInvalidItem) {
       throw new Error(
-        "Each vocabulary item must include vietnamese and english fields.",
+        "Each vocabulary item must include vietnamese, english, vietnameseExample, and englishExample fields.",
       );
     }
 
@@ -152,12 +154,12 @@ export default function CreateLessonForm() {
 
       <textarea
         name="vocabularyJson"
-        placeholder='[{"vietnamese":"xin chào","english":"hello"}]'
+        placeholder='[{"vietnamese":"xin chào","english":"hello","vietnameseExample":"Xin chào, anh khỏe không?","englishExample":"Hello, how are you?"}]'
         className="min-h-32 w-full rounded border p-2 font-mono text-sm"
       />
 
       <p className="text-xs text-slate-500">
-        {`Expected format: [{"vietnamese":"xin chào","english":"hello"}]`}
+        {`Expected format: [{"vietnamese":"xin chào","english":"hello","vietnameseExample":"Xin chào, anh khỏe không?","englishExample":"Hello, how are you?"}]`}
       </p>
 
       <SubmitBtn />
