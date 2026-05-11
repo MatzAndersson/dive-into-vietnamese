@@ -8,6 +8,7 @@
         string? ImageUrl,
         DateTime CreatedAt,
         string? Explanation,
+        string? ConversationJson,
         string? AudioUrl,
         string? VocabularyJson
     );

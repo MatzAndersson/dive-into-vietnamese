@@ -359,11 +359,11 @@ Completed:
 
 Next:
 
-3. add `ConversationJson`
-4. add `QuestionsJson` 
-5. add `GrammarJson` Should have the grammar example, row for explanation, row for examples
- add exercises 
- answer key
+1. add `ConversationJson`
+2. add `QuestionsJson`
+3. add `GrammarJson`
+4. add `ExercisesJson` + answer key modal
+5. then build teacher-friendly editors for vocabulary/conversation/questions/grammar/exercises
 
  - build teacher-friendly vocabulary row editor instead of raw JSON textarea
 - extract shared vocabulary validation to avoid duplication

@@ -13,7 +13,8 @@ public static class Update
         string? Description, 
         LessonLevel Level, 
         string? ImageUrl, 
-        string? Explanation, 
+        string? Explanation,
+        string? ConversationJson,
         string? AudioUrl,
         string? VocabularyJson
         ) : IRequest<LessonDto>, IRequireApiKey;
@@ -31,11 +32,14 @@ public static class Update
             RuleFor(x => x.ImageUrl)
                 .MaximumLength(500);
 
-            RuleFor(x => x.AudioUrl)
-                .MaximumLength(500);
-
             RuleFor(x => x.Explanation)
                 .MaximumLength(4000);
+
+            RuleFor(x => x.ConversationJson)
+                .MaximumLength(12000);
+
+            RuleFor(x => x.AudioUrl)
+                .MaximumLength(500);            
 
             RuleFor(x => x.VocabularyJson)
                 .MaximumLength(8000);
@@ -59,6 +63,7 @@ public static class Update
             entity.Level = request.Level;
             entity.ImageUrl = request.ImageUrl;
             entity.Explanation = request.Explanation;
+            entity.ConversationJson = request.ConversationJson;
             entity.AudioUrl = request.AudioUrl;
             entity.VocabularyJson = request.VocabularyJson;
 

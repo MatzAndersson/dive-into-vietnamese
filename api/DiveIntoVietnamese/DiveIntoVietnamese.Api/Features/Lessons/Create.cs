@@ -14,7 +14,8 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             string? Description,
             LessonLevel Level, 
             string? ImageUrl, 
-            string? Explanation, 
+            string? Explanation,
+            string? ConversationJson,
             string? AudioUrl, 
             string? VocabularyJson)
             : IRequest<LessonDto>, IRequireApiKey;
@@ -33,6 +34,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                 RuleFor(x => x.ImageUrl).MaximumLength(1000);
 
                 RuleFor(x => x.Explanation).MaximumLength(2000);
+                RuleFor(x => x.ConversationJson).MaximumLength(12000);
 
                 RuleFor(x => x.AudioUrl).MaximumLength(1000);
                 RuleFor(x => x.VocabularyJson).MaximumLength(5000);
