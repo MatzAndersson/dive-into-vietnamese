@@ -98,10 +98,6 @@ export default function LessonDetailPage() {
                     <span className="rounded-full border border-white/30 bg-white/15 px-3 py-1 text-sm">
                       {lesson.level}
                     </span>
-
-                    <span className="text-sm font-medium uppercase tracking-wide text-white/75">
-                      Lesson
-                    </span>
                   </div>
 
                   <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">

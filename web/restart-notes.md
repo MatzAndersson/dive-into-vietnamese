@@ -124,15 +124,20 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
-11/05
+10/05
 Completed:
-LessonDetailPage hero/banner layout:
-- replaced separate image block with a hero/banner section
-- uses `lesson.imageUrl` as full-width background-style image
-- added dark overlay for readability
-- placed level, title, and description inside the hero
-- added fallback hero when no image exists
-- kept explanation, audio, and vocabulary below the hero
+- polished `LessonDetailPage` hero/banner layout
+- replaced separate lesson image block with a full-width hero/banner section
+- used `lesson.imageUrl` as a background-style hero image
+- added dark overlay for readable hero text
+- placed lesson level, title, and description in the hero section
+- added fallback hero styling for lessons without images
+- kept explanation, audio, and vocabulary sections below the hero
+- made most of `LessonCard` clickable instead of only the title
+- kept admin Edit/Delete actions outside the clickable card link
+- added subtle card hover effect
+- confirmed learner cards still open lesson detail pages correctly
+- confirmed admin Edit/Delete actions still work
 10/05
 Completed:
 - refactored `LessonCard` to support optional `actions`
@@ -334,8 +339,7 @@ Completed:
 ## Backlog:
 
 Next:
-1. polish `LessonDetailPage` hero/banner layout
-2. make lesson cards mostly clickable + subtle hover effect
+
 3. add `ConversationJson`
 4. add `QuestionsJson` 
 5. add `GrammarJson` Should have the grammar example, row for explanation, row for examples
@@ -343,6 +347,12 @@ Next:
  answer key
 
  !!Vocabulary = 4 column table, VN word, EN word, Vn Sentence, En Sentence!!
+
+11/05
+ Notes / future polish:
+- consider localizing remaining hardcoded lesson detail labels such as “Lesson”, “Explanation”, “Audio”, “Vocabulary”, and fallback messages
+- consider further MandarinBean-inspired layout improvements later
+- later add learner display toggles, such as show/hide translation, vocabulary, grammar, or explanation
 
 Notes / future polish:
 - make most or all of the lesson card clickable, not only the title
