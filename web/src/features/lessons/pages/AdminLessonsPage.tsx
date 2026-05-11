@@ -105,6 +105,7 @@ export default function AdminLessonsPage() {
         level: String(fd.get("level") ?? "Beginner") as LessonLevel,
         imageUrl: emptyToUndefined(fd.get("imageUrl")),
         explanation: emptyToUndefined(fd.get("explanation")),
+        conversationJson: emptyToUndefined(fd.get("conversationJson")),
         audioUrl: emptyToUndefined(fd.get("audioUrl")),
         vocabularyJson: validateVocabularyJson(
           emptyToUndefined(fd.get("vocabularyJson")),
@@ -211,7 +212,17 @@ export default function AdminLessonsPage() {
                 placeholder="Explanation"
                 className="min-h-28 w-full rounded border p-2"
               />
+              <textarea
+                name="conversationJson"
+                defaultValue={editingLesson.conversationJson ?? ""}
+                placeholder='[{"speaker":"Mai","vietnamese":"Xin chào anh.","english":"Hello."}]'
+                className="min-h-32 w-full rounded border p-2 font-mono text-sm"
+              />
 
+              <p className="text-xs text-slate-500">
+                {`Expected format: [{"speaker":"Mai","vietnamese":"Xin chào anh.","english":"Hello."}]`}
+              </p>
+              
               <input
                 name="audioUrl"
                 defaultValue={editingLesson.audioUrl ?? ""}

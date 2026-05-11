@@ -8,6 +8,7 @@ type CreateLessonInput = {
   level?: LessonLevel;
   imageUrl?: string;
   explanation?: string;
+  conversationJson?: string;
   audioUrl?: string;
   vocabularyJson?: string;
 };
@@ -18,6 +19,7 @@ type UpdateLessonInput = {
   level: LessonLevel;
   imageUrl?: string;
   explanation?: string;
+  conversationJson?: string;
   audioUrl?: string;
   vocabularyJson?: string;
 };

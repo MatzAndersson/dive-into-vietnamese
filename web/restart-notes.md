@@ -126,7 +126,25 @@ Future transcript/vocabulary direction:
 ## Completed tasks per session
 
 11/05
-10/05
+Completed:
+- added `conversationJson` to lessons
+- used existing `audioUrl` as full conversation audio
+- added conversation field to create lesson form
+- added conversation field to edit lesson modal
+- rendered Conversation section on `LessonDetailPage`
+- added speaker-left / dialogue-right layout
+- added English On/Off toggle
+- confirmed conversation renders correctly on lesson detail page
+
+Current conversation JSON shape:
+[
+  {
+    "speaker": "Mai",
+    "vietnamese": "Xin chào anh.",
+    "english": "Hello."
+  }
+]
+11/05
 Completed:
 - upgraded `vocabularyJson` to support a richer 4-field structure:
   - `vietnamese`
@@ -355,8 +373,29 @@ Completed:
 
 
 
-## Backlog:
+## Notes
+Notes:
+- `audioUrl` is still the technical field name, but it now represents full conversation audio.
+- No separate `conversationAudioUrl` field is needed for now.
+- Word hover translation, sentence-level audio, word-level audio, and timed transcript highlighting are postponed.
 
+ What is still missing:
+- vocabulary table headings are currently likely hardcoded and should later be moved to i18n keys
+- raw JSON textarea is still not teacher-friendly
+- create/edit forms still require technical JSON input
+- old lessons may need to be updated manually to the new 4-field vocabulary shape
+- vocabulary table may need responsive/mobile polish later
+- no separate vocabulary row editor yet
+- no vocabulary item audio yet
+- no sorting/reordering of vocabulary items yet
+## Backlog:
+Backlog:
+- add validation for `conversationJson`
+- localize Conversation / English On / English Off / fallback text
+- later add teacher-friendly conversation row editor instead of raw JSON
+- later add word hover tooltips
+- later add sentence-level or word-level audio
+- later add transcript/audio highlighting
 Next:
 
 1. add `ConversationJson`
@@ -376,15 +415,9 @@ Next:
 - apply fonts and color palette as design tokens once received
 
 
- What is still missing:
-- vocabulary table headings are currently likely hardcoded and should later be moved to i18n keys
-- raw JSON textarea is still not teacher-friendly
-- create/edit forms still require technical JSON input
-- old lessons may need to be updated manually to the new 4-field vocabulary shape
-- vocabulary table may need responsive/mobile polish later
-- no separate vocabulary row editor yet
-- no vocabulary item audio yet
-- no sorting/reordering of vocabulary items yet
+
+
+
 
  !!Vocabulary = 4 column table, VN word, EN word, Vn Sentence, En Sentence!!
 

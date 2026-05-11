@@ -5,6 +5,7 @@ export const LessonSchema = z.object({
   description: z.string().nullable().optional(),
   level: z.enum(["Beginner", "Intermediate", "Advanced"]),
   imageUrl: z.string().nullable().optional(),
+  conversationJson: z.string().nullable().optional(),
   audioUrl: z.string().nullable().optional(),
   createdAt: z.string(),
   explanation: z.string().nullable().optional(),

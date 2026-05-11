@@ -1,6 +1,13 @@
 import { Link, useParams } from "react-router-dom";
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getLessonById } from "../api";
+
+type ConversationLine = {
+  speaker: string;
+  vietnamese: string;
+  english: string;
+};
 
 type VocabularyItem = {
   vietnamese: string;
@@ -33,6 +40,7 @@ function parseVocabulary(vocabularyJson?: string | null): VocabularyItem[] {
 export default function LessonDetailPage() {
   const { id } = useParams();
   const lessonId = Number(id);
+  const [showEnglish, setShowEnglish] = useState(true);
 
   const {
     data: lesson,
@@ -43,6 +51,31 @@ export default function LessonDetailPage() {
     queryFn: () => getLessonById(lessonId),
     enabled: Number.isFinite(lessonId),
   });
+
+  const conversationLines = useMemo<ConversationLine[]>(() => {
+    if (!lesson?.conversationJson) {
+      return [];
+    }
+
+    try {
+      const parsed = JSON.parse(lesson.conversationJson);
+
+      if (!Array.isArray(parsed)) {
+        return [];
+      }
+
+      return parsed.filter(
+        (item): item is ConversationLine =>
+          typeof item === "object" &&
+          item !== null &&
+          typeof item.speaker === "string" &&
+          typeof item.vietnamese === "string" &&
+          typeof item.english === "string",
+      );
+    } catch {
+      return [];
+    }
+  }, [lesson?.conversationJson]);
 
   const vocabularyItems = parseVocabulary(lesson?.vocabularyJson);
 
@@ -130,15 +163,54 @@ export default function LessonDetailPage() {
           </section>
 
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
-            <h2 className="mb-3 text-xl font-semibold text-gray-900">Audio</h2>
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className="text-xl font-semibold text-gray-900">
+                Conversation
+              </h2>
 
-            {lesson.audioUrl ? (
-              <audio controls src={lesson.audioUrl} className="w-full">
+              <button
+                type="button"
+                onClick={() => setShowEnglish((current) => !current)}
+                className="cursor-pointer rounded border px-3 py-2 text-sm hover:bg-slate-50"
+              >
+                {showEnglish ? "English On" : "English Off"}
+              </button>
+            </div>
+
+            {lesson.audioUrl && (
+              <audio controls src={lesson.audioUrl} className="mb-4 w-full">
                 Your browser does not support the audio element.
               </audio>
+            )}
+
+            {conversationLines.length > 0 ? (
+              <div className="overflow-hidden rounded-xl border">
+                {conversationLines.map((line, index) => (
+                  <div
+                    key={`${line.speaker}-${index}`}
+                    className="grid grid-cols-[120px_1fr] border-b last:border-b-0"
+                  >
+                    <div className="border-r bg-slate-50 p-3 font-semibold text-gray-900">
+                      {line.speaker}
+                    </div>
+
+                    <div className="p-3">
+                      <p className="text-lg leading-8 text-gray-900">
+                        {line.vietnamese}
+                      </p>
+
+                      {showEnglish && (
+                        <p className="mt-1 text-sm leading-6 text-gray-600">
+                          {line.english}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : (
               <p className="leading-7 text-gray-500 italic">
-                No audio has been added for this lesson yet.
+                No conversation has been added for this lesson yet.
               </p>
             )}
           </section>
