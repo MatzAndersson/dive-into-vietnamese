@@ -16,10 +16,25 @@
 - Locale switcher exists: no
 ## What works
 ## What is broken
+## Brand fonts and color palette added
+
+brand-blue:   #0d4866
+brand-orange: #f77f00
+brand-yellow: #fcbf49
+brand-light:  #f4f4f4
+brand-dark:   #272727
+
+The following fonts were added:
+
+
+Be Vietnam Pro = main/default font
+Mulish = supporting/body font
+Droid Serif = serif/accent font
 Remove database default for Lesson.Level
 Require Level in Create/Update
 Validate Level with IsInEnum()
 Run a migration
+
 
 ## What to ignore for now
 This repeats the create-form validation for now. Later we can move it to a shared helper.
@@ -45,29 +60,38 @@ Lesson detail page now supports:
 ## Next concrete coding task
 
 Next 1h session:
-Goal: make existing lessons editable for the fields we already support.
+- add backend `conversationJson` validation + max length limits
+- likely target:
+  - `DiveIntoVietnamese.Api/Features/Lessons/LessonValidator.cs`
+- backend validation should cover:
+  - empty `conversationJson` allowed
+  - valid JSON required if filled
+  - must be JSON array
+  - each item must include `speaker`, `vietnamese`, `english`
+  - max length limit
+- also consider max length limits for:
+  - `title`
+  - `description`
+  - `imageUrl`
+  - `audioUrl`
+  - `explanation`
+  - `conversationJson`
+  - `vocabularyJson`
 
-First 30 min:
-- inspect backend update endpoint / command
-- check whether `PUT /api/lessons/{id}` supports:
-  - title
-  - description
-  - level
-  - imageUrl
-  - explanation
-  - audioUrl
-  - vocabularyJson
 
-Second 30 min:
-- update backend/frontend types if needed
-- prepare a simple edit flow or at least make the API ready for editing
-
-2. check whether backend `PUT /api/lessons/{id}` supports all current fields
-3. add/edit lesson function for current fields
-4. polish `AdminLessonsPage`
-5. add `ConversationJson`
-6. add `QuestionsJson`
-7. add `GrammarJson`
+3. Add backend conversationJson validation + max length limits
+4. Add QuestionsJson backend
+5. Add QuestionsJson frontend create/edit/display
+6. Add GrammarJson backend
+7. Add GrammarJson frontend create/edit/display
+8. Add ExercisesJson backend
+9. Add ExercisesJson frontend create/edit/display
+10. Add answer key modal
+11. Check/fix NuGet vulnerability warning
+12. Add basic LessonValidator tests
+13. Prepare first student-test version
+14. Deploy private test version online
+15. Build teacher-friendly structured editors
 
 Create a real landing page.
 
@@ -129,6 +153,123 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+
+12/05
+Completed:
+- added project brand fonts and color palette as centralized design tokens
+- added Google Fonts import for:
+  - `Be Vietnam Pro`
+  - `Mulish`
+  - `Droid Serif`
+- set `Be Vietnam Pro` as the main/default site font
+- added Tailwind theme tokens for brand colors:
+  - `brand-blue`: `#0d4866`
+  - `brand-orange`: `#f77f00`
+  - `brand-yellow`: `#fcbf49`
+  - `brand-light`: `#f4f4f4`
+  - `brand-dark`: `#272727`
+- updated global app background/text styling
+- updated `App.tsx` wrapper with:
+  - `min-h-screen`
+  - `bg-brand-light`
+  - `text-brand-dark`
+- lightly updated `HomePage` styling with brand colors
+- lightly updated `Navbar` styling with brand colors
+- lightly updated `LessonCard` styling with brand colors
+- confirmed learner pages still work
+- confirmed admin Edit/Delete buttons still work
+
+Notes:
+- this is only the first brand/design foundation
+- partner may still change colors/design later
+- because colors/fonts are now centralized, future design changes should be easier
+- avoid manually sprinkling random colors everywhere
+- use brand tokens where possible
+
+12/05
+Completed:
+- created shared frontend validation file:
+  - `src/features/lessons/lessonJsonValidation.ts`
+- moved duplicated `validateVocabularyJson` logic out of:
+  - `CreateLessonForm.tsx`
+  - `AdminLessonsPage.tsx`
+- imported shared validation functions into create/edit flows
+- added `validateConversationJson`
+- updated create lesson flow to validate:
+  - `conversationJson`
+  - `vocabularyJson`
+- updated edit lesson flow to validate:
+  - `conversationJson`
+  - `vocabularyJson`
+- confirmed empty `conversationJson` works when creating a lesson
+- confirmed empty `conversationJson` works when editing a lesson
+- confirmed valid `conversationJson` saves
+- confirmed invalid `conversationJson` is blocked
+- confirmed vocabulary validation still works
+
+Current shared validators:
+- `validateVocabularyJson`
+- `validateConversationJson`
+
+Current conversation JSON shape:
+[
+  {
+    "speaker": "Mai",
+    "vietnamese": "Xin chào anh.",
+    "english": "Hello."
+  }
+]
+
+Current conversation validation rules:
+- empty field is allowed
+- if filled, it must be valid JSON
+- it must be a JSON array
+- each item must include:
+  - `speaker`
+  - `vietnamese`
+  - `english`
+
+Current vocabulary JSON shape:
+[
+  {
+    "vietnamese": "xin chào",
+    "english": "hello",
+    "vietnameseExample": "Xin chào, anh khỏe không?",
+    "englishExample": "Hello, how are you?"
+  }
+]
+
+Current vocabulary validation rules:
+- empty field is allowed
+- if filled, it must be valid JSON
+- it must be a JSON array
+- each item must include:
+  - `vietnamese`
+  - `english`
+  - `vietnameseExample`
+  - `englishExample`
+
+Notes:
+- `lessonJsonValidation.ts` is `.ts` because it contains helper functions only, not JSX
+- frontend validation improves UX but is not enough for security
+- backend validation is still needed next
+- current edit validation errors use browser `alert()`
+- this is acceptable for now, but should be replaced later with inline errors or a custom modal
+
+Future conversation flexibility note:
+- do not assume every conversation is exactly two speakers
+- later support:
+  - two-speaker dialogues
+  - multi-speaker dialogues
+  - chosen/variable number of speakers
+  - one-speaker storyteller/narration format
+  - MandarinBean-style story/transcript format
+- current JSON shape can already support narration by using `"speaker": "Narrator"`
+- later teacher-friendly editor should support:
+  - add/remove speakers
+  - dialogue mode
+  - story/narrator mode
+  - maybe hide speaker labels when there is only one narrator
 
 11/05
 Completed:
@@ -379,8 +520,28 @@ Completed:
 
 
 ## Notes
+This solution contains packages with vulnerabilities.
+Change cancel button in CreateLessonform s it's at the bottom right. 
+Change to customised modal for delete confirmation when deleting lesson
+Change to customised modal for error format when editing lesson after adding frong format
 
-Change cancel button in CreateLessonform s it's at the bottom right. Change to customised modal for delete confirmation when deleting lesson
+"Later UI polish / admin usability:
+1. Replace validation alert with inline error message inside the edit modal.
+2. Show field-specific error text under conversationJson/vocabularyJson.
+3. Replace delete browser confirmation with a custom confirmation modal.
+4. Make delete modal clearly show which lesson will be deleted.
+5. Possibly require typing the lesson title before deleting, if lessons become important/paid content."
+
+Now:
+Keep current validation: speaker + vietnamese + english.
+
+Later:
+Make the editor more flexible:
+- add/remove speakers
+- support narrator/story mode
+- support dialogue mode
+- maybe hide speaker labels when there is only one narrator
+
 Notes:
 - `audioUrl` is still the technical field name, but it now represents full conversation audio.
 - No separate `conversationAudioUrl` field is needed for now.
@@ -396,6 +557,30 @@ Notes:
 - no vocabulary item audio yet
 - no sorting/reordering of vocabulary items yet
 ## Backlog:
+
+Backlog / future polish:
+- replace validation `alert()` in edit modal with inline error message
+- show field-specific error text under `conversationJson` / `vocabularyJson`
+- replace browser delete confirmation with custom confirmation modal
+- make delete modal clearly show which lesson will be deleted
+- possibly require typing lesson title before deleting important/paid content
+- make raw JSON fields teacher-friendly later
+- build conversation row editor later:
+  - speaker
+  - Vietnamese line
+  - English translation
+- build vocabulary row editor later:
+  - Vietnamese word
+  - English word
+  - Vietnamese example sentence
+  - English sentence meaning
+- eventually create reusable structured-field editors for:
+  - conversation
+  - vocabulary
+  - questions
+  - grammar
+  - exercises
+
 Backlog:
 - add validation for `conversationJson`
 - localize Conversation / English On / English Off / fallback text
@@ -405,11 +590,8 @@ Backlog:
 - later add transcript/audio highlighting
 Next:
 
-1. add `ConversationJson`
-2. add `QuestionsJson`
-3. add `GrammarJson`
-4. add `ExercisesJson` + answer key modal
-5. then build teacher-friendly editors for vocabulary/conversation/questions/grammar/exercises
+
+
 
 Backlog:
 - build teacher-friendly conversation editor instead of raw JSON textarea

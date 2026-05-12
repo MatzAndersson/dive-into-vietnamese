@@ -4,49 +4,16 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { createLesson } from "./api";
 import type { LessonLevel } from "./types";
+import {
+  validateVocabularyJson,
+  validateConversationJson,
+} from "./lessonJsonValidation";
 
 type CreateResult = { ok: true } | { error: string };
 
 const emptyToUndefined = (value: FormDataEntryValue | null) => {
   const text = String(value ?? "").trim();
   return text.length > 0 ? text : undefined;
-};
-const validateVocabularyJson = (value: string | undefined) => {
-  if (!value) {
-    return undefined;
-  }
-
-  try {
-    const parsed = JSON.parse(value);
-
-    if (!Array.isArray(parsed)) {
-      throw new Error("Vocabulary JSON must be an array.");
-    }
-
-    const hasInvalidItem = parsed.some(
-      (item) =>
-        typeof item !== "object" ||
-        item === null ||
-        typeof item.vietnamese !== "string" ||
-        typeof item.english !== "string" ||
-        typeof item.vietnameseExample !== "string" ||
-        typeof item.englishExample !== "string",
-    );
-
-    if (hasInvalidItem) {
-      throw new Error(
-        "Each vocabulary item must include vietnamese, english, vietnameseExample, and englishExample fields.",
-      );
-    }
-
-    return value;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
-
-    throw new Error("Invalid vocabulary JSON.");
-  }
 };
 
 async function createAction(
@@ -60,7 +27,9 @@ async function createAction(
       level: String(fd.get("level") ?? "Beginner") as LessonLevel,
       imageUrl: emptyToUndefined(fd.get("imageUrl")),
       explanation: emptyToUndefined(fd.get("explanation")),
-      conversationJson: emptyToUndefined(fd.get("conversationJson")),
+      conversationJson: validateConversationJson(
+        emptyToUndefined(fd.get("conversationJson")),
+      ),
       audioUrl: emptyToUndefined(fd.get("audioUrl")),
       vocabularyJson: validateVocabularyJson(
         emptyToUndefined(fd.get("vocabularyJson")),

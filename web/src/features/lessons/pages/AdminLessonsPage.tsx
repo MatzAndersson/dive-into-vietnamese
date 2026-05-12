@@ -9,48 +9,14 @@ import CreateLessonForm from "../CreateLessonForm";
 
 import { listLessons, deleteLesson, updateLesson } from "../api";
 import type { Lesson, LessonLevel } from "../types";
+import {
+  validateConversationJson,
+  validateVocabularyJson,
+} from "../lessonJsonValidation";
 
 const emptyToUndefined = (value: FormDataEntryValue | null) => {
   const text = String(value ?? "").trim();
   return text.length > 0 ? text : undefined;
-};
-
-const validateVocabularyJson = (value: string | undefined) => {
-  if (!value) {
-    return undefined;
-  }
-
-  try {
-    const parsed = JSON.parse(value);
-
-    if (!Array.isArray(parsed)) {
-      throw new Error("Vocabulary JSON must be an array.");
-    }
-
-    const hasInvalidItem = parsed.some(
-      (item) =>
-        typeof item !== "object" ||
-        item === null ||
-        typeof item.vietnamese !== "string" ||
-        typeof item.english !== "string" ||
-        typeof item.vietnameseExample !== "string" ||
-        typeof item.englishExample !== "string",
-    );
-
-    if (hasInvalidItem) {
-      throw new Error(
-        "Each vocabulary item must include vietnamese, english, vietnameseExample, and englishExample fields.",
-      );
-    }
-
-    return value;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
-
-    throw new Error("Invalid vocabulary JSON.");
-  }
 };
 
 export default function AdminLessonsPage() {
@@ -105,7 +71,9 @@ export default function AdminLessonsPage() {
         level: String(fd.get("level") ?? "Beginner") as LessonLevel,
         imageUrl: emptyToUndefined(fd.get("imageUrl")),
         explanation: emptyToUndefined(fd.get("explanation")),
-        conversationJson: emptyToUndefined(fd.get("conversationJson")),
+        conversationJson: validateConversationJson(
+          emptyToUndefined(fd.get("conversationJson")),
+        ),
         audioUrl: emptyToUndefined(fd.get("audioUrl")),
         vocabularyJson: validateVocabularyJson(
           emptyToUndefined(fd.get("vocabularyJson")),
@@ -222,7 +190,7 @@ export default function AdminLessonsPage() {
               <p className="text-xs text-slate-500">
                 {`Expected format: [{"speaker":"Mai","vietnamese":"Xin chào anh.","english":"Hello."}]`}
               </p>
-              
+
               <input
                 name="audioUrl"
                 defaultValue={editingLesson.audioUrl ?? ""}
