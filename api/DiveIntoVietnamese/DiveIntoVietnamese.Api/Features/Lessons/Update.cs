@@ -3,73 +3,92 @@ using FluentValidation;
 using MediatR;
 using DiveIntoVietnamese.Api.Data;
 using DiveIntoVietnamese.Api.Features.Behaviors;
-using DiveIntoVietnamese.Api.Features.Lessons;
 
-public static class Update
+namespace DiveIntoVietnamese.Api.Features.Lessons
 {
-    public record UpdateLessonCommand(
-        int Id, 
-        string Title, 
-        string? Description, 
-        LessonLevel Level, 
-        string? ImageUrl, 
-        string? Explanation,
-        string? ConversationJson,
-        string? AudioUrl,
-        string? VocabularyJson
+    public static class Update
+    {
+        public record UpdateLessonCommand(
+            int Id,
+            string Title,
+            string? Description,
+            LessonLevel Level,
+            string? ImageUrl,
+            string? Explanation,
+            string? ConversationJson,
+            string? AudioUrl,
+            string? VocabularyJson
         ) : IRequest<LessonDto>, IRequireApiKey;
 
-    public class Validator : AbstractValidator<UpdateLessonCommand>
-    {
-        public Validator()
+        public class Validator : AbstractValidator<UpdateLessonCommand>
         {
-            RuleFor(x => x.Title)
-                .NotEmpty().MaximumLength(100);
+            public Validator()
+            {
+                RuleFor(x => x.Title)
+                    .NotEmpty()
+                    .WithMessage("Title is required.")
+                    .MaximumLength(LessonValidationRules.TitleMaxLength)
+                    .WithMessage($"Title cannot be longer than {LessonValidationRules.TitleMaxLength} characters.");
 
-            RuleFor(x => x.Description)
-                .MaximumLength(500);
+                RuleFor(x => x.Description)
+                    .MaximumLength(LessonValidationRules.DescriptionMaxLength)
+                    .WithMessage($"Description cannot be longer than {LessonValidationRules.DescriptionMaxLength} characters.");
 
-            RuleFor(x => x.ImageUrl)
-                .MaximumLength(500);
+                RuleFor(x => x.ImageUrl)
+                    .MaximumLength(LessonValidationRules.UrlMaxLength)
+                    .WithMessage($"Image URL cannot be longer than {LessonValidationRules.UrlMaxLength} characters.");
 
-            RuleFor(x => x.Explanation)
-                .MaximumLength(4000);
+                RuleFor(x => x.Explanation)
+                    .MaximumLength(LessonValidationRules.ExplanationMaxLength)
+                    .WithMessage($"Explanation cannot be longer than {LessonValidationRules.ExplanationMaxLength} characters.");
 
-            RuleFor(x => x.ConversationJson)
-                .MaximumLength(12000);
+                RuleFor(x => x.ConversationJson)
+                    .MaximumLength(LessonValidationRules.StructuredJsonMaxLength)
+                    .WithMessage($"Conversation JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
+                    .Must(LessonValidationRules.BeValidConversationJson)
+                    .WithMessage("Conversation JSON must be a valid JSON array where each item includes speaker, vietnamese, and english.");
 
-            RuleFor(x => x.AudioUrl)
-                .MaximumLength(500);            
+                RuleFor(x => x.AudioUrl)
+                    .MaximumLength(LessonValidationRules.UrlMaxLength)
+                    .WithMessage($"Audio URL cannot be longer than {LessonValidationRules.UrlMaxLength} characters.");
 
-            RuleFor(x => x.VocabularyJson)
-                .MaximumLength(8000);
+                RuleFor(x => x.VocabularyJson)
+                    .MaximumLength(LessonValidationRules.StructuredJsonMaxLength)
+                    .WithMessage($"Vocabulary JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
+                    .Must(LessonValidationRules.BeValidVocabularyJson)
+                    .WithMessage("Vocabulary JSON must be a valid JSON array where each item includes vietnamese, english, vietnameseExample, and englishExample.");
+            }
         }
-    }
 
-    public class Handler : IRequestHandler<UpdateLessonCommand, LessonDto>
-    {
-        private readonly AppDbContext _db;
-        private readonly IMapper _mapper;
-        public Handler(AppDbContext db, IMapper mapper)
-            => (_db, _mapper) = (db, mapper);
-
-        public async Task<LessonDto> Handle(UpdateLessonCommand request, CancellationToken ct)
+        public class Handler : IRequestHandler<UpdateLessonCommand, LessonDto>
         {
-            var entity = await _db.Lessons.FindAsync(new object?[] { request.Id }, ct)
-                         ?? throw new KeyNotFoundException($"Lesson {request.Id} not found");
+            private readonly AppDbContext _db;
+            private readonly IMapper _mapper;
 
-            entity.Title = request.Title;
-            entity.Description = request.Description;
-            entity.Level = request.Level;
-            entity.ImageUrl = request.ImageUrl;
-            entity.Explanation = request.Explanation;
-            entity.ConversationJson = request.ConversationJson;
-            entity.AudioUrl = request.AudioUrl;
-            entity.VocabularyJson = request.VocabularyJson;
+            public Handler(AppDbContext db, IMapper mapper)
+            {
+                _db = db;
+                _mapper = mapper;
+            }
 
-            await _db.SaveChangesAsync(ct);
-            return _mapper.Map<LessonDto>(entity);
+            public async Task<LessonDto> Handle(UpdateLessonCommand request, CancellationToken ct)
+            {
+                var entity = await _db.Lessons.FindAsync(new object?[] { request.Id }, ct)
+                             ?? throw new KeyNotFoundException($"Lesson {request.Id} not found");
+
+                entity.Title = request.Title;
+                entity.Description = request.Description;
+                entity.Level = request.Level;
+                entity.ImageUrl = request.ImageUrl;
+                entity.Explanation = request.Explanation;
+                entity.ConversationJson = request.ConversationJson;
+                entity.AudioUrl = request.AudioUrl;
+                entity.VocabularyJson = request.VocabularyJson;
+
+                await _db.SaveChangesAsync(ct);
+
+                return _mapper.Map<LessonDto>(entity);
+            }
         }
     }
 }
-

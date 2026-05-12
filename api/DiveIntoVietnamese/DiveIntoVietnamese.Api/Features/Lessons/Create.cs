@@ -27,18 +27,37 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             {
                 RuleFor(x => x.Title)
                     .NotEmpty()
-                    .MaximumLength(200);
+                    .WithMessage("Title is required.")
+                    .MaximumLength(LessonValidationRules.TitleMaxLength)
+                    .WithMessage($"Title cannot be longer than {LessonValidationRules.TitleMaxLength} characters.");
 
-                RuleFor(x => x.Description).MaximumLength(500);
+                RuleFor(x => x.Description)
+                    .MaximumLength(LessonValidationRules.DescriptionMaxLength)
+                    .WithMessage($"Description cannot be longer than {LessonValidationRules.DescriptionMaxLength} characters.");
 
-                RuleFor(x => x.ImageUrl).MaximumLength(1000);
+                RuleFor(x => x.ImageUrl)
+                    .MaximumLength(LessonValidationRules.UrlMaxLength)
+                    .WithMessage($"Image URL cannot be longer than {LessonValidationRules.UrlMaxLength} characters.");
 
-                RuleFor(x => x.Explanation).MaximumLength(2000);
-                RuleFor(x => x.ConversationJson).MaximumLength(12000);
+                RuleFor(x => x.Explanation)
+                    .MaximumLength(LessonValidationRules.ExplanationMaxLength)
+                    .WithMessage($"Explanation cannot be longer than {LessonValidationRules.ExplanationMaxLength} characters.");
 
-                RuleFor(x => x.AudioUrl).MaximumLength(1000);
-                RuleFor(x => x.VocabularyJson).MaximumLength(5000);
+                RuleFor(x => x.ConversationJson)
+                    .MaximumLength(LessonValidationRules.StructuredJsonMaxLength)
+                    .WithMessage($"Conversation JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
+                    .Must(LessonValidationRules.BeValidConversationJson)
+                    .WithMessage("Conversation JSON must be a valid JSON array where each item includes speaker, vietnamese, and english.");
 
+                RuleFor(x => x.AudioUrl)
+                    .MaximumLength(LessonValidationRules.UrlMaxLength)
+                    .WithMessage($"Audio URL cannot be longer than {LessonValidationRules.UrlMaxLength} characters.");
+
+                RuleFor(x => x.VocabularyJson)
+                    .MaximumLength(LessonValidationRules.StructuredJsonMaxLength)
+                    .WithMessage($"Vocabulary JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
+                    .Must(LessonValidationRules.BeValidVocabularyJson)
+                    .WithMessage("Vocabulary JSON must be a valid JSON array where each item includes vietnamese, english, vietnameseExample, and englishExample.");
             }
         }
 

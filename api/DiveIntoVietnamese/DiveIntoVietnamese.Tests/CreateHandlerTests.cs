@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using DiveIntoVietnamese.Api.Data;
+using DiveIntoVietnamese.Api.Domain;
+using DiveIntoVietnamese.Api.Features.Lessons;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
-using DiveIntoVietnamese.Api.Data;
-using DiveIntoVietnamese.Api.Features.Lessons;
 public class CreateHandlerTests
 {
     private readonly IMapper _mapper;
@@ -25,7 +26,16 @@ public class CreateHandlerTests
     {
         // arrange
         var handler = new Create.Handler(_db, _mapper);
-        var cmd = new Create.CreateLessonCommand("Xin chào", "Greeting");
+        var cmd = new Create.CreateLessonCommand(
+    "Xin chào",
+    "Greeting",
+    LessonLevel.Beginner,
+    null,
+    null,
+    null,
+    null,
+    null
+);
 
         // act
         LessonDto dto = await handler.Handle(cmd, CancellationToken.None);

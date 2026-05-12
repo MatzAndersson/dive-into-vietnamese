@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using DiveIntoVietnamese.Api.Domain;
+using DiveIntoVietnamese.Api.Features.Lessons;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Shouldly;
 using System.Net;
 using System.Net.Http.Json;
-using DiveIntoVietnamese.Api.Features.Lessons;
 
 public class UpdateDeleteTests : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -12,7 +13,17 @@ public class UpdateDeleteTests : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async Task Put_Should_update_title()
     {
-        var cmd = new Update.UpdateLessonCommand(1, "Xin chào bạn", "Greeting updated");
+        var cmd = new Update.UpdateLessonCommand(
+    1,
+    "Updated title",
+    "Updated description",
+    LessonLevel.Beginner,
+    null,
+    null,
+    null,
+    null,
+    null
+);
         var resp = await _client.PutAsJsonAsync("/api/lessons/1", cmd);
 
         resp.StatusCode.ShouldBe(HttpStatusCode.OK);
