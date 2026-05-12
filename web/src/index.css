@@ -1,2 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Mulish:wght@400;500;600;700&family=Droid+Serif:wght@400;700&display=swap");
+
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Be Vietnam Pro", system-ui, sans-serif;
+  --font-heading: "Be Vietnam Pro", system-ui, sans-serif;
+  --font-body: "Mulish", system-ui, sans-serif;
+  --font-serif: "Droid Serif", Georgia, serif;
+
+  --color-brand-blue: #0d4866;
+  --color-brand-orange: #f77f00;
+  --color-brand-yellow: #fcbf49;
+  --color-brand-light: #f4f4f4;
+  --color-brand-dark: #272727;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--color-brand-light);
+    color: var(--color-brand-dark);
+  }
+
+  body {
+    min-height: 100vh;
+  }
+}

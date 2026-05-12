@@ -16,6 +16,11 @@
 - Locale switcher exists: no
 ## What works
 ## What is broken
+Remove database default for Lesson.Level
+Require Level in Create/Update
+Validate Level with IsInEnum()
+Run a migration
+
 ## What to ignore for now
 This repeats the create-form validation for now. Later we can move it to a shared helper.
 ## MVP target
@@ -374,6 +379,8 @@ Completed:
 
 
 ## Notes
+
+Change cancel button in CreateLessonform s it's at the bottom right. Change to customised modal for delete confirmation when deleting lesson
 Notes:
 - `audioUrl` is still the technical field name, but it now represents full conversation audio.
 - No separate `conversationAudioUrl` field is needed for now.
@@ -404,8 +411,22 @@ Next:
 4. add `ExercisesJson` + answer key modal
 5. then build teacher-friendly editors for vocabulary/conversation/questions/grammar/exercises
 
- - build teacher-friendly vocabulary row editor instead of raw JSON textarea
-- extract shared vocabulary validation to avoid duplication
+Backlog:
+- build teacher-friendly conversation editor instead of raw JSON textarea
+  - add/remove dialogue rows
+  - each row has:
+    - speaker
+    - Vietnamese line
+    - English translation
+  - convert rows to `conversationJson` behind the scenes before saving
+- later do the same for vocabulary:
+  - Vietnamese
+  - Meaning
+  - Example sentence
+  - Translation
+- eventually create reusable editor components for structured lesson fields
+
+ - extract shared vocabulary validation to avoid duplication
 - add Grammar field:
   - grammar case
   - explanation

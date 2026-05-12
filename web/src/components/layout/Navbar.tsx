@@ -6,13 +6,23 @@ export function Navbar() {
 
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive
-      ? "font-semibold text-blue-700"
-      : "text-slate-700 hover:text-blue-700";
+      ? "font-semibold text-brand-orange"
+      : "font-medium text-brand-dark transition hover:text-brand-orange";
+
+  const getLanguageButtonClass = (language: string) =>
+    `cursor-pointer rounded-lg border px-3 py-1 text-sm font-semibold transition ${
+      i18n.language.startsWith(language)
+        ? "border-brand-blue bg-brand-blue text-white"
+        : "border-brand-blue/20 bg-white text-brand-blue hover:border-brand-orange hover:text-brand-orange"
+    }`;
 
   return (
-    <header className="border-b bg-white">
+    <header className="border-b border-brand-blue/10 bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <NavLink to="/" className="text-lg font-bold text-slate-900">
+        <NavLink
+          to="/"
+          className="font-heading text-lg font-bold text-brand-blue transition hover:text-brand-orange"
+        >
           Dive Into Vietnamese
         </NavLink>
 
@@ -33,15 +43,12 @@ export function Navbar() {
             {t("nav.advanced")}
           </NavLink>
         </nav>
+
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => i18n.changeLanguage("en")}
-            className={`cursor-pointer rounded border px-3 py-1 text-sm transition hover:opacity-90 ${
-              i18n.language.startsWith("en")
-                ? "bg-black text-white"
-                : "bg-white text-black"
-            }`}
+            className={getLanguageButtonClass("en")}
           >
             EN
           </button>
@@ -49,11 +56,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => i18n.changeLanguage("vi")}
-            className={`cursor-pointer rounded border px-3 py-1 text-sm transition hover:opacity-90 ${
-              i18n.language.startsWith("vi")
-                ? "bg-black text-white"
-                : "bg-white text-black"
-            }`}
+            className={getLanguageButtonClass("vi")}
           >
             VI
           </button>

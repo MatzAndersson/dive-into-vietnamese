@@ -26,7 +26,7 @@ export default function LessonCard({
   };
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+    <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-brand-blue/15 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-brand-orange/40 hover:shadow-md">
       <Link
         to={`/lessons/${lesson.id}`}
         className="block flex-1 cursor-pointer"
@@ -40,23 +40,25 @@ export default function LessonCard({
               loading="lazy"
             />
           ) : (
-            <div className="flex h-40 w-full items-center justify-center bg-slate-100 text-slate-400">
-              <span className="text-sm font-medium uppercase tracking-widest">
+            <div className="flex h-40 w-full items-center justify-center bg-brand-blue/5 text-brand-blue/60">
+              <span className="text-sm font-semibold uppercase tracking-widest">
                 {t("vietnameseLesson")}
               </span>
             </div>
           )}
 
-          <span className="absolute right-2 top-2 rounded-full border bg-white/90 px-2 py-1 text-xs shadow-sm">
+          <span className="absolute right-2 top-2 rounded-full border border-brand-blue/15 bg-white/95 px-3 py-1 text-xs font-semibold text-brand-blue shadow-sm">
             {getLevelLabel(lesson.level)}
           </span>
         </div>
 
         <div className="p-4">
-          <h3 className="line-clamp-1 text-lg font-semibold">{lesson.title}</h3>
+          <h3 className="line-clamp-1 font-heading text-lg font-semibold text-brand-dark">
+            {lesson.title}
+          </h3>
 
           {lesson.description && (
-            <p className="mt-2 line-clamp-3 text-sm text-gray-600">
+            <p className="mt-2 line-clamp-3 font-body text-sm leading-6 text-brand-dark/70">
               {lesson.description}
             </p>
           )}

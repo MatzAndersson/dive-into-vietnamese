@@ -7,7 +7,7 @@ import HomePage from "./features/lessons/pages/HomePage";
 
 export default function App() {
   return (
-    <>
+    <div className="min-h-screen bg-brand-light text-brand-dark">
       <Navbar />
 
       <main className="mx-auto max-w-6xl px-4 py-8">
@@ -19,6 +19,6 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
         </Routes>
       </main>
-    </>
+    </div>
   );
 }

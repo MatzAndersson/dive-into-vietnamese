@@ -24,23 +24,23 @@ export default function HomePage() {
 
   return (
     <div className="space-y-10">
-      <section className="rounded-3xl border bg-white p-8 shadow-sm">
-        <p className="text-sm font-medium uppercase tracking-wide text-slate-500">
+      <section className="rounded-3xl border border-brand-blue/20 bg-white p-8 shadow-sm">
+        <p className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
           {t("home.eyebrow")}
         </p>
 
-        <h1 className="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-slate-900">
+        <h1 className="mt-3 max-w-3xl font-heading text-4xl font-bold tracking-tight text-brand-dark">
           {t("home.title")}
         </h1>
 
-        <p className="mt-4 max-w-2xl text-lg text-slate-600">
+        <p className="mt-4 max-w-2xl font-body text-lg leading-8 text-brand-dark/75">
           {t("home.subtitle")}
         </p>
 
         <div className="mt-6">
           <Link
             to="/levels/beginner"
-            className="inline-flex rounded-xl bg-black px-5 py-3 text-sm font-medium text-white transition hover:opacity-90"
+            className="inline-flex rounded-xl bg-brand-orange px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-yellow hover:text-brand-dark"
           >
             {t("home.startButton")}
           </Link>
@@ -48,7 +48,7 @@ export default function HomePage() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+        <h2 className="font-heading text-2xl font-bold tracking-tight text-brand-blue">
           {t("home.chooseLevel")}
         </h2>
 
@@ -57,13 +57,13 @@ export default function HomePage() {
             <Link
               key={level.path}
               to={level.path}
-              className="rounded-2xl border bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              className="rounded-2xl border border-brand-blue/15 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-orange/40 hover:shadow-md"
             >
-              <h3 className="text-xl font-semibold text-slate-900">
+              <h3 className="font-heading text-xl font-semibold text-brand-dark">
                 {t(level.titleKey)}
               </h3>
 
-              <p className="mt-2 text-sm leading-6 text-slate-600">
+              <p className="mt-2 font-body text-sm leading-6 text-brand-dark/70">
                 {t(level.descriptionKey)}
               </p>
             </Link>
