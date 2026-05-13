@@ -17,8 +17,21 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             string? Explanation,
             string? ConversationJson,
             string? AudioUrl,
-            string? VocabularyJson
+            string? VocabularyJson,
+            string? QuestionsJson
         ) : IRequest<LessonDto>, IRequireApiKey;
+
+            public record UpdateLessonRequest(
+            string Title,
+            string? Description,
+            LessonLevel Level,
+            string? ImageUrl,
+            string? Explanation,
+            string? ConversationJson,
+            string? AudioUrl,
+            string? VocabularyJson,
+            string? QuestionsJson
+        );
 
         public class Validator : AbstractValidator<UpdateLessonCommand>
         {
@@ -57,6 +70,12 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                     .WithMessage($"Vocabulary JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
                     .Must(LessonValidationRules.BeValidVocabularyJson)
                     .WithMessage("Vocabulary JSON must be a valid JSON array where each item includes vietnamese, english, vietnameseExample, and englishExample.");
+
+                RuleFor(x => x.QuestionsJson)
+                    .MaximumLength(LessonValidationRules.StructuredJsonMaxLength)
+                    .WithMessage($"Questions JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
+                    .Must(LessonValidationRules.BeValidQuestionsJson)
+                    .WithMessage("Questions JSON must be a valid JSON array where each item includes question.");
             }
         }
 
@@ -84,6 +103,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                 entity.ConversationJson = request.ConversationJson;
                 entity.AudioUrl = request.AudioUrl;
                 entity.VocabularyJson = request.VocabularyJson;
+                entity.QuestionsJson = request.QuestionsJson;
 
                 await _db.SaveChangesAsync(ct);
 

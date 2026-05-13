@@ -27,15 +27,16 @@ public class CreateHandlerTests
         // arrange
         var handler = new Create.Handler(_db, _mapper);
         var cmd = new Create.CreateLessonCommand(
-    "Xin chào",
-    "Greeting",
-    LessonLevel.Beginner,
-    null,
-    null,
-    null,
-    null,
-    null
-);
+            "Xin chào",
+            "Greeting",
+            LessonLevel.Beginner,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
 
         // act
         LessonDto dto = await handler.Handle(cmd, CancellationToken.None);

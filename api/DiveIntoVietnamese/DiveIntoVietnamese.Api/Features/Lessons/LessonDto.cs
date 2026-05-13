@@ -10,6 +10,7 @@
         string? Explanation,
         string? ConversationJson,
         string? AudioUrl,
-        string? VocabularyJson
+        string? VocabularyJson,
+        string? QuestionsJson
     );
 }

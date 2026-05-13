@@ -58,6 +58,11 @@ Lesson detail page now supports:
 - dynamic lesson-level audio
 - static vocabulary section
 ## Next concrete coding task
+remaining:
+run EF migration for QuestionsJson
+test valid/invalid QuestionsJson in Swagger
+AutoMapper vulnerability warning remains for later
+
 
 Next 1h session:
 - add backend `conversationJson` validation + max length limits
@@ -79,7 +84,7 @@ Next 1h session:
   - `vocabularyJson`
 
 
-3. Add backend conversationJson validation + max length limits
+
 4. Add QuestionsJson backend
 5. Add QuestionsJson frontend create/edit/display
 6. Add GrammarJson backend
@@ -153,6 +158,49 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+
+13/05
+Completed:
+
+added backend support for QuestionsJson
+updated CreateLessonCommand
+updated UpdateLessonCommand
+added UpdateLessonRequest for cleaner PUT body
+updated PUT endpoint to combine route id with request body
+added simple QuestionsJson validation via LessonValidationRules
+decided questions are reflection/comprehension questions for now
+required shape is only:
+question
+fixed test constructors after adding QuestionsJson
+ran dotnet build
+confirmed build works
+
+12/05
+Completed:
+
+created shared backend validation file:
+LessonValidationRules.cs
+added shared max length constants for lesson fields
+updated Create.Validator to use LessonValidationRules
+updated Update.Validator to use LessonValidationRules
+added backend validation for conversationJson
+added backend validation for vocabularyJson
+confirmed empty/null JSON fields are allowed
+confirmed invalid conversationJson returns 400 Bad Request
+confirmed PUT uses id as a separate route parameter in Swagger
+fixed Update.cs structure/bracing issue
+fixed test build errors after updated command constructors
+ran dotnet build
+confirmed API and test project build successfully
+
+Notes:
+
+no migration was needed
+AutoMapper vulnerability warning remains for later
+optional cleanup later:
+clean up UpdateDeleteTests
+next planned feature:
+add QuestionsJson backend
 
 12/05
 Completed:
@@ -520,6 +568,12 @@ Completed:
 
 
 ## Notes
+
+Notes:
+
+no quiz logic, answers, or options yet
+
+
 This solution contains packages with vulnerabilities.
 Change cancel button in CreateLessonform s it's at the bottom right. 
 Change to customised modal for delete confirmation when deleting lesson

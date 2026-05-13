@@ -17,7 +17,8 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             string? Explanation,
             string? ConversationJson,
             string? AudioUrl, 
-            string? VocabularyJson)
+            string? VocabularyJson,
+            string? QuestionsJson)
             : IRequest<LessonDto>, IRequireApiKey;
 
         // ❷ validation rules
@@ -58,6 +59,12 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                     .WithMessage($"Vocabulary JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
                     .Must(LessonValidationRules.BeValidVocabularyJson)
                     .WithMessage("Vocabulary JSON must be a valid JSON array where each item includes vietnamese, english, vietnameseExample, and englishExample.");
+
+                RuleFor(x => x.QuestionsJson)
+                    .MaximumLength(LessonValidationRules.StructuredJsonMaxLength)
+                    .WithMessage($"Questions JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
+                    .Must(LessonValidationRules.BeValidQuestionsJson)
+                    .WithMessage("Questions JSON must be a valid JSON array where each item includes question.");
             }
         }
 

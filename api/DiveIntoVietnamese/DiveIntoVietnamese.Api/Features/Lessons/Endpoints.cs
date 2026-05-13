@@ -34,9 +34,22 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             }).WithOpenApi(RequireApiKey);
 
             // PUT /api/lessons/{id}
-            secured.MapPut("/{id:int}", async (int id, IMediator med, Update.UpdateLessonCommand body) =>
+            secured.MapPut("/{id:int}", async (int id, IMediator med, Update.UpdateLessonRequest body) =>
             {
-                var dto = await med.Send(body with { Id = id });
+                var command = new Update.UpdateLessonCommand(
+                    id,
+                    body.Title,
+                    body.Description,
+                    body.Level,
+                    body.ImageUrl,
+                    body.Explanation,
+                    body.ConversationJson,
+                    body.AudioUrl,
+                    body.VocabularyJson,
+                    body.QuestionsJson
+                );
+
+                var dto = await med.Send(command);
                 return dto is null ? Results.NotFound() : Results.Ok(dto);
             }).WithOpenApi(RequireApiKey);
 
