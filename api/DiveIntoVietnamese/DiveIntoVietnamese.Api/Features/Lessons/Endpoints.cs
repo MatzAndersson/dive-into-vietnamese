@@ -46,7 +46,8 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                     body.ConversationJson,
                     body.AudioUrl,
                     body.VocabularyJson,
-                    body.QuestionsJson
+                    body.QuestionsJson,
+                    body.GrammarJson
                 );
 
                 var dto = await med.Send(command);

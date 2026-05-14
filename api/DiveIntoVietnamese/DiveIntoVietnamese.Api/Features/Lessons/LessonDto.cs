@@ -11,6 +11,7 @@
         string? ConversationJson,
         string? AudioUrl,
         string? VocabularyJson,
-        string? QuestionsJson
+        string? QuestionsJson,
+        string? GrammarJson
     );
 }

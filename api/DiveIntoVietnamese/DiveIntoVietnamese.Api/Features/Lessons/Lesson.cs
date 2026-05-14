@@ -12,6 +12,8 @@
         public string? AudioUrl { get; set; }
         public string? VocabularyJson { get; set; }
         public string? QuestionsJson { get; set; }
+
+        public string? GrammarJson { get; set; }
         public DateTime CreatedAt { get; set; }
 
 

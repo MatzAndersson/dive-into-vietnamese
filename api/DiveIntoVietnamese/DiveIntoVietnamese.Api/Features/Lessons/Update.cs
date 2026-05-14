@@ -18,7 +18,8 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             string? ConversationJson,
             string? AudioUrl,
             string? VocabularyJson,
-            string? QuestionsJson
+            string? QuestionsJson,
+            string? GrammarJson
         ) : IRequest<LessonDto>, IRequireApiKey;
 
             public record UpdateLessonRequest(
@@ -30,7 +31,8 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             string? ConversationJson,
             string? AudioUrl,
             string? VocabularyJson,
-            string? QuestionsJson
+            string? QuestionsJson,
+            string? GrammarJson
         );
 
         public class Validator : AbstractValidator<UpdateLessonCommand>
@@ -76,6 +78,12 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                     .WithMessage($"Questions JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
                     .Must(LessonValidationRules.BeValidQuestionsJson)
                     .WithMessage("Questions JSON must be a valid JSON array where each item includes question.");
+
+                RuleFor(x => x.GrammarJson)
+                    .MaximumLength(LessonValidationRules.StructuredJsonMaxLength)
+                    .WithMessage($"Grammar JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
+                    .Must(LessonValidationRules.BeValidGrammarJson)
+                    .WithMessage("Grammar JSON must be a valid JSON array where each item includes title, explanation, vietnameseExample, and englishExample.");
             }
         }
 
@@ -104,6 +112,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                 entity.AudioUrl = request.AudioUrl;
                 entity.VocabularyJson = request.VocabularyJson;
                 entity.QuestionsJson = request.QuestionsJson;
+                entity.GrammarJson = request.GrammarJson;
 
                 await _db.SaveChangesAsync(ct);
 

@@ -146,6 +146,58 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             }
         }
 
+        public static bool BeValidGrammarJson(string? json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return true;
+            }
+
+            try
+            {
+                using var document = JsonDocument.Parse(json);
+
+                if (document.RootElement.ValueKind != JsonValueKind.Array)
+                {
+                    return false;
+                }
+
+                foreach (var item in document.RootElement.EnumerateArray())
+                {
+                    if (item.ValueKind != JsonValueKind.Object)
+                    {
+                        return false;
+                    }
+
+                    if (!HasNonEmptyStringProperty(item, "title"))
+                    {
+                        return false;
+                    }
+
+                    if (!HasNonEmptyStringProperty(item, "explanation"))
+                    {
+                        return false;
+                    }
+
+                    if (!HasNonEmptyStringProperty(item, "vietnameseExample"))
+                    {
+                        return false;
+                    }
+
+                    if (!HasNonEmptyStringProperty(item, "englishExample"))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            catch (JsonException)
+            {
+                return false;
+            }
+        }
+
         private static bool HasNonEmptyStringProperty(JsonElement item, string propertyName)
         {
             return item.TryGetProperty(propertyName, out var property)

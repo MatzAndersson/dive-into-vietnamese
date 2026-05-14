@@ -136,6 +136,27 @@ Future transcript/vocabulary direction:
 
 ## Completed tasks per session
 14/05
+
+Completed:
+
+started backend GrammarJson session
+added grammarJson to backend lesson flow:
+Lesson
+LessonDto
+CreateLessonCommand
+UpdateLessonCommand
+UpdateLessonRequest
+Create.Validator
+Update.Validator
+Update.Handler
+
+added BeValidGrammarJson to LessonValidationRules.cs
+kept validation consistent with existing structured JSON fields
+created/applied EF migration for GrammarJson
+fixed issue where running API process locked build file
+tested GrammarJson successfully in Swagger
+
+14/05
 Completed:
 
 started frontend QuestionsJson session
@@ -563,6 +584,16 @@ Completed:
 
 ## Notes
 
+
+Notes:
+
+GrammarJson is still simple grammar notes only
+expected shape:
+[{"title":"Using có...không?","explanation":"This structure is used to form yes/no questions.","vietnameseExample":"Anh có khỏe không?","englishExample":"Are you well?"}]
+no quiz logic, grammar library, tags, ordering, or audio yet
+teacher-friendly grammar editor is postponed
+next likely session: GrammarJson frontend create/edit/display
+
 Notes:
 
 QuestionsJson is still simple reflection/comprehension questions only
@@ -618,7 +649,6 @@ Notes:
 - no vocabulary item audio yet
 - no sorting/reordering of vocabulary items yet
 ## Backlog:
-
 Backlog / future polish:
 - replace validation `alert()` in edit modal with inline error message
 - show field-specific error text under `conversationJson` / `vocabularyJson`
@@ -679,26 +709,6 @@ Backlog:
 - apply fonts and color palette as design tokens once received
 
 
-
-
-
-
- !!Vocabulary = 4 column table, VN word, EN word, Vn Sentence, En Sentence!!
-
- Vocabulary table
-- Vietnamese word
-- English word
-- Vietnamese example sentence
-- English sentence meaning
-
-Grammar section
-- Grammar case
-- Explanation
-- Sentence example
-
-Exercises section
-- Exercise content
-- Answer key shown in modal/popup
 
 11/05
  Notes / future polish:
@@ -791,4 +801,20 @@ i18n installed: yes
 Locale switcher exists: no
 Current status: i18n is configured and the lessons page UI is wired for translation
 
+## From Binh
+ !!Vocabulary = 4 column table, VN word, EN word, Vn Sentence, En Sentence!!
 
+ Vocabulary table
+- Vietnamese word
+- English word
+- Vietnamese example sentence
+- English sentence meaning
+
+Grammar section
+- Grammar case
+- Explanation
+- Sentence example
+
+Exercises section
+- Exercise content
+- Answer key shown in modal/popup
