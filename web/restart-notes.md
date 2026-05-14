@@ -58,31 +58,8 @@ Lesson detail page now supports:
 - dynamic lesson-level audio
 - static vocabulary section
 ## Next concrete coding task
-remaining:
-run EF migration for QuestionsJson
-test valid/invalid QuestionsJson in Swagger
+
 AutoMapper vulnerability warning remains for later
-
-
-Next 1h session:
-- add backend `conversationJson` validation + max length limits
-- likely target:
-  - `DiveIntoVietnamese.Api/Features/Lessons/LessonValidator.cs`
-- backend validation should cover:
-  - empty `conversationJson` allowed
-  - valid JSON required if filled
-  - must be JSON array
-  - each item must include `speaker`, `vietnamese`, `english`
-  - max length limit
-- also consider max length limits for:
-  - `title`
-  - `description`
-  - `imageUrl`
-  - `audioUrl`
-  - `explanation`
-  - `conversationJson`
-  - `vocabularyJson`
-
 
 
 4. Add QuestionsJson backend
@@ -158,6 +135,23 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+14/05
+Completed:
+
+started frontend QuestionsJson session
+confirmed frontend should keep lessonJsonValidation.ts alongside backend LessonValidationRules.cs
+added questionsJson to frontend types/API input flow:
+CreateLessonInput
+UpdateLessonInput
+Lesson
+Zod schema
+added validateQuestionsJson
+updated CreateLessonForm to create lessons with questionsJson
+updated AdminLessonsPage edit flow with questionsJson
+added questionsJson field to edit/create handling
+added Questions display section to LessonDetailPage
+tested create flow successfully
+confirmed Questions display works on lesson detail page
 
 13/05
 Completed:
@@ -570,6 +564,19 @@ Completed:
 ## Notes
 
 Notes:
+
+QuestionsJson is still simple reflection/comprehension questions only
+expected shape:
+[{"question":"What is this conversation about?"}]
+no answer/options/quiz logic yet
+teacher-friendly question editor is postponed
+optional later polish:
+add inline validation instead of alerts
+improve admin form layout
+localize “Questions” and helper text
+
+Notes:
+
 
 no quiz logic, answers, or options yet
 

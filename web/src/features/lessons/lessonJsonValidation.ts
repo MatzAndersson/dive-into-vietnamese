@@ -11,6 +11,10 @@ type ConversationLine = {
   english: string;
 };
 
+type QuestionItem = {
+  question: string;
+};
+
 export function validateVocabularyJson(value: string | undefined) {
   if (!value) {
     return undefined;
@@ -100,5 +104,44 @@ export function validateConversationJson(value: string | undefined) {
     }
 
     throw new Error("Invalid conversation JSON.");
+  }
+
+}
+  export function validateQuestionsJson(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(value);
+
+    if (!Array.isArray(parsed)) {
+      throw new Error("Questions JSON must be an array.");
+    }
+
+    const hasInvalidItem = parsed.some((item) => {
+      if (typeof item !== "object" || item === null || Array.isArray(item)) {
+        return true;
+      }
+
+      const questionItem = item as Partial<QuestionItem>;
+
+      return (
+        typeof questionItem.question !== "string" ||
+        !questionItem.question.trim()
+      );
+    });
+
+    if (hasInvalidItem) {
+      throw new Error("Each question item must include a question field.");
+    }
+
+    return value;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+
+    throw new Error("Invalid questions JSON.");
   }
 }

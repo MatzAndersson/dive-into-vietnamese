@@ -11,6 +11,7 @@ type CreateLessonInput = {
   conversationJson?: string;
   audioUrl?: string;
   vocabularyJson?: string;
+  questionsJson?: string;
 };
 
 type UpdateLessonInput = {
@@ -22,6 +23,7 @@ type UpdateLessonInput = {
   conversationJson?: string;
   audioUrl?: string;
   vocabularyJson?: string;
+  questionsJson?: string;
 };
 
 export async function listLessons(params: { level?: LessonLevel; q?: string }) {

@@ -7,6 +7,7 @@ import type { LessonLevel } from "./types";
 import {
   validateVocabularyJson,
   validateConversationJson,
+  validateQuestionsJson,
 } from "./lessonJsonValidation";
 
 type CreateResult = { ok: true } | { error: string };
@@ -33,6 +34,9 @@ async function createAction(
       audioUrl: emptyToUndefined(fd.get("audioUrl")),
       vocabularyJson: validateVocabularyJson(
         emptyToUndefined(fd.get("vocabularyJson")),
+      ),
+      questionsJson: validateQuestionsJson(
+        emptyToUndefined(fd.get("questionsJson")),
       ),
     });
 
@@ -140,6 +144,16 @@ export default function CreateLessonForm() {
 
       <p className="text-xs text-slate-500">
         {`Expected format: [{"vietnamese":"xin chào","english":"hello","vietnameseExample":"Xin chào, anh khỏe không?","englishExample":"Hello, how are you?"}]`}
+      </p>
+
+      <textarea
+        name="questionsJson"
+        placeholder='[{"question":"What is this conversation about?"}]'
+        className="min-h-24 w-full rounded border p-2 font-mono text-sm"
+      />
+
+      <p className="text-xs text-slate-500">
+        {`Expected format: [{"question":"What is this conversation about?"}]`}
       </p>
 
       <SubmitBtn />

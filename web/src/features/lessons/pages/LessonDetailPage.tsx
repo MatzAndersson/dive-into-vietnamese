@@ -16,6 +16,10 @@ type VocabularyItem = {
   englishExample?: string;
 };
 
+type LessonQuestion = {
+  question: string;
+};
+
 function parseVocabulary(vocabularyJson?: string | null): VocabularyItem[] {
   if (!vocabularyJson) {
     return [];
@@ -31,6 +35,31 @@ function parseVocabulary(vocabularyJson?: string | null): VocabularyItem[] {
     return parsed.filter(
       (item): item is VocabularyItem =>
         typeof item.vietnamese === "string" && typeof item.english === "string",
+    );
+  } catch {
+    return [];
+  }
+}
+
+function parseQuestions(json?: string | null): LessonQuestion[] {
+  if (!json?.trim()) {
+    return [];
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(json);
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.filter(
+      (item): item is LessonQuestion =>
+        typeof item === "object" &&
+        item !== null &&
+        !Array.isArray(item) &&
+        typeof (item as Partial<LessonQuestion>).question === "string" &&
+        Boolean((item as Partial<LessonQuestion>).question?.trim()),
     );
   } catch {
     return [];
@@ -78,6 +107,7 @@ export default function LessonDetailPage() {
   }, [lesson?.conversationJson]);
 
   const vocabularyItems = parseVocabulary(lesson?.vocabularyJson);
+  const questions = parseQuestions(lesson?.questionsJson);
 
   if (!Number.isFinite(lessonId)) {
     return (
@@ -256,6 +286,28 @@ export default function LessonDetailPage() {
             ) : (
               <p className="leading-7 text-gray-500 italic">
                 No vocabulary has been added for this lesson yet.
+              </p>
+            )}
+          </section>
+          <section className="rounded-2xl border bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">
+              Questions
+            </h2>
+
+            {questions.length > 0 ? (
+              <ol className="list-decimal space-y-2 pl-5">
+                {questions.map((item, index) => (
+                  <li
+                    key={`${item.question}-${index}`}
+                    className="text-slate-700"
+                  >
+                    {item.question}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="italic text-slate-500">
+                No questions have been added for this lesson yet.
               </p>
             )}
           </section>

@@ -11,4 +11,5 @@ export interface Lesson {
   createdAt: string;
   explanation?: string | null;
   vocabularyJson?: string | null;
+  questionsJson?: string | null;
 }

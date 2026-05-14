@@ -12,6 +12,7 @@ import type { Lesson, LessonLevel } from "../types";
 import {
   validateConversationJson,
   validateVocabularyJson,
+  validateQuestionsJson,
 } from "../lessonJsonValidation";
 
 const emptyToUndefined = (value: FormDataEntryValue | null) => {
@@ -78,6 +79,9 @@ export default function AdminLessonsPage() {
         vocabularyJson: validateVocabularyJson(
           emptyToUndefined(fd.get("vocabularyJson")),
         ),
+        questionsJson: validateQuestionsJson(
+          emptyToUndefined(fd.get("questionsJson")),
+        ),
       });
     },
     onSuccess: () => {
@@ -124,16 +128,8 @@ export default function AdminLessonsPage() {
       {editingLesson && (
         <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4">
           <section className="mt-10 w-full max-w-3xl rounded-xl bg-white p-4 shadow-xl">
-            <div className="mb-3 flex items-center justify-between gap-3">
+            <div className="mb-3">
               <h2 className="font-medium">{t("editLesson")}</h2>
-
-              <button
-                type="button"
-                className="cursor-pointer rounded border px-3 py-1 text-sm hover:bg-slate-50"
-                onClick={() => setEditingLesson(null)}
-              >
-                {t("cancel")}
-              </button>
             </div>
 
             <form
@@ -205,13 +201,39 @@ export default function AdminLessonsPage() {
                 className="min-h-32 w-full rounded border p-2 font-mono text-sm"
               />
 
-              <button
-                type="submit"
-                disabled={update.isPending}
-                className="cursor-pointer rounded bg-black px-3 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {update.isPending ? t("saving") : t("saveChanges")}
-              </button>
+              <p className="text-xs text-slate-500">
+                {`Expected format: [{"vietnamese":"xin chào","english":"hello","vietnameseExample":"Xin chào, anh khỏe không?","englishExample":"Hello, how are you?"}]`}
+              </p>
+
+              <textarea
+                name="questionsJson"
+                defaultValue={editingLesson.questionsJson ?? ""}
+                placeholder='[{"question":"What is this conversation about?"}]'
+                className="min-h-24 w-full rounded border p-2 font-mono text-sm"
+              />
+
+              <p className="text-xs text-slate-500">
+                {`Expected format: [{"question":"What is this conversation about?"}]`}
+              </p>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="submit"
+                  disabled={update.isPending}
+                  className="cursor-pointer rounded bg-black px-3 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {update.isPending ? t("saving") : t("saveChanges")}
+                </button>
+
+                <button
+                  type="button"
+                  disabled={update.isPending}
+                  className="cursor-pointer rounded border px-3 py-2 text-sm hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  onClick={() => setEditingLesson(null)}
+                >
+                  {t("cancel")}
+                </button>
+              </div>
             </form>
           </section>
         </div>
