@@ -14,6 +14,7 @@
         public string? QuestionsJson { get; set; }
 
         public string? GrammarJson { get; set; }
+        public string? ExercisesJson { get; set; }
         public DateTime CreatedAt { get; set; }
 
 

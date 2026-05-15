@@ -135,6 +135,26 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+15/05
+Completed:
+started backend ExercisesJson session
+decided on simple flexible exercise shape:
+[{"type":"shortAnswer","instruction":"Answer the question in Vietnamese.","prompt":"Hành khách mua vé khứ hồi hay một chiều?","answer":"Hành khách mua vé một chiều."}]
+added exercisesJson to backend lesson flow:
+Lesson
+LessonDto
+CreateLessonCommand
+UpdateLessonCommand
+UpdateLessonRequest
+Create.Validator
+Update.Validator
+Update.Handler
+Endpoints.cs
+added BeValidExercisesJson to LessonValidationRules.cs
+kept validation consistent with existing structured JSON fields
+created/applied EF migration for ExercisesJson
+tested ExercisesJson successfully in Swagger
+
 14/05
 
 Completed:
@@ -584,6 +604,21 @@ Completed:
 
 ## Notes
 
+Notes:
+
+ExercisesJson is still simple practice tasks only
+no scoring, answer checking, multiple choice UI, or quiz engine yet
+exercise design can be refined later after partner/student feedback
+found security overlap:
+ApiKeyFilter and ApiKeyBehavior currently both check API key
+cleanup postponed
+next likely session: GrammarJson or ExercisesJson frontend create/edit/display
+
+Security cleanup later:
+ApiKeyFilter and ApiKeyBehavior currently overlap.
+Write endpoints are already protected through ApiKeyFilter in Endpoints.cs.
+Later choose one approach to avoid duplicate API key checks.
+Preferred short-term cleanup: keep ApiKeyFilter for endpoint-level protection and remove ApiKeyBehavior/IRequireApiKey unless needed elsewhere.
 
 Notes:
 

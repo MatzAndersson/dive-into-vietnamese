@@ -12,6 +12,7 @@
         string? AudioUrl,
         string? VocabularyJson,
         string? QuestionsJson,
-        string? GrammarJson
+        string? GrammarJson,
+        string? ExercisesJson
     );
 }
