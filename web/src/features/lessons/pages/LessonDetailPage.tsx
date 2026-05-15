@@ -16,6 +16,20 @@ type VocabularyItem = {
   englishExample?: string;
 };
 
+type GrammarItem = {
+  title: string;
+  explanation: string;
+  vietnameseExample: string;
+  englishExample: string;
+};
+
+type ExerciseItem = {
+  type: string;
+  instruction: string;
+  prompt: string;
+  answer: string;
+};
+
 type LessonQuestion = {
   question: string;
 };
@@ -66,6 +80,60 @@ function parseQuestions(json?: string | null): LessonQuestion[] {
   }
 }
 
+function parseGrammar(json?: string | null): GrammarItem[] {
+  if (!json?.trim()) {
+    return [];
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(json);
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.filter(
+      (item): item is GrammarItem =>
+        typeof item === "object" &&
+        item !== null &&
+        !Array.isArray(item) &&
+        typeof (item as Partial<GrammarItem>).title === "string" &&
+        typeof (item as Partial<GrammarItem>).explanation === "string" &&
+        typeof (item as Partial<GrammarItem>).vietnameseExample === "string" &&
+        typeof (item as Partial<GrammarItem>).englishExample === "string",
+    );
+  } catch {
+    return [];
+  }
+}
+
+function parseExercises(json?: string | null): ExerciseItem[] {
+  if (!json?.trim()) {
+    return [];
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(json);
+
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.filter(
+      (item): item is ExerciseItem =>
+        typeof item === "object" &&
+        item !== null &&
+        !Array.isArray(item) &&
+        typeof (item as Partial<ExerciseItem>).type === "string" &&
+        typeof (item as Partial<ExerciseItem>).instruction === "string" &&
+        typeof (item as Partial<ExerciseItem>).prompt === "string" &&
+        typeof (item as Partial<ExerciseItem>).answer === "string",
+    );
+  } catch {
+    return [];
+  }
+}
+
 export default function LessonDetailPage() {
   const { id } = useParams();
   const lessonId = Number(id);
@@ -108,6 +176,8 @@ export default function LessonDetailPage() {
 
   const vocabularyItems = parseVocabulary(lesson?.vocabularyJson);
   const questions = parseQuestions(lesson?.questionsJson);
+  const grammarItems = parseGrammar(lesson?.grammarJson);
+  const exerciseItems = parseExercises(lesson?.exercisesJson);
 
   if (!Number.isFinite(lessonId)) {
     return (
@@ -308,6 +378,82 @@ export default function LessonDetailPage() {
             ) : (
               <p className="italic text-slate-500">
                 No questions have been added for this lesson yet.
+              </p>
+            )}
+          </section>
+          <section className="rounded-2xl border bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">
+              Grammar
+            </h2>
+
+            {grammarItems.length > 0 ? (
+              <div className="space-y-4">
+                {grammarItems.map((item, index) => (
+                  <article
+                    key={`${item.title}-${index}`}
+                    className="rounded-xl border bg-slate-50 p-4"
+                  >
+                    <h3 className="font-semibold text-gray-900">
+                      {item.title}
+                    </h3>
+
+                    <p className="mt-2 leading-7 text-gray-700">
+                      {item.explanation}
+                    </p>
+
+                    <div className="mt-3 rounded-lg bg-white p-3">
+                      <p className="text-lg text-gray-900">
+                        {item.vietnameseExample}
+                      </p>
+                      <p className="mt-1 text-sm text-gray-600">
+                        {item.englishExample}
+                      </p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <p className="italic text-slate-500">
+                No grammar notes have been added for this lesson yet.
+              </p>
+            )}
+          </section>
+          <section className="rounded-2xl border bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">
+              Exercises
+            </h2>
+
+            {exerciseItems.length > 0 ? (
+              <div className="space-y-4">
+                {exerciseItems.map((item, index) => (
+                  <article
+                    key={`${item.type}-${item.prompt}-${index}`}
+                    className="rounded-xl border p-4"
+                  >
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      {item.type}
+                    </p>
+
+                    <p className="font-medium text-gray-900">
+                      {item.instruction}
+                    </p>
+
+                    <p className="mt-3 rounded-lg bg-slate-50 p-3 text-gray-800">
+                      {item.prompt}
+                    </p>
+
+                    <div className="mt-3 rounded-lg border bg-white p-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Suggested answer
+                      </p>
+                      <p className="mt-1 text-gray-700">{item.answer}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <p className="italic text-slate-500">
+                No exercises have been added for this lesson yet.
               </p>
             )}
           </section>

@@ -59,6 +59,18 @@ Lesson detail page now supports:
 - static vocabulary section
 ## Next concrete coding task
 
+Goal:
+Improve Exercises section by hiding suggested answers behind a Show answers button.
+
+Files:
+LessonDetailPage.tsx
+
+Tasks:
+- add local state for showAnswers
+- hide suggested answer cards by default
+- add Show answers / Hide answers button at the end of the Exercises section
+- test on lesson detail page
+
 AutoMapper vulnerability warning remains for later
 
 
@@ -135,6 +147,31 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+15/05
+
+Completed:
+
+started frontend GrammarJson + ExercisesJson session
+confirmed both backend fields should now be added to frontend
+updated frontend data flow:
+types.ts
+schema.ts
+api.ts checked, no extra changes needed because input object is sent directly
+lessonJsonValidation.ts
+
+added frontend validation for:
+validateGrammarJson
+validateExercisesJson
+
+updated create/edit/display flow:
+CreateLessonForm.tsx
+AdminLessonsPage.tsx
+LessonDetailPage.tsx
+
+added learner-facing display sections for:
+Grammar
+Exercises
+
 15/05
 Completed:
 started backend ExercisesJson session
@@ -603,6 +640,15 @@ Completed:
 
 
 ## Notes
+Notes:
+
+Exercises currently show suggested answers immediately
+next polish session:
+hide suggested answers by default
+add Show answers / Hide answers button at end of Exercises section
+this can replace the planned answer key modal for now
+future option:
+students type answers first, then answer checking/scoring can be added later
 
 Notes:
 

@@ -12,4 +12,6 @@ export interface Lesson {
   explanation?: string | null;
   vocabularyJson?: string | null;
   questionsJson?: string | null;
+  grammarJson?: string | null;
+  exercisesJson?: string | null;
 }

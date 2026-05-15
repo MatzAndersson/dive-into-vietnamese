@@ -15,6 +15,20 @@ type QuestionItem = {
   question: string;
 };
 
+type GrammarItem = {
+  title: string;
+  explanation: string;
+  vietnameseExample: string;
+  englishExample: string;
+};
+
+type ExerciseItem = {
+  type: string;
+  instruction: string;
+  prompt: string;
+  answer: string;
+};
+
 export function validateVocabularyJson(value: string | undefined) {
   if (!value) {
     return undefined;
@@ -105,9 +119,8 @@ export function validateConversationJson(value: string | undefined) {
 
     throw new Error("Invalid conversation JSON.");
   }
-
 }
-  export function validateQuestionsJson(value: string | undefined) {
+export function validateQuestionsJson(value: string | undefined) {
   if (!value) {
     return undefined;
   }
@@ -143,5 +156,98 @@ export function validateConversationJson(value: string | undefined) {
     }
 
     throw new Error("Invalid questions JSON.");
+  }
+}
+export function validateGrammarJson(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(value);
+
+    if (!Array.isArray(parsed)) {
+      throw new Error("Grammar JSON must be an array.");
+    }
+
+    const hasInvalidItem = parsed.some((item) => {
+      if (typeof item !== "object" || item === null || Array.isArray(item)) {
+        return true;
+      }
+
+      const grammarItem = item as Partial<GrammarItem>;
+
+      return (
+        typeof grammarItem.title !== "string" ||
+        typeof grammarItem.explanation !== "string" ||
+        typeof grammarItem.vietnameseExample !== "string" ||
+        typeof grammarItem.englishExample !== "string" ||
+        !grammarItem.title.trim() ||
+        !grammarItem.explanation.trim() ||
+        !grammarItem.vietnameseExample.trim() ||
+        !grammarItem.englishExample.trim()
+      );
+    });
+
+    if (hasInvalidItem) {
+      throw new Error(
+        "Each grammar item must include title, explanation, vietnameseExample, and englishExample fields.",
+      );
+    }
+
+    return value;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+
+    throw new Error("Invalid grammar JSON.");
+  }
+}
+
+export function validateExercisesJson(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(value);
+
+    if (!Array.isArray(parsed)) {
+      throw new Error("Exercises JSON must be an array.");
+    }
+
+    const hasInvalidItem = parsed.some((item) => {
+      if (typeof item !== "object" || item === null || Array.isArray(item)) {
+        return true;
+      }
+
+      const exerciseItem = item as Partial<ExerciseItem>;
+
+      return (
+        typeof exerciseItem.type !== "string" ||
+        typeof exerciseItem.instruction !== "string" ||
+        typeof exerciseItem.prompt !== "string" ||
+        typeof exerciseItem.answer !== "string" ||
+        !exerciseItem.type.trim() ||
+        !exerciseItem.instruction.trim() ||
+        !exerciseItem.prompt.trim() ||
+        !exerciseItem.answer.trim()
+      );
+    });
+
+    if (hasInvalidItem) {
+      throw new Error(
+        "Each exercise item must include type, instruction, prompt, and answer fields.",
+      );
+    }
+
+    return value;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+
+    throw new Error("Invalid exercises JSON.");
   }
 }

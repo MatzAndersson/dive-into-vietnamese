@@ -11,5 +11,7 @@ export const LessonSchema = z.object({
   explanation: z.string().nullable().optional(),
   vocabularyJson: z.string().nullable().optional(),
   questionsJson: z.string().nullable().optional(),
+  grammarJson: z.string().nullable().optional(),
+  exercisesJson: z.string().nullable().optional(),
 });
 export const LessonsSchema = z.array(LessonSchema);

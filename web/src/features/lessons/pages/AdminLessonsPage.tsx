@@ -13,6 +13,8 @@ import {
   validateConversationJson,
   validateVocabularyJson,
   validateQuestionsJson,
+  validateGrammarJson,
+  validateExercisesJson,
 } from "../lessonJsonValidation";
 
 const emptyToUndefined = (value: FormDataEntryValue | null) => {
@@ -81,6 +83,12 @@ export default function AdminLessonsPage() {
         ),
         questionsJson: validateQuestionsJson(
           emptyToUndefined(fd.get("questionsJson")),
+        ),
+        grammarJson: validateGrammarJson(
+          emptyToUndefined(fd.get("grammarJson")),
+        ),
+        exercisesJson: validateExercisesJson(
+          emptyToUndefined(fd.get("exercisesJson")),
         ),
       });
     },
@@ -214,6 +222,28 @@ export default function AdminLessonsPage() {
 
               <p className="text-xs text-slate-500">
                 {`Expected format: [{"question":"What is this conversation about?"}]`}
+              </p>
+
+              <textarea
+                name="grammarJson"
+                defaultValue={editingLesson.grammarJson ?? ""}
+                placeholder='[{"title":"Using có...không?","explanation":"This structure is used to form yes/no questions.","vietnameseExample":"Anh có khỏe không?","englishExample":"Are you well?"}]'
+                className="min-h-32 w-full rounded border p-2 font-mono text-sm"
+              />
+
+              <p className="text-xs text-slate-500">
+                {`Expected format: [{"title":"Using có...không?","explanation":"This structure is used to form yes/no questions.","vietnameseExample":"Anh có khỏe không?","englishExample":"Are you well?"}]`}
+              </p>
+
+              <textarea
+                name="exercisesJson"
+                defaultValue={editingLesson.exercisesJson ?? ""}
+                placeholder='[{"type":"shortAnswer","instruction":"Answer the question in Vietnamese.","prompt":"Hành khách mua vé khứ hồi hay một chiều?","answer":"Hành khách mua vé một chiều."}]'
+                className="min-h-32 w-full rounded border p-2 font-mono text-sm"
+              />
+
+              <p className="text-xs text-slate-500">
+                {`Expected format: [{"type":"shortAnswer","instruction":"Answer the question in Vietnamese.","prompt":"Hành khách mua vé khứ hồi hay một chiều?","answer":"Hành khách mua vé một chiều."}]`}
               </p>
 
               <div className="flex items-center gap-2">
