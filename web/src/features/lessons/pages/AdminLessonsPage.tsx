@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, ReactNode } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -21,6 +21,14 @@ const emptyToUndefined = (value: FormDataEntryValue | null) => {
   const text = String(value ?? "").trim();
   return text.length > 0 ? text : undefined;
 };
+
+function FieldLabel({ children }: { children: ReactNode }) {
+  return (
+    <span className="mb-1 block font-heading text-sm font-semibold text-brand-blue">
+      {children}
+    </span>
+  );
+}
 
 export default function AdminLessonsPage() {
   const { t } = useTranslation();
@@ -74,28 +82,36 @@ export default function AdminLessonsPage() {
         level: String(fd.get("level") ?? "Beginner") as LessonLevel,
         imageUrl: emptyToUndefined(fd.get("imageUrl")),
         explanation: emptyToUndefined(fd.get("explanation")),
+
         conversationJson: validateConversationJson(
           emptyToUndefined(fd.get("conversationJson")),
         ),
+
         audioUrl: emptyToUndefined(fd.get("audioUrl")),
+
         vocabularyJson: validateVocabularyJson(
           emptyToUndefined(fd.get("vocabularyJson")),
         ),
+
         questionsJson: validateQuestionsJson(
           emptyToUndefined(fd.get("questionsJson")),
         ),
+
         grammarJson: validateGrammarJson(
           emptyToUndefined(fd.get("grammarJson")),
         ),
+
         exercisesJson: validateExercisesJson(
           emptyToUndefined(fd.get("exercisesJson")),
         ),
       });
     },
+
     onSuccess: () => {
       setEditingLesson(null);
       void qc.invalidateQueries({ queryKey: ["lessons"] });
     },
+
     onError: (err) => {
       alert((err as Error).message || "Failed to update lesson");
     },
@@ -129,7 +145,9 @@ export default function AdminLessonsPage() {
   return (
     <div className="space-y-4">
       <section className="rounded-xl border p-4">
-        <h2 className="font-medium mb-2">{t("create")}</h2>
+        <h2 className="mb-2 font-heading text-xl font-bold text-brand-blue">
+          {t("create")}
+        </h2>
         <CreateLessonForm />
       </section>
 
@@ -137,7 +155,9 @@ export default function AdminLessonsPage() {
         <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4">
           <section className="mt-10 w-full max-w-3xl rounded-xl bg-white p-4 shadow-xl">
             <div className="mb-3">
-              <h2 className="font-medium">{t("editLesson")}</h2>
+              <h2 className="font-heading text-xl font-bold text-brand-blue">
+                {t("editLesson")}
+              </h2>
             </div>
 
             <form
@@ -148,109 +168,144 @@ export default function AdminLessonsPage() {
                 update.mutate(new FormData(e.currentTarget));
               }}
             >
-              <input
-                name="title"
-                defaultValue={editingLesson.title}
-                className="w-full rounded border p-2"
-                required
-              />
+              <label className="block">
+                <FieldLabel>Lesson title</FieldLabel>
+                <input
+                  name="title"
+                  defaultValue={editingLesson.title}
+                  className="w-full rounded border p-2 font-body text-brand-dark"
+                  required
+                />
+              </label>
 
-              <textarea
-                name="description"
-                defaultValue={editingLesson.description ?? ""}
-                className="w-full rounded border p-2"
-              />
+              <label className="block">
+                <FieldLabel>Description</FieldLabel>
+                <textarea
+                  name="description"
+                  defaultValue={editingLesson.description ?? ""}
+                  className="w-full rounded border p-2 font-body text-brand-dark"
+                />
+              </label>
 
-              <select
-                name="level"
-                defaultValue={editingLesson.level}
-                className="w-full rounded border p-2"
-              >
-                <option value="Beginner">{t("beginner")}</option>
-                <option value="Intermediate">{t("intermediate")}</option>
-                <option value="Advanced">{t("advanced")}</option>
-              </select>
+              <label className="block">
+                <FieldLabel>Level</FieldLabel>
+                <select
+                  name="level"
+                  defaultValue={editingLesson.level}
+                  className="w-full rounded border p-2 font-body text-brand-dark"
+                >
+                  <option value="Beginner">{t("beginner")}</option>
+                  <option value="Intermediate">{t("intermediate")}</option>
+                  <option value="Advanced">{t("advanced")}</option>
+                </select>
+              </label>
 
-              <input
-                name="imageUrl"
-                defaultValue={editingLesson.imageUrl ?? ""}
-                placeholder="Image URL"
-                className="w-full rounded border p-2"
-              />
+              <label className="block">
+                <FieldLabel>Image URL</FieldLabel>
+                <input
+                  name="imageUrl"
+                  defaultValue={editingLesson.imageUrl ?? ""}
+                  placeholder="Image URL"
+                  className="w-full rounded border p-2 font-body text-brand-dark"
+                />
+              </label>
 
-              <textarea
-                name="explanation"
-                defaultValue={editingLesson.explanation ?? ""}
-                placeholder="Explanation"
-                className="min-h-28 w-full rounded border p-2"
-              />
-              <textarea
-                name="conversationJson"
-                defaultValue={editingLesson.conversationJson ?? ""}
-                placeholder='[{"speaker":"Mai","vietnamese":"Xin chào anh.","english":"Hello."}]'
-                className="min-h-32 w-full rounded border p-2 font-mono text-sm"
-              />
+              <label className="block">
+                <FieldLabel>Explanation</FieldLabel>
+                <textarea
+                  name="explanation"
+                  defaultValue={editingLesson.explanation ?? ""}
+                  placeholder="Explanation"
+                  className="min-h-28 w-full rounded border p-2 font-body text-brand-dark"
+                />
+              </label>
+
+              <label className="block">
+                <FieldLabel>Conversation JSON</FieldLabel>
+                <textarea
+                  name="conversationJson"
+                  defaultValue={editingLesson.conversationJson ?? ""}
+                  placeholder='[{"speaker":"Mai","vietnamese":"Xin chào anh.","english":"Hello."}]'
+                  className="min-h-32 w-full rounded border p-2 font-mono text-sm text-brand-dark"
+                />
+              </label>
 
               <p className="text-xs text-slate-500">
                 {`Expected format: [{"speaker":"Mai","vietnamese":"Xin chào anh.","english":"Hello."}]`}
               </p>
 
-              <input
-                name="audioUrl"
-                defaultValue={editingLesson.audioUrl ?? ""}
-                placeholder="Conversation audio URL"
-                className="w-full rounded border p-2"
-              />
+              <label className="block">
+                <FieldLabel>Conversation audio URL</FieldLabel>
+                <input
+                  name="audioUrl"
+                  defaultValue={editingLesson.audioUrl ?? ""}
+                  placeholder="Conversation audio URL"
+                  className="w-full rounded border p-2 font-body text-brand-dark"
+                />
+              </label>
 
-              <textarea
-                name="vocabularyJson"
-                defaultValue={editingLesson.vocabularyJson ?? ""}
-                placeholder='[{"vietnamese":"xin chào","english":"hello","vietnameseExample":"Xin chào, anh khỏe không?","englishExample":"Hello, how are you?"}]'
-                className="min-h-32 w-full rounded border p-2 font-mono text-sm"
-              />
+              <label className="block">
+                <FieldLabel>Vocabulary JSON</FieldLabel>
+                <textarea
+                  name="vocabularyJson"
+                  defaultValue={editingLesson.vocabularyJson ?? ""}
+                  placeholder='[{"vietnamese":"xin chào","english":"hello","vietnameseExample":"Xin chào, anh khỏe không?","englishExample":"Hello, how are you?"}]'
+                  className="min-h-32 w-full rounded border p-2 font-mono text-sm text-brand-dark"
+                />
+              </label>
 
               <p className="text-xs text-slate-500">
                 {`Expected format: [{"vietnamese":"xin chào","english":"hello","vietnameseExample":"Xin chào, anh khỏe không?","englishExample":"Hello, how are you?"}]`}
               </p>
 
-              <textarea
-                name="questionsJson"
-                defaultValue={editingLesson.questionsJson ?? ""}
-                placeholder='[{"question":"What is this conversation about?"}]'
-                className="min-h-24 w-full rounded border p-2 font-mono text-sm"
-              />
+              <label className="block">
+                <FieldLabel>Questions JSON</FieldLabel>
+                <textarea
+                  name="questionsJson"
+                  defaultValue={editingLesson.questionsJson ?? ""}
+                  placeholder='[{"question":"What is this conversation about?"}]'
+                  className="min-h-24 w-full rounded border p-2 font-mono text-sm text-brand-dark"
+                />
+              </label>
 
               <p className="text-xs text-slate-500">
                 {`Expected format: [{"question":"What is this conversation about?"}]`}
               </p>
 
-              <textarea
-                name="grammarJson"
-                defaultValue={editingLesson.grammarJson ?? ""}
-                placeholder='[{"title":"Using có...không?","explanation":"This structure is used to form yes/no questions.","vietnameseExample":"Anh có khỏe không?","englishExample":"Are you well?"}]'
-                className="min-h-32 w-full rounded border p-2 font-mono text-sm"
-              />
+              <label className="block">
+                <FieldLabel>Grammar JSON</FieldLabel>
+                <textarea
+                  name="grammarJson"
+                  defaultValue={editingLesson.grammarJson ?? ""}
+                  placeholder='[{"title":"Using có...không?","explanation":"This structure is used to form yes/no questions.","vietnameseExample":"Anh có khỏe không?","englishExample":"Are you well?"}]'
+                  className="min-h-32 w-full rounded border p-2 font-mono text-sm text-brand-dark"
+                />
+              </label>
 
               <p className="text-xs text-slate-500">
                 {`Expected format: [{"title":"Using có...không?","explanation":"This structure is used to form yes/no questions.","vietnameseExample":"Anh có khỏe không?","englishExample":"Are you well?"}]`}
               </p>
 
-              <textarea
-                name="exercisesJson"
-                defaultValue={editingLesson.exercisesJson ?? ""}
-                placeholder='[{"type":"shortAnswer","instruction":"Answer the question in Vietnamese.","prompt":"Hành khách mua vé khứ hồi hay một chiều?","answer":"Hành khách mua vé một chiều."}]'
-                className="min-h-32 w-full rounded border p-2 font-mono text-sm"
-              />
+              <label className="block">
+                <FieldLabel>Practice links JSON</FieldLabel>
+                <textarea
+                  name="exercisesJson"
+                  defaultValue={editingLesson.exercisesJson ?? ""}
+                  placeholder='[{"type":"practiceLink","title":"Numbers practice","description":"Practise Vietnamese numbers with interactive activities and games.","url":"https://wordwall.net/...","buttonText":"Open practice activities","note":"You may need to create a free Wordwall account to access the activities."}]'
+                  className="min-h-32 w-full rounded border p-2 font-mono text-sm text-brand-dark"
+                />
+              </label>
 
               <p className="text-xs text-slate-500">
-                {`Expected format: [{"type":"shortAnswer","instruction":"Answer the question in Vietnamese.","prompt":"Hành khách mua vé khứ hồi hay một chiều?","answer":"Hành khách mua vé một chiều."}]`}
+                Add external practice activities here, for example Wordwall
+                links. The note field can explain if the student needs a free
+                account.
               </p>
-
               <div className="flex items-center gap-2">
                 <button
                   type="submit"
                   disabled={update.isPending}
-                  className="cursor-pointer rounded bg-black px-3 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="cursor-pointer rounded bg-brand-orange px-3 py-2 font-heading font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {update.isPending ? t("saving") : t("saveChanges")}
                 </button>

@@ -147,6 +147,25 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+
+19/05
+
+Completed:
+
+updated ExercisesJson from old shortAnswer format to new practiceLink format
+decided learner-facing section should be called Practice
+kept backend/API field name as exercisesJson for now
+updated LessonDetailPage.tsx
+updated lessonJsonValidation.ts
+updated CreateLessonForm.tsx
+updated AdminLessonsPage.tsx
+updated backend LessonValidationRules.BeValidExercisesJson
+updated backend .WithMessage(...) for ExercisesJson in LessonValidator.cs
+confirmed no database migration was needed
+tested create/edit flow with new practice-link JSON
+confirmed Practice section displays clickable external Wordwall/practice link
+confirmed optional note displays account/access information
+
 15/05
 
 Completed:
@@ -640,6 +659,12 @@ Completed:
 
 
 ## Notes
+
+old lessons with the previous shortAnswer exercise format need to be cleared or converted before saving
+keep practiceLink simple for now
+later, build real exercises/games as a separate feature or route, for example /lessons/:id/practice
+possible future exercise item types: multipleChoice, fillInBlank, matching, listening
+consider renaming/restructuring exercisesJson later only when the full practice feature is designed
 Notes:
 
 Exercises currently show suggested answers immediately
@@ -883,6 +908,20 @@ Locale switcher exists: no
 Current status: i18n is configured and the lessons page UI is wired for translation
 
 ## From Binh
+ 
+ Coloring
+ Lesson title should be orange
+ All the title for fields (vocabulary,explanatio etc.) should be blue
+ Brödtext in field should be brand-dark, And if possible the neew vocabulary for each lesson should be red.
+ New vocabulary words in vocabulary field should be orange, and the rest blue
+ The grammar words should be orange
+ All words in Grammar and Vocabulary should also have audio
+ THe grammar fields should be numbered
+ Exercise have link to wordWall exercises, make link clickable, inform user about having to create a free account
+ Add field titles in the createLessonPage and editLessonform
+
+Perhaps add additional optional image field to the vocabulary field, and the other grammar and conversation fields, but for later.
+ 
  !!Vocabulary = 4 column table, VN word, EN word, Vn Sentence, En Sentence!!
 
  Vocabulary table
@@ -897,5 +936,8 @@ Grammar section
 - Sentence example
 
 Exercises section
+- Just add link to Wordwall with exerciese
+- Perhaps later create a full feature for exercises
+
 - Exercise content
 - Answer key shown in modal/popup

@@ -1,4 +1,4 @@
-import { useEffect, useActionState } from "react";
+import { useEffect, useActionState, ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -30,17 +30,23 @@ async function createAction(
       level: String(fd.get("level") ?? "Beginner") as LessonLevel,
       imageUrl: emptyToUndefined(fd.get("imageUrl")),
       explanation: emptyToUndefined(fd.get("explanation")),
+
       conversationJson: validateConversationJson(
         emptyToUndefined(fd.get("conversationJson")),
       ),
+
       audioUrl: emptyToUndefined(fd.get("audioUrl")),
+
       vocabularyJson: validateVocabularyJson(
         emptyToUndefined(fd.get("vocabularyJson")),
       ),
+
       questionsJson: validateQuestionsJson(
         emptyToUndefined(fd.get("questionsJson")),
       ),
+
       grammarJson: validateGrammarJson(emptyToUndefined(fd.get("grammarJson"))),
+
       exercisesJson: validateExercisesJson(
         emptyToUndefined(fd.get("exercisesJson")),
       ),
@@ -52,6 +58,14 @@ async function createAction(
   }
 }
 
+function FieldLabel({ children }: { children: ReactNode }) {
+  return (
+    <span className="mb-1 block font-heading text-sm font-semibold text-brand-blue">
+      {children}
+    </span>
+  );
+}
+
 function SubmitBtn() {
   const { t } = useTranslation();
   const { pending } = useFormStatus();
@@ -59,7 +73,7 @@ function SubmitBtn() {
   return (
     <button
       type="submit"
-      className="cursor-pointer rounded bg-black px-3 py-2 text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+      className="cursor-pointer rounded bg-brand-orange px-3 py-2 font-heading font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
       disabled={pending}
     >
       {pending ? t("saving") : t("save")}
@@ -84,101 +98,137 @@ export default function CreateLessonForm() {
 
   return (
     <form action={action} className="space-y-3">
-      <input
-        name="title"
-        placeholder={t("title")}
-        className="w-full rounded border p-2"
-        required
-      />
+      <label className="block">
+        <FieldLabel>Lesson title</FieldLabel>
+        <input
+          name="title"
+          placeholder={t("title")}
+          className="w-full rounded border p-2 font-body text-brand-dark"
+          required
+        />
+      </label>
 
-      <textarea
-        name="description"
-        placeholder={t("description")}
-        className="w-full rounded border p-2"
-      />
+      <label className="block">
+        <FieldLabel>Description</FieldLabel>
+        <textarea
+          name="description"
+          placeholder={t("description")}
+          className="w-full rounded border p-2 font-body text-brand-dark"
+        />
+      </label>
 
-      <select
-        name="level"
-        defaultValue="Beginner"
-        className="w-full rounded border p-2"
-      >
-        <option value="Beginner">{t("beginner")}</option>
-        <option value="Intermediate">{t("intermediate")}</option>
-        <option value="Advanced">{t("advanced")}</option>
-      </select>
+      <label className="block">
+        <FieldLabel>Level</FieldLabel>
+        <select
+          name="level"
+          defaultValue="Beginner"
+          className="w-full rounded border p-2 font-body text-brand-dark"
+        >
+          <option value="Beginner">{t("beginner")}</option>
+          <option value="Intermediate">{t("intermediate")}</option>
+          <option value="Advanced">{t("advanced")}</option>
+        </select>
+      </label>
 
-      <input
-        name="imageUrl"
-        placeholder="Image URL"
-        className="w-full rounded border p-2"
-      />
+      <label className="block">
+        <FieldLabel>Image URL</FieldLabel>
+        <input
+          name="imageUrl"
+          placeholder="Image URL"
+          className="w-full rounded border p-2 font-body text-brand-dark"
+        />
+      </label>
 
       <p className="text-xs text-slate-500">
         Use a direct image URL ending in .jpg, .png, or .webp.
       </p>
 
-      <textarea
-        name="explanation"
-        placeholder="Explanation"
-        className="min-h-28 w-full rounded border p-2"
-      />
+      <label className="block">
+        <FieldLabel>Explanation</FieldLabel>
+        <textarea
+          name="explanation"
+          placeholder="Explanation"
+          className="min-h-28 w-full rounded border p-2 font-body text-brand-dark"
+        />
+      </label>
 
-      <textarea
-        name="conversationJson"
-        placeholder='[{"speaker":"Mai","vietnamese":"Xin chào anh.","english":"Hello."}]'
-        className="min-h-32 w-full rounded border p-2 font-mono text-sm"
-      />
+      <label className="block">
+        <FieldLabel>Conversation JSON</FieldLabel>
+        <textarea
+          name="conversationJson"
+          placeholder='[{"speaker":"Mai","vietnamese":"Xin chào anh.","english":"Hello."}]'
+          className="min-h-32 w-full rounded border p-2 font-mono text-sm text-brand-dark"
+        />
+      </label>
 
       <p className="text-xs text-slate-500">
         {`Expected format: [{"speaker":"Mai","vietnamese":"Xin chào anh.","english":"Hello."}]`}
       </p>
 
-      <input
-        name="audioUrl"
-        placeholder="Conversation audio URL"
-        className="w-full rounded border p-2"
-      />
+      <label className="block">
+        <FieldLabel>Conversation audio URL</FieldLabel>
+        <input
+          name="audioUrl"
+          placeholder="Conversation audio URL"
+          className="w-full rounded border p-2 font-body text-brand-dark"
+        />
+      </label>
+
       <p className="text-xs text-slate-500">
         Use a direct audio URL ending in .mp3, .wav, or .ogg.
       </p>
 
-      <textarea
-        name="vocabularyJson"
-        placeholder='[{"vietnamese":"xin chào","english":"hello","vietnameseExample":"Xin chào, anh khỏe không?","englishExample":"Hello, how are you?"}]'
-        className="min-h-32 w-full rounded border p-2 font-mono text-sm"
-      />
+      <label className="block">
+        <FieldLabel>Vocabulary JSON</FieldLabel>
+        <textarea
+          name="vocabularyJson"
+          placeholder='[{"vietnamese":"xin chào","english":"hello","vietnameseExample":"Xin chào, anh khỏe không?","englishExample":"Hello, how are you?"}]'
+          className="min-h-32 w-full rounded border p-2 font-mono text-sm text-brand-dark"
+        />
+      </label>
 
       <p className="text-xs text-slate-500">
         {`Expected format: [{"vietnamese":"xin chào","english":"hello","vietnameseExample":"Xin chào, anh khỏe không?","englishExample":"Hello, how are you?"}]`}
       </p>
 
-      <textarea
-        name="questionsJson"
-        placeholder='[{"question":"What is this conversation about?"}]'
-        className="min-h-24 w-full rounded border p-2 font-mono text-sm"
-      />
+      <label className="block">
+        <FieldLabel>Questions JSON</FieldLabel>
+        <textarea
+          name="questionsJson"
+          placeholder='[{"question":"What is this conversation about?"}]'
+          className="min-h-24 w-full rounded border p-2 font-mono text-sm text-brand-dark"
+        />
+      </label>
 
       <p className="text-xs text-slate-500">
         {`Expected format: [{"question":"What is this conversation about?"}]`}
       </p>
-      <textarea
-        name="grammarJson"
-        placeholder='[{"title":"Using có...không?","explanation":"This structure is used to form yes/no questions.","vietnameseExample":"Anh có khỏe không?","englishExample":"Are you well?"}]'
-        className="min-h-32 w-full rounded border p-2 font-mono text-sm"
-      />
+
+      <label className="block">
+        <FieldLabel>Grammar JSON</FieldLabel>
+        <textarea
+          name="grammarJson"
+          placeholder='[{"title":"Using có...không?","explanation":"This structure is used to form yes/no questions.","vietnameseExample":"Anh có khỏe không?","englishExample":"Are you well?"}]'
+          className="min-h-32 w-full rounded border p-2 font-mono text-sm text-brand-dark"
+        />
+      </label>
 
       <p className="text-xs text-slate-500">
         {`Expected format: [{"title":"Using có...không?","explanation":"This structure is used to form yes/no questions.","vietnameseExample":"Anh có khỏe không?","englishExample":"Are you well?"}]`}
       </p>
 
-      <textarea
-        name="exercisesJson"
-        placeholder='[{"type":"shortAnswer","instruction":"Answer the question in Vietnamese.","prompt":"Hành khách mua vé khứ hồi hay một chiều?","answer":"Hành khách mua vé một chiều."}]'
-        className="min-h-32 w-full rounded border p-2 font-mono text-sm"
-      />
+      <label className="block">
+        <FieldLabel>Practice links JSON</FieldLabel>
+        <textarea
+          name="exercisesJson"
+          placeholder='[{"type":"practiceLink","title":"Numbers practice","description":"Practise Vietnamese numbers with interactive activities and games.","url":"https://wordwall.net/...","buttonText":"Open practice activities","note":"You may need to create a free Wordwall account to access the activities."}]'
+          className="min-h-32 w-full rounded border p-2 font-mono text-sm text-brand-dark"
+        />
+      </label>
 
       <p className="text-xs text-slate-500">
-        {`Expected format: [{"type":"shortAnswer","instruction":"Answer the question in Vietnamese.","prompt":"Hành khách mua vé khứ hồi hay một chiều?","answer":"Hành khách mua vé một chiều."}]`}
+        Add external practice activities here, for example Wordwall links. The
+        note field can explain if the student needs a free account.
       </p>
 
       <SubmitBtn />

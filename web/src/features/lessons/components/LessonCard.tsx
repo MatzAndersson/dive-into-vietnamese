@@ -53,7 +53,7 @@ export default function LessonCard({
         </div>
 
         <div className="p-4">
-          <h3 className="line-clamp-1 font-heading text-lg font-semibold text-brand-dark">
+          <h3 className="line-clamp-1 font-heading text-lg font-semibold text-brand-orange">
             {lesson.title}
           </h3>
 

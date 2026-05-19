@@ -226,17 +226,40 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                         return false;
                     }
 
-                    if (!HasNonEmptyStringProperty(item, "instruction"))
+                    if (item.GetProperty("type").GetString() != "practiceLink")
                     {
                         return false;
                     }
 
-                    if (!HasNonEmptyStringProperty(item, "prompt"))
+                    if (!HasNonEmptyStringProperty(item, "title"))
                     {
                         return false;
                     }
 
-                    if (!HasNonEmptyStringProperty(item, "answer"))
+                    if (!HasNonEmptyStringProperty(item, "description"))
+                    {
+                        return false;
+                    }
+
+                    if (!HasNonEmptyStringProperty(item, "url"))
+                    {
+                        return false;
+                    }
+
+                    if (!HasNonEmptyStringProperty(item, "buttonText"))
+                    {
+                        return false;
+                    }
+
+                    var url = item.GetProperty("url").GetString();
+
+                    if (!Uri.TryCreate(url, UriKind.Absolute, out _))
+                    {
+                        return false;
+                    }
+
+                    if (item.TryGetProperty("note", out var note) &&
+                        note.ValueKind != JsonValueKind.String)
                     {
                         return false;
                     }

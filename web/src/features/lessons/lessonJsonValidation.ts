@@ -23,10 +23,12 @@ type GrammarItem = {
 };
 
 type ExerciseItem = {
-  type: string;
-  instruction: string;
-  prompt: string;
-  answer: string;
+  type: "practiceLink";
+  title: string;
+  description: string;
+  url: string;
+  buttonText: string;
+  note?: string;
 };
 
 export function validateVocabularyJson(value: string | undefined) {
@@ -217,28 +219,46 @@ export function validateExercisesJson(value: string | undefined) {
       throw new Error("Exercises JSON must be an array.");
     }
 
-    const hasInvalidItem = parsed.some((item) => {
+    const hasInvalidItem = parsed.some((item: unknown) => {
       if (typeof item !== "object" || item === null || Array.isArray(item)) {
         return true;
       }
 
       const exerciseItem = item as Partial<ExerciseItem>;
 
-      return (
-        typeof exerciseItem.type !== "string" ||
-        typeof exerciseItem.instruction !== "string" ||
-        typeof exerciseItem.prompt !== "string" ||
-        typeof exerciseItem.answer !== "string" ||
-        !exerciseItem.type.trim() ||
-        !exerciseItem.instruction.trim() ||
-        !exerciseItem.prompt.trim() ||
-        !exerciseItem.answer.trim()
-      );
+      if (
+        exerciseItem.type !== "practiceLink" ||
+        typeof exerciseItem.title !== "string" ||
+        typeof exerciseItem.description !== "string" ||
+        typeof exerciseItem.url !== "string" ||
+        typeof exerciseItem.buttonText !== "string" ||
+        !exerciseItem.title.trim() ||
+        !exerciseItem.description.trim() ||
+        !exerciseItem.url.trim() ||
+        !exerciseItem.buttonText.trim()
+      ) {
+        return true;
+      }
+
+      if (
+        exerciseItem.note !== undefined &&
+        typeof exerciseItem.note !== "string"
+      ) {
+        return true;
+      }
+
+      try {
+        new URL(exerciseItem.url);
+      } catch {
+        return true;
+      }
+
+      return false;
     });
 
     if (hasInvalidItem) {
       throw new Error(
-        "Each exercise item must include type, instruction, prompt, and answer fields.",
+        "Each practice item must include type, title, description, url, and buttonText. Type must be practiceLink.",
       );
     }
 

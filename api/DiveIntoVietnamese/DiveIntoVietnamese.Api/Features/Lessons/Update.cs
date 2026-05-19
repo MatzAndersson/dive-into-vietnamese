@@ -91,7 +91,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                     .MaximumLength(LessonValidationRules.StructuredJsonMaxLength)
                     .WithMessage($"Exercises JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
                     .Must(LessonValidationRules.BeValidExercisesJson)
-                    .WithMessage("Exercises JSON must be a valid JSON array where each item includes type, instruction, prompt, and answer.");
+                    .WithMessage("Exercises JSON must be a valid JSON array where each practice item includes type, title, description, url, and buttonText. Type must be practiceLink.");
             }
         }
 

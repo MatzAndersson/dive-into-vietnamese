@@ -14,6 +14,7 @@ type VocabularyItem = {
   english: string;
   vietnameseExample?: string;
   englishExample?: string;
+  audioUrl?: string;
 };
 
 type GrammarItem = {
@@ -21,13 +22,16 @@ type GrammarItem = {
   explanation: string;
   vietnameseExample: string;
   englishExample: string;
+  audioUrl?: string;
 };
 
 type ExerciseItem = {
-  type: string;
-  instruction: string;
-  prompt: string;
-  answer: string;
+  type: "practiceLink";
+  title: string;
+  description: string;
+  url: string;
+  buttonText: string;
+  note?: string;
 };
 
 type LessonQuestion = {
@@ -124,10 +128,17 @@ function parseExercises(json?: string | null): ExerciseItem[] {
         typeof item === "object" &&
         item !== null &&
         !Array.isArray(item) &&
-        typeof (item as Partial<ExerciseItem>).type === "string" &&
-        typeof (item as Partial<ExerciseItem>).instruction === "string" &&
-        typeof (item as Partial<ExerciseItem>).prompt === "string" &&
-        typeof (item as Partial<ExerciseItem>).answer === "string",
+        (item as Partial<ExerciseItem>).type === "practiceLink" &&
+        typeof (item as Partial<ExerciseItem>).title === "string" &&
+        typeof (item as Partial<ExerciseItem>).description === "string" &&
+        typeof (item as Partial<ExerciseItem>).url === "string" &&
+        typeof (item as Partial<ExerciseItem>).buttonText === "string" &&
+        Boolean((item as Partial<ExerciseItem>).title?.trim()) &&
+        Boolean((item as Partial<ExerciseItem>).description?.trim()) &&
+        Boolean((item as Partial<ExerciseItem>).url?.trim()) &&
+        Boolean((item as Partial<ExerciseItem>).buttonText?.trim()) &&
+        ((item as Partial<ExerciseItem>).note === undefined ||
+          typeof (item as Partial<ExerciseItem>).note === "string"),
     );
   } catch {
     return [];
@@ -234,12 +245,12 @@ export default function LessonDetailPage() {
                     </span>
                   </div>
 
-                  <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                  <h1 className="font-heading text-3xl font-bold tracking-tight text-brand-orange sm:text-4xl">
                     {lesson.title}
                   </h1>
 
                   {lesson.description && (
-                    <p className="max-w-xl text-base leading-7 text-white/85">
+                    <p className="max-w-xl font-body text-base leading-7 text-white/90">
                       {lesson.description}
                     </p>
                   )}
@@ -249,14 +260,16 @@ export default function LessonDetailPage() {
           </section>
 
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
-            <h2 className="mb-3 text-xl font-semibold text-gray-900">
+            <h2 className="mb-3 font-heading text-xl font-semibold text-brand-blue">
               Explanation
             </h2>
 
             {lesson.explanation ? (
-              <p className="leading-7 text-gray-700">{lesson.explanation}</p>
+              <p className="font-body leading-7 text-brand-dark">
+                {lesson.explanation}
+              </p>
             ) : (
-              <p className="leading-7 text-gray-500 italic">
+              <p className="font-body leading-7 text-brand-dark/70 italic">
                 No explanation has been added for this lesson yet.
               </p>
             )}
@@ -264,7 +277,7 @@ export default function LessonDetailPage() {
 
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
             <div className="mb-4 flex items-center justify-between gap-3">
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="mb-3 font-heading text-xl font-semibold text-brand-blue">
                 Conversation
               </h2>
 
@@ -309,14 +322,14 @@ export default function LessonDetailPage() {
                 ))}
               </div>
             ) : (
-              <p className="leading-7 text-gray-500 italic">
+              <p className="font-body leading-7 text-brand-dark/70 italic">
                 No conversation has been added for this lesson yet.
               </p>
             )}
           </section>
 
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-gray-900">
+            <h2 className="mb-4 font-heading text-xl font-semibold text-brand-blue">
               Vocabulary
             </h2>
 
@@ -324,7 +337,7 @@ export default function LessonDetailPage() {
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[720px] border-collapse text-left text-sm">
                   <thead>
-                    <tr className="border-b bg-slate-50 text-slate-700">
+                    <tr className="border-b bg-brand-light text-brand-blue">
                       <th className="p-3 font-semibold">Vietnamese</th>
                       <th className="p-3 font-semibold">English</th>
                       <th className="p-3 font-semibold">Example sentence</th>
@@ -338,14 +351,29 @@ export default function LessonDetailPage() {
                         key={`${item.vietnamese}-${index}`}
                         className="border-b last:border-b-0"
                       >
-                        <td className="p-3 font-medium text-gray-900">
+                        <td className="p-3 font-heading font-bold text-brand-orange">
                           {item.vietnamese}
+
+                          {item.audioUrl && (
+                            <audio
+                              controls
+                              src={item.audioUrl}
+                              className="mt-2 w-full"
+                            >
+                              Your browser does not support the audio element.
+                            </audio>
+                          )}
                         </td>
-                        <td className="p-3 text-gray-700">{item.english}</td>
-                        <td className="p-3 text-gray-700">
+
+                        <td className="p-3 font-body font-semibold text-brand-blue">
+                          {item.english}
+                        </td>
+
+                        <td className="p-3 font-body text-brand-dark">
                           {item.vietnameseExample || "—"}
                         </td>
-                        <td className="p-3 text-gray-700">
+
+                        <td className="p-3 font-body text-brand-blue">
                           {item.englishExample || "—"}
                         </td>
                       </tr>
@@ -354,13 +382,13 @@ export default function LessonDetailPage() {
                 </table>
               </div>
             ) : (
-              <p className="leading-7 text-gray-500 italic">
+              <p className="font-body leading-7 text-brand-dark/70 italic">
                 No vocabulary has been added for this lesson yet.
               </p>
             )}
           </section>
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-gray-900">
+            <h2 className="mb-3 font-heading text-xl font-semibold text-brand-blue">
               Questions
             </h2>
 
@@ -376,13 +404,13 @@ export default function LessonDetailPage() {
                 ))}
               </ol>
             ) : (
-              <p className="italic text-slate-500">
+              <p className="font-body leading-7 text-brand-dark/70 italic">
                 No questions have been added for this lesson yet.
               </p>
             )}
           </section>
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-gray-900">
+            <h2 className="mb-4 font-heading text-xl font-semibold text-brand-blue">
               Grammar
             </h2>
 
@@ -394,7 +422,7 @@ export default function LessonDetailPage() {
                     className="rounded-xl border bg-slate-50 p-4"
                   >
                     <h3 className="font-semibold text-gray-900">
-                      {item.title}
+                      {index + 1}. {item.title}
                     </h3>
 
                     <p className="mt-2 leading-7 text-gray-700">
@@ -402,7 +430,7 @@ export default function LessonDetailPage() {
                     </p>
 
                     <div className="mt-3 rounded-lg bg-white p-3">
-                      <p className="text-lg text-gray-900">
+                      <p className="mt-3 font-body text-lg font-bold text-brand-orange">
                         {item.vietnameseExample}
                       </p>
                       <p className="mt-1 text-sm text-gray-600">
@@ -413,47 +441,51 @@ export default function LessonDetailPage() {
                 ))}
               </div>
             ) : (
-              <p className="italic text-slate-500">
+              <p className="font-body leading-7 text-brand-dark/70 italic">
                 No grammar notes have been added for this lesson yet.
               </p>
             )}
           </section>
           <section className="rounded-2xl border bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold text-gray-900">
-              Exercises
+            <h2 className="mb-4 font-heading text-xl font-semibold text-brand-blue">
+              Practice
             </h2>
 
             {exerciseItems.length > 0 ? (
               <div className="space-y-4">
                 {exerciseItems.map((item, index) => (
                   <article
-                    key={`${item.type}-${item.prompt}-${index}`}
-                    className="rounded-xl border p-4"
+                    key={`${item.type}-${item.title}-${index}`}
+                    className="rounded-xl border bg-white p-4 shadow-sm"
                   >
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      {item.type}
+                    <h3 className="font-heading text-lg font-bold text-brand-blue">
+                      {item.title}
+                    </h3>
+
+                    <p className="mt-2 font-body text-brand-dark">
+                      {item.description}
                     </p>
 
-                    <p className="font-medium text-gray-900">
-                      {item.instruction}
-                    </p>
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-block rounded-xl bg-brand-orange px-4 py-2 font-heading font-bold text-white transition hover:opacity-90"
+                    >
+                      {item.buttonText}
+                    </a>
 
-                    <p className="mt-3 rounded-lg bg-slate-50 p-3 text-gray-800">
-                      {item.prompt}
-                    </p>
-
-                    <div className="mt-3 rounded-lg border bg-white p-3">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                        Suggested answer
+                    {item.note && (
+                      <p className="mt-2 font-body text-sm text-brand-dark/80">
+                        {item.note}
                       </p>
-                      <p className="mt-1 text-gray-700">{item.answer}</p>
-                    </div>
+                    )}
                   </article>
                 ))}
               </div>
             ) : (
-              <p className="italic text-slate-500">
-                No exercises have been added for this lesson yet.
+              <p className="font-body italic leading-7 text-brand-dark/70">
+                No practice activities have been added for this lesson yet.
               </p>
             )}
           </section>
