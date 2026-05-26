@@ -9,8 +9,8 @@
 
 	<ItemGroup>
 		<!-- version 12 to match the API (the DI package has a hard =12 constraint) -->
-		<PackageReference Include="AutoMapper" Version="12.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.7" />
+		
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.27" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.7" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.7" />
 		<PackageReference Include="Shouldly" Version="4.3.0" />

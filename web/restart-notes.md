@@ -74,19 +74,78 @@ Tasks:
 AutoMapper vulnerability warning remains for later
 
 
+
+
+0. Commit current working Practice-link changes
+   - ExercisesJson → practiceLink completed
+   - Microsoft.AspNetCore.Mvc.Testing updated to 8.0.27
+   - Note that old tests are currently obsolete/unsafe
+
+1. Delete confirmed unsafe/outdated tests
+   - GetAllTests.cs
+   - UpdateDeleteTests.cs
+   - CreateHandlerTests.cs
+   - Keep any test files that are still relevant and do not access the real dev database
+
+2. Remove AutoMapper from the Tests project
+   - Remove AutoMapper package reference from DiveIntoVietnamese.Tests.csproj
+   - Run dotnet restore and dotnet build
+
+3. Remove AutoMapper from the API
+   - Replace AutoMapper mapping with manual Lesson → LessonDto mapping
+   - Update Create.cs, Update.cs, GetAll.cs and GetById.cs as needed
+   - Remove MappingProfile.cs
+   - Remove builder.Services.AddAutoMapper(typeof(Program));
+   - Remove AutoMapper.Extensions.Microsoft.DependencyInjection from the API project
+
+4. Confirm AutoMapper vulnerability warning is gone
+   - Run:
+     dotnet restore
+     dotnet build
+     dotnet list package --vulnerable --include-transitive
+
+5. Remove MediatR while preserving feature folders
+   - Keep Features/Lessons/Create.cs, Update.cs, Delete.cs, GetAll.cs, GetById.cs and Endpoints.cs
+   - Change endpoints to call the feature methods directly
+   - Remove ISender / IRequest / IRequestHandler usage
+   - Remove MediatR registration and package reference
+
+6. Move validation to explicit Create/Update validation
+   - Keep FluentValidation
+   - Validate create/update requests directly in their feature methods
+   - Remove MediatR ValidationBehavior after it is no longer used
+   - Check whether ApiKeyBehavior is obsolete; keep ApiKeyFilter for current route protection
+
+7. Confirm CRUD still works from the frontend
+   - list lessons
+   - open lesson detail
+   - create lesson
+   - edit lesson
+   - delete only a temporary test lesson
+   - verify Practice link JSON still works
+
+8. Audit real admin authentication before private deployment
+   - Confirm that a browser-exposed API key is not relied on for online admin security
+   - Decide on ASP.NET Identity/admin login or another secure staging access solution
+
+9. Build teacher-friendly form editors with optional JSON mode
+   - simple fields/buttons for normal lesson entry
+   - advanced raw JSON textarea toggle for fast LLM-assisted content entry
+   - start with Practice links, then Questions, Vocabulary, Grammar and Conversation
+
+10. Deploy private test version online
+   - only after admin access is protected
+   - let your partner start entering/refining lesson material
+
+
+
 4. Add QuestionsJson backend
 5. Add QuestionsJson frontend create/edit/display
 6. Add GrammarJson backend
 7. Add GrammarJson frontend create/edit/display
 8. Add ExercisesJson backend
 9. Add ExercisesJson frontend create/edit/display
-10. Add answer key modal
-11. Check/fix NuGet vulnerability warning
-12. Add basic LessonValidator tests
-13. Prepare first student-test version
-14. Deploy private test version online
-15. Build teacher-friendly structured editors
-
+10. Add answer key modal"
 Create a real landing page.
 
 Goal:
