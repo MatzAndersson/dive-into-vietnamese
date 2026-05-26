@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿
 using FluentValidation;
 using MediatR;
 using DiveIntoVietnamese.Api.Data;
@@ -98,12 +98,10 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
         public class Handler : IRequestHandler<UpdateLessonCommand, LessonDto>
         {
             private readonly AppDbContext _db;
-            private readonly IMapper _mapper;
 
-            public Handler(AppDbContext db, IMapper mapper)
+            public Handler(AppDbContext db)
             {
                 _db = db;
-                _mapper = mapper;
             }
 
             public async Task<LessonDto> Handle(UpdateLessonCommand request, CancellationToken ct)
@@ -125,7 +123,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
 
                 await _db.SaveChangesAsync(ct);
 
-                return _mapper.Map<LessonDto>(entity);
+                return LessonMapping.ToDto(entity);
             }
         }
     }

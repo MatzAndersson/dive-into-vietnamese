@@ -207,6 +207,47 @@ Future transcript/vocabulary direction:
 
 ## Completed tasks per session
 
+26/05
+
+Completed:
+
+started dependency/security cleanup session
+created separate refactor branch for AutoMapper/MediatR removal
+identified vulnerable AutoMapper 12.0.1 dependency
+identified transitive System.Text.Json 8.0.4 vulnerability in test project
+updated Microsoft.AspNetCore.Mvc.Testing from 8.0.7 to 8.0.27
+confirmed System.Text.Json vulnerability no longer appears
+identified old integration tests as outdated/unsafe against development database
+deleted obsolete tests:
+
+CreateHandlerTests.cs
+GetAllTests.cs
+UpdateDeleteTests.cs
+
+removed direct AutoMapper reference from DiveIntoVietnamese.Tests.csproj
+created LessonMapping.cs for explicit DTO mapping
+replaced AutoMapper handler usage in:
+
+GetAll.cs
+GetById.cs
+Create.cs
+Update.cs
+
+confirmed solution builds with manual mapping in place
+confirmed remaining AutoMapper references are only:
+
+MappingProfile.cs
+Program.cs
+DiveIntoVietnamese.Api.csproj
+
+Next:
+
+remove final AutoMapper references from API
+run build and vulnerability check
+confirm AutoMapper warning disappears
+commit completed AutoMapper refactor
+then start separate MediatR removal session
+
 19/05
 
 Completed:
@@ -718,6 +759,13 @@ Completed:
 
 
 ## Notes
+
+Notes for later:
+
+remove MediatR while keeping feature-folder structure
+add new tests later using an isolated test database
+replace temporary API-key protection before private online deployment
+build teacher-friendly form editors with structured fields plus optional raw JSON mode
 
 old lessons with the previous shortAnswer exercise format need to be cleared or converted before saving
 keep practiceLink simple for now

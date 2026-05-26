@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
+﻿
 using DiveIntoVietnamese.Api.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +12,10 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
         public sealed class Handler : IRequestHandler<Query, LessonDto?>
         {
             private readonly AppDbContext _db;
-            private readonly IMapper _map;
 
-            public Handler(AppDbContext db, IMapper map)
+            public Handler(AppDbContext db)
             {
                 _db = db;
-                _map = map;
             }
 
             public async Task<LessonDto?> Handle(Query request, CancellationToken ct)
@@ -26,7 +23,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                 var item = await _db.Lessons
                     .AsNoTracking()
                     .Where(l => l.Id == request.Id)
-                    .ProjectTo<LessonDto>(_map.ConfigurationProvider)
+                    .Select(LessonMapping.ToDtoExpression)
                     .FirstOrDefaultAsync(ct);
 
                 return item;
