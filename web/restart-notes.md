@@ -59,6 +59,20 @@ Lesson detail page now supports:
 - static vocabulary section
 ## Next concrete coding task
 
+Next steps:
+
+- confirm Swagger still loads after the Auth changes
+- optionally test register/login locally with a temporary user
+- search solution for remaining MediatR references
+- delete obsolete ValidationBehavior.cs and ApiKeyBehavior.cs if no longer used
+- remove MediatR registration from Program.cs
+- remove MediatR NuGet package from the API project
+- run restore, build and vulnerability scan again
+- audit real admin authentication before private deployment
+- build teacher-friendly lesson editors with optional raw JSON mode
+- deploy a secure private test version for lesson entry
+
+
 1. Convert Lessons feature away from MediatR
 2. Build and manually test lesson CRUD
 3. Convert Auth feature away from MediatR
@@ -213,6 +227,32 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+
+29/05
+Completed:
+
+- changed ExercisesJson from short-answer items to external Practice links
+- updated frontend and backend validation for Practice-link JSON
+- tested Practice-link create/edit/display flow successfully
+- identified and removed vulnerable AutoMapper dependency
+- updated Microsoft.AspNetCore.Mvc.Testing to fix transitive System.Text.Json vulnerability
+- deleted obsolete unsafe test files
+- removed AutoMapper from the API and Tests projects
+- created LessonMapping.cs and replaced AutoMapper usage in lesson handlers
+- deleted MappingProfile.cs and removed AutoMapper registration from Program.cs
+- confirmed both projects build successfully and vulnerability scan is clean
+- created reusable ValidationFilter.cs for direct FluentValidation in Minimal API endpoints
+- converted lesson GetAll, GetById, Create, Update and Delete away from MediatR
+- updated lesson endpoints to call feature methods directly
+- applied ValidationFilter to lesson POST and PUT routes
+- fixed Swagger schema conflict by renaming the update request model to UpdateLessonRequest
+- confirmed Swagger works again
+- confirmed frontend lesson list, detail, create, edit and delete flows work successfully
+- confirmed ApiKeyFilter still protects lesson write routes
+- converted Login and Register away from MediatR
+- updated Auth endpoints to call Login.HandleAsync and Register.HandleAsync directly
+- applied ValidationFilter to login and register routes
+- confirmed backend builds successfully after Auth refactor
 
 29/05
 Completed:

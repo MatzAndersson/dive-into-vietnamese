@@ -1,15 +1,11 @@
-﻿
-using FluentValidation;
-using MediatR;
+﻿using FluentValidation;
 using DiveIntoVietnamese.Api.Data;
-using DiveIntoVietnamese.Api.Features.Behaviors;
 
 namespace DiveIntoVietnamese.Api.Features.Lessons
 {
     public static class Update
     {
-        public record UpdateLessonCommand(
-            int Id,
+        public record UpdateLessonRequest(
             string Title,
             string? Description,
             LessonLevel Level,
@@ -20,24 +16,9 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             string? VocabularyJson,
             string? QuestionsJson,
             string? GrammarJson,
-            string? ExercisesJson
-        ) : IRequest<LessonDto>, IRequireApiKey;
+            string? ExercisesJson);
 
-            public record UpdateLessonRequest(
-            string Title,
-            string? Description,
-            LessonLevel Level,
-            string? ImageUrl,
-            string? Explanation,
-            string? ConversationJson,
-            string? AudioUrl,
-            string? VocabularyJson,
-            string? QuestionsJson,
-            string? GrammarJson,
-            string? ExercisesJson
-        );
-
-        public class Validator : AbstractValidator<UpdateLessonCommand>
+        public class Validator : AbstractValidator<UpdateLessonRequest>
         {
             public Validator()
             {
@@ -86,7 +67,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                     .WithMessage($"Grammar JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
                     .Must(LessonValidationRules.BeValidGrammarJson)
                     .WithMessage("Grammar JSON must be a valid JSON array where each item includes title, explanation, vietnameseExample, and englishExample.");
-               
+
                 RuleFor(x => x.ExercisesJson)
                     .MaximumLength(LessonValidationRules.StructuredJsonMaxLength)
                     .WithMessage($"Exercises JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
@@ -95,36 +76,34 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             }
         }
 
-        public class Handler : IRequestHandler<UpdateLessonCommand, LessonDto>
+        public static async Task<LessonDto?> HandleAsync(
+            int id,
+            UpdateLessonRequest request,
+            AppDbContext db,
+            CancellationToken ct)
         {
-            private readonly AppDbContext _db;
+            var entity = await db.Lessons.FindAsync(new object?[] { id }, ct);
 
-            public Handler(AppDbContext db)
+            if (entity is null)
             {
-                _db = db;
+                return null;
             }
 
-            public async Task<LessonDto> Handle(UpdateLessonCommand request, CancellationToken ct)
-            {
-                var entity = await _db.Lessons.FindAsync(new object?[] { request.Id }, ct)
-                             ?? throw new KeyNotFoundException($"Lesson {request.Id} not found");
+            entity.Title = request.Title;
+            entity.Description = request.Description;
+            entity.Level = request.Level;
+            entity.ImageUrl = request.ImageUrl;
+            entity.Explanation = request.Explanation;
+            entity.ConversationJson = request.ConversationJson;
+            entity.AudioUrl = request.AudioUrl;
+            entity.VocabularyJson = request.VocabularyJson;
+            entity.QuestionsJson = request.QuestionsJson;
+            entity.GrammarJson = request.GrammarJson;
+            entity.ExercisesJson = request.ExercisesJson;
 
-                entity.Title = request.Title;
-                entity.Description = request.Description;
-                entity.Level = request.Level;
-                entity.ImageUrl = request.ImageUrl;
-                entity.Explanation = request.Explanation;
-                entity.ConversationJson = request.ConversationJson;
-                entity.AudioUrl = request.AudioUrl;
-                entity.VocabularyJson = request.VocabularyJson;
-                entity.QuestionsJson = request.QuestionsJson;
-                entity.GrammarJson = request.GrammarJson;
-                entity.ExercisesJson = request.ExercisesJson;
+            await db.SaveChangesAsync(ct);
 
-                await _db.SaveChangesAsync(ct);
-
-                return LessonMapping.ToDto(entity);
-            }
+            return LessonMapping.ToDto(entity);
         }
     }
 }

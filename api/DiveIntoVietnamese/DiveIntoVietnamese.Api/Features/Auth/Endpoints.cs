@@ -1,5 +1,5 @@
-﻿using MediatR;
-
+﻿using DiveIntoVietnamese.Api.Data;
+using DiveIntoVietnamese.Api.Filters;
 
 namespace DiveIntoVietnamese.Api.Features.Auth
 {
@@ -8,11 +8,18 @@ namespace DiveIntoVietnamese.Api.Features.Auth
         public static void MapAuthEndpoints(this IEndpointRouteBuilder app)
         {
             app.MapPost("/api/auth/login",
-                async (LoginCommand command, IMediator mediator) =>
+                async (
+                    Login.LoginRequest request,
+                    AppDbContext db,
+                    CancellationToken ct) =>
                 {
-                    var result = await mediator.Send(command);
-                    return result is null ? Results.Unauthorized() : Results.Ok(result);
+                    var result = await Login.HandleAsync(request, db, ct);
+
+                    return result is null
+                        ? Results.Unauthorized()
+                        : Results.Ok(result);
                 })
+                .AddEndpointFilter<ValidationFilter<Login.LoginRequest>>()
                 .WithName("Login")
                 .WithTags("Auth")
                 .WithOpenApi(op =>
@@ -23,22 +30,29 @@ namespace DiveIntoVietnamese.Api.Features.Auth
                 });
 
             app.MapPost("/api/auth/register",
-    async (RegisterCommand cmd, IMediator med) =>
-        (await med.Send(cmd))
-            ? Results.Ok()
-            : Results.BadRequest("Username already exists"))
-    .WithName("Register")
-    .WithTags("Auth")
-    .WithOpenApi(op =>
-    {
-        op.Summary = "Create a new user account.";
-        op.Description = "Username must be unique. Password is stored as a BCrypt hash.";
-        return op;
-    });
+                async (
+                    Register.RegisterRequest request,
+                    AppDbContext db,
+                    CancellationToken ct) =>
+                {
+                    var registrationSucceeded = await Register.HandleAsync(
+                        request,
+                        db,
+                        ct);
 
-
+                    return registrationSucceeded
+                        ? Results.Ok()
+                        : Results.BadRequest("Username already exists");
+                })
+                .AddEndpointFilter<ValidationFilter<Register.RegisterRequest>>()
+                .WithName("Register")
+                .WithTags("Auth")
+                .WithOpenApi(op =>
+                {
+                    op.Summary = "Create a new user account.";
+                    op.Description = "Username must be unique. Password is stored as a BCrypt hash.";
+                    return op;
+                });
         }
-
-
     }
 }

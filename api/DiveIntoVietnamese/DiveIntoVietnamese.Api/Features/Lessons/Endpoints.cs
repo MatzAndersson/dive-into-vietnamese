@@ -1,6 +1,7 @@
 ﻿using DiveIntoVietnamese.Api.Data;
 using DiveIntoVietnamese.Api.Features.Auth;
-using MediatR;
+using DiveIntoVietnamese.Api.Filters;
+
 using Microsoft.OpenApi.Models;
 
 namespace DiveIntoVietnamese.Api.Features.Lessons
@@ -37,38 +38,27 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
 
             // POST /api/lessons
             secured.MapPost("/", async (
-                IMediator med,
-                Create.CreateLessonCommand body) =>
+                Create.Request body,
+                AppDbContext db,
+                CancellationToken ct) =>
             {
-                var dto = await med.Send(body);
+                var dto = await Create.HandleAsync(body, db, ct);
                 return Results.Created($"/api/lessons/{dto.Id}", dto);
             })
+            .AddEndpointFilter<ValidationFilter<Create.Request>>()
             .WithOpenApi(RequireApiKey);
 
             // PUT /api/lessons/{id}
             secured.MapPut("/{id:int}", async (
                 int id,
-                IMediator med,
-                Update.UpdateLessonRequest body) =>
+                Update.UpdateLessonRequest body,
+                AppDbContext db,
+                CancellationToken ct) =>
             {
-                var command = new Update.UpdateLessonCommand(
-                    id,
-                    body.Title,
-                    body.Description,
-                    body.Level,
-                    body.ImageUrl,
-                    body.Explanation,
-                    body.ConversationJson,
-                    body.AudioUrl,
-                    body.VocabularyJson,
-                    body.QuestionsJson,
-                    body.GrammarJson,
-                    body.ExercisesJson
-                );
-
-                var dto = await med.Send(command);
+                var dto = await Update.HandleAsync(id, body, db, ct);
                 return dto is null ? Results.NotFound() : Results.Ok(dto);
             })
+            .AddEndpointFilter<ValidationFilter<Update.UpdateLessonRequest>>()
             .WithOpenApi(RequireApiKey);
 
             // DELETE /api/lessons/{id}

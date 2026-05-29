@@ -1,30 +1,24 @@
-﻿
-using FluentValidation;
-using MediatR;
+﻿using FluentValidation;
 using DiveIntoVietnamese.Api.Data;
-using DiveIntoVietnamese.Api.Features.Behaviors;
-
 
 namespace DiveIntoVietnamese.Api.Features.Lessons
 {
     public static class Create
     {
-        // ❶ request (shape matches POST body)
-        public record CreateLessonCommand(string Title, 
+        public record Request(
+            string Title,
             string? Description,
-            LessonLevel Level, 
-            string? ImageUrl, 
+            LessonLevel Level,
+            string? ImageUrl,
             string? Explanation,
             string? ConversationJson,
-            string? AudioUrl, 
+            string? AudioUrl,
             string? VocabularyJson,
             string? QuestionsJson,
             string? GrammarJson,
-            string? ExercisesJson)
-            : IRequest<LessonDto>, IRequireApiKey;
+            string? ExercisesJson);
 
-        // ❷ validation rules
-        public class Validator : AbstractValidator<CreateLessonCommand>
+        public class Validator : AbstractValidator<Request>
         {
             public Validator()
             {
@@ -67,7 +61,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                     .WithMessage($"Questions JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
                     .Must(LessonValidationRules.BeValidQuestionsJson)
                     .WithMessage("Questions JSON must be a valid JSON array where each item includes question.");
-                
+
                 RuleFor(x => x.GrammarJson)
                     .MaximumLength(LessonValidationRules.StructuredJsonMaxLength)
                     .WithMessage($"Grammar JSON cannot be longer than {LessonValidationRules.StructuredJsonMaxLength} characters.")
@@ -82,38 +76,30 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
             }
         }
 
-        // ❸ handler
-        public class Handler : IRequestHandler<CreateLessonCommand, LessonDto>
+        public static async Task<LessonDto> HandleAsync(
+            Request request,
+            AppDbContext db,
+            CancellationToken ct)
         {
-            private readonly AppDbContext _db;
-
-            public Handler(AppDbContext db)
+            var entity = new Lesson
             {
-                _db = db;
-            }
+                Title = request.Title,
+                Description = request.Description,
+                Level = request.Level,
+                ImageUrl = request.ImageUrl,
+                Explanation = request.Explanation,
+                ConversationJson = request.ConversationJson,
+                AudioUrl = request.AudioUrl,
+                VocabularyJson = request.VocabularyJson,
+                QuestionsJson = request.QuestionsJson,
+                GrammarJson = request.GrammarJson,
+                ExercisesJson = request.ExercisesJson
+            };
 
-            public async Task<LessonDto> Handle(CreateLessonCommand cmd, CancellationToken ct)
-            {
-                var entity = new Lesson
-                {
-                    Title = cmd.Title,
-                    Description = cmd.Description,
-                    Level = cmd.Level,
-                    ImageUrl = cmd.ImageUrl,
-                    Explanation = cmd.Explanation,
-                    ConversationJson = cmd.ConversationJson,
-                    AudioUrl = cmd.AudioUrl,
-                    VocabularyJson = cmd.VocabularyJson,
-                    QuestionsJson = cmd.QuestionsJson,
-                    GrammarJson = cmd.GrammarJson,
-                    ExercisesJson = cmd.ExercisesJson
-                };
+            db.Lessons.Add(entity);
+            await db.SaveChangesAsync(ct);
 
-                _db.Lessons.Add(entity);
-                await _db.SaveChangesAsync(ct);
-
-                return LessonMapping.ToDto(entity);
-            }
+            return LessonMapping.ToDto(entity);
         }
     }
 }
