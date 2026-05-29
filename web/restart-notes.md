@@ -59,6 +59,13 @@ Lesson detail page now supports:
 - static vocabulary section
 ## Next concrete coding task
 
+1. Convert Lessons feature away from MediatR
+2. Build and manually test lesson CRUD
+3. Convert Auth feature away from MediatR
+4. Remove obsolete MediatR behaviours
+5. Remove MediatR registration and NuGet package
+6. Build and test again
+
 Goal:
 Improve Exercises section by hiding suggested answers behind a Show answers button.
 
@@ -206,6 +213,29 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+
+29/05
+Completed:
+
+- no vulnerable NuGet packages reported
+- GetAll converted away from MediatR
+- GetById converted away from MediatR
+- Delete converted away from MediatR and builds
+- frontend lesson list and lesson detail tested successfully
+
+29/05
+- removed obsolete unsafe test files
+- updated Microsoft.AspNetCore.Mvc.Testing to fix transitive vulnerability
+- removed AutoMapper from Tests project
+- created LessonMapping.cs
+- replaced AutoMapper usage in GetAll.cs
+- replaced AutoMapper usage in GetById.cs
+- replaced AutoMapper usage in Create.cs
+- replaced AutoMapper usage in Update.cs
+- deleted MappingProfile.cs
+- removed AddAutoMapper registration from Program.cs
+- removed AutoMapper package dependency from API project
+- confirmed vulnerability scan is clean
 
 26/05
 

@@ -1,24 +1,24 @@
-﻿using MediatR;
-using DiveIntoVietnamese.Api.Data;
-using DiveIntoVietnamese.Api.Features.Behaviors;
+﻿using DiveIntoVietnamese.Api.Data;
 
-public static class Delete
+namespace DiveIntoVietnamese.Api.Features.Lessons
 {
-    public record DeleteLessonCommand(int Id) : IRequest<bool>, IRequireApiKey;
-
-    public class Handler : IRequestHandler<DeleteLessonCommand, bool>
+    public static class Delete
     {
-        private readonly AppDbContext _db;
-        public Handler(AppDbContext db) => _db = db;
-
-        public async Task<bool> Handle(DeleteLessonCommand request, CancellationToken ct)
+        public static async Task<bool> HandleAsync(
+            int id,
+            AppDbContext db,
+            CancellationToken ct)
         {
-            var entity = await _db.Lessons.FindAsync(request.Id, ct);
-            if (entity == null)
-                return false;
+            var entity = await db.Lessons.FindAsync(new object?[] { id }, ct);
 
-            _db.Lessons.Remove(entity);
-            await _db.SaveChangesAsync(ct);
+            if (entity is null)
+            {
+                return false;
+            }
+
+            db.Lessons.Remove(entity);
+            await db.SaveChangesAsync(ct);
+
             return true;
         }
     }
