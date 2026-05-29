@@ -61,7 +61,7 @@ builder.Services.AddSwaggerGen(o =>
 });
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssemblyContaining<Program>());   // scans current assembly
-builder.Services.AddAutoMapper(typeof(Program)); // same
+
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
