@@ -59,6 +59,12 @@ Lesson detail page now supports:
 - static vocabulary section
 ## Next concrete coding task
 
+- run vulnerability scan again if not already done
+- test frontend lesson list/detail once more
+- optionally test register/login locally with a temporary user
+- audit real admin authentication before private deployment
+- build teacher-friendly lesson editors with optional raw JSON mode
+
 Next steps:
 
 - confirm Swagger still loads after the Auth changes
@@ -227,6 +233,17 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+
+30/05
+Completed:
+
+- deleted obsolete MediatR behavior files
+- removed empty Behaviors folder
+- removed MediatR validation pipeline registration from Program.cs
+- removed MediatR package reference from API project
+- confirmed no remaining MediatR references in the solution
+- confirmed backend builds successfully after full MediatR removal
+- confirmed Swagger still works after MediatR removal
 
 29/05
 Completed:

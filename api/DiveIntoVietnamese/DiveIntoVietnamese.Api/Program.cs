@@ -1,10 +1,10 @@
 using DiveIntoVietnamese.Api.Data;
 using DiveIntoVietnamese.Api.Features.Auth;
-using DiveIntoVietnamese.Api.Features.Behaviors;
+
 using DiveIntoVietnamese.Api.Features.Lessons;
 using DiveIntoVietnamese.Api.Middleware;
 using FluentValidation;
-using MediatR;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -59,15 +59,13 @@ builder.Services.AddSwaggerGen(o =>
         }
     });
 });
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssemblyContaining<Program>());   // scans current assembly
+
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigureHttpJsonOptions(o =>
