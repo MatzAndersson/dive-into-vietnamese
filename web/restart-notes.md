@@ -233,6 +233,19 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+30/05
+Completed:
+
+- ran vulnerability scan
+- confirmed DiveIntoVietnamese.Api has no vulnerable packages
+- confirmed DiveIntoVietnamese.Tests has no vulnerable packages
+- tested frontend lesson page after refactor
+- confirmed lesson data still loads
+- noted separate frontend dropdown/filter issue for later
+- tested POST /api/auth/register in Swagger
+- tested POST /api/auth/login in Swagger
+- confirmed login returns the current dummy token
+- confirmed Auth still works after removing MediatR
 
 30/05
 Completed:
@@ -847,7 +860,18 @@ Completed:
 
 ## Notes
 
+
+Known issue:
+
+- LessonsPage level dropdown/filter needs review
+- selected level appears in the URL, but filtering/dropdown behavior may not be fully reliable
+- likely frontend issue in FilterBar, listLessons query params, or level comparison
+- not related to the MediatR/AutoMapper backend refactor
+- fix in a later frontend cleanup session
+
 Notes for later:
+
+
 
 remove MediatR while keeping feature-folder structure
 add new tests later using an isolated test database
