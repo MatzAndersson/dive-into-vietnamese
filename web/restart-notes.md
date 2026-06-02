@@ -79,12 +79,7 @@ Next steps:
 - deploy a secure private test version for lesson entry
 
 
-1. Convert Lessons feature away from MediatR
-2. Build and manually test lesson CRUD
-3. Convert Auth feature away from MediatR
-4. Remove obsolete MediatR behaviours
-5. Remove MediatR registration and NuGet package
-6. Build and test again
+
 
 Goal:
 Improve Exercises section by hiding suggested answers behind a Show answers button.
@@ -860,7 +855,6 @@ Completed:
 
 ## Notes
 
-
 Known issue:
 
 - LessonsPage level dropdown/filter needs review
@@ -973,6 +967,9 @@ Notes:
 - no vocabulary item audio yet
 - no sorting/reordering of vocabulary items yet
 ## Backlog:
+
+Update to NEt 10 later
+
 Backlog / future polish:
 - replace validation `alert()` in edit modal with inline error message
 - show field-specific error text under `conversationJson` / `vocabularyJson`
