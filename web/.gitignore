@@ -7,10 +7,16 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Frontend build output
 node_modules
 dist
 dist-ssr
+
+# Environment files
+.env
+.env.*
 *.local
+appsettings.Development.json
 
 # Editor directories and files
 .vscode/*
@@ -20,6 +26,12 @@ dist-ssr
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
-.env.local
+
+# .NET / Visual Studio
+bin/
+obj/
+.vs/
+TestResults/
+*.user
+*.rsuser

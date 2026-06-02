@@ -21,7 +21,7 @@ async function request<T>(
   });
 
   if (res.status === 401 || res.status === 403) {
-    throw new Error("Not authorized. Check X-API-KEY in .env.local");
+    throw new Error("Not authorized. Please check your login or API access.");
   }
   if (!res.ok) {
     const text = await res.text().catch(() => "");
