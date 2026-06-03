@@ -230,6 +230,36 @@ Future transcript/vocabulary direction:
 ## Completed tasks per session
 
 03/06
+## Session 8C – Verify .NET 10 upgrade completed
+
+Completed manual verification after upgrading backend to .NET 10.
+
+Verified:
+- Backend starts successfully on .NET 10.
+- EF Core migration check runs.
+- Database is already up to date.
+- Swagger loads.
+- `GET /api/lessons` works.
+- `POST /api/lessons` without API key returns 401.
+- `POST /api/lessons` with API key works.
+- `PUT /api/lessons/{id}` with API key works.
+- `DELETE /api/lessons/{id}` with API key works.
+- Deleted test lesson returns 404.
+- Frontend starts and works.
+- Lesson flow works from frontend.
+
+Known issues after upgrade:
+- Swagger lock/API-key authorize metadata no longer works correctly because old OpenAPI security-reference syntax broke under .NET 10.
+- `.WithOpenApi()` gives deprecation warnings.
+- EF Core gives a warning about `Lesson.Level` having a database-generated default without a sentinel value.
+- Test project runs but currently has 0 discoverable tests.
+
+Decision:
+- .NET 10 upgrade is verified enough to keep.
+- Swagger/OpenAPI warnings can be cleaned up later, likely during or after ASP.NET Identity work.
+- Next technical step: Session 8D commit/checkpoint if not already committed, then Session 8E audit current Auth setup before Identity.
+
+03/06
 Session 8B – Upgrade backend to .NET 10 completed
 
 Completed:
