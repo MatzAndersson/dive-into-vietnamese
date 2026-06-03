@@ -6,7 +6,7 @@ using DiveIntoVietnamese.Api.Middleware;
 using FluentValidation;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using System.Text.Json.Serialization;
 
 
@@ -44,20 +44,7 @@ builder.Services.AddSwaggerGen(o =>
         Description = "Paste the API key defined in appsettings.json."
     });
 
-    o.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "ApiKey"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
+   
 });
 
 

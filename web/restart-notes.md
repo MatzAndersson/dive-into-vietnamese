@@ -228,6 +228,43 @@ Future transcript/vocabulary direction:
 
 
 ## Completed tasks per session
+
+03/06
+Session 8B – Upgrade backend to .NET 10 completed
+
+Completed:
+- Changed `DiveIntoVietnamese.Api` from `net8.0` to `net10.0`.
+- Changed `DiveIntoVietnamese.Tests` from `net8.0` to `net10.0`.
+- Updated Microsoft/EF Core/Npgsql packages:
+  - Microsoft.AspNetCore.OpenApi 10.0.8
+  - Microsoft.EntityFrameworkCore 10.0.8
+  - Microsoft.EntityFrameworkCore.Design 10.0.8
+  - Npgsql.EntityFrameworkCore.PostgreSQL 10.0.2
+  - Swashbuckle.AspNetCore 10.2.1
+  - Microsoft.AspNetCore.Mvc.Testing 10.0.8
+  - Microsoft.EntityFrameworkCore.InMemory 10.0.8
+  - Microsoft.EntityFrameworkCore.Relational 10.0.8
+  - Microsoft.NET.Test.Sdk 18.6.0
+  - xunit 2.9.3
+  - xunit.runner.visualstudio 3.1.5
+
+Build/verification:
+- `dotnet build` succeeds on `net10.0`.
+- `dotnet list package --vulnerable --include-transitive` reports no vulnerable packages.
+- `dotnet test` runs on `net10.0`, but no tests are currently discoverable.
+
+Small compatibility fixes:
+- Updated OpenAPI namespace from `Microsoft.OpenApi.Models` to `Microsoft.OpenApi`.
+- Removed old `OpenApiReference`-based Swagger security requirement metadata that broke under .NET 10/OpenAPI updates.
+- Temporarily simplified `RequireApiKey` Swagger helper in lesson endpoints.
+- Actual API-key protection through `ApiKeyFilter` is still unchanged.
+
+Known warnings:
+- `.WithOpenApi()` is deprecated in .NET 10.
+- Left for now because prototype API-key Swagger metadata will likely be replaced/cleaned up during ASP.NET Identity work.
+
+
+
 30/05
 Completed:
 

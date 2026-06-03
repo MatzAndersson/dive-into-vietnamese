@@ -2,7 +2,7 @@
 using DiveIntoVietnamese.Api.Features.Auth;
 using DiveIntoVietnamese.Api.Filters;
 
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace DiveIntoVietnamese.Api.Features.Lessons
 {
@@ -76,25 +76,11 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
         }
 
         // Helper to mark only these operations as requiring the ApiKey in Swagger
+        // Temporary .NET 10 upgrade fix.
+        // Actual API-key protection still happens through ApiKeyFilter.
+        // Swagger security metadata will be cleaned up later when Identity replaces this prototype setup.
         private static OpenApiOperation RequireApiKey(OpenApiOperation op)
         {
-            op.Security =
-            [
-                new()
-                {
-                    [
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "ApiKey"
-                            }
-                        }
-                    ] = []
-                }
-            ];
-
             return op;
         }
     }
