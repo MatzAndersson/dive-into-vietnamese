@@ -33,7 +33,7 @@ namespace DiveIntoVietnamese.Api.Features.Auth
             AppDbContext db,
             CancellationToken ct)
         {
-            var usernameAlreadyExists = await db.Users.AnyAsync(
+            var usernameAlreadyExists = await db.PrototypeUsers.AnyAsync(
                 user => user.Username == request.Username,
                 ct);
 
@@ -50,7 +50,7 @@ namespace DiveIntoVietnamese.Api.Features.Auth
                 CreatedAt = DateTime.UtcNow
             };
 
-            db.Users.Add(user);
+            db.PrototypeUsers.Add(user);
             await db.SaveChangesAsync(ct);
 
             return true;

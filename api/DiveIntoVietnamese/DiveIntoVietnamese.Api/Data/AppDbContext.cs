@@ -1,16 +1,19 @@
-﻿using DiveIntoVietnamese.Api.Features.Lessons;
+﻿using DiveIntoVietnamese.Api.Features.Auth;
+using DiveIntoVietnamese.Api.Features.Lessons;
 using DiveIntoVietnamese.Api.Features.Users;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DiveIntoVietnamese.Api.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Lesson> Lessons => Set<Lesson>();
 
-        public DbSet<User> Users => Set<User>();
+        // Temporary: keep old prototype users until dummy auth endpoints are removed/replaced.
+        public DbSet<User> PrototypeUsers => Set<User>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,7 +24,7 @@ namespace DiveIntoVietnamese.Api.Data
                 .Property(l => l.CreatedAt)
                 .HasDefaultValueSql("timezone('utc', now())");
 
-            // ✅ Ensure valid default for enum (Beginner = 1)
+            // Ensure valid default for enum (Beginner = 1)
             modelBuilder.Entity<Lesson>()
                 .Property(l => l.Level)
                 .HasDefaultValue(LessonLevel.Beginner);
@@ -30,9 +33,9 @@ namespace DiveIntoVietnamese.Api.Data
                 .Property(u => u.CreatedAt)
                 .HasDefaultValueSql("timezone('utc', now())");
 
-
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(u => u.CreatedAt)
+                .HasDefaultValueSql("timezone('utc', now())");
         }
     }
-
-
 }

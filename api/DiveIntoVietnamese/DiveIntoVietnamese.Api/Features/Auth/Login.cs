@@ -27,7 +27,7 @@ namespace DiveIntoVietnamese.Api.Features.Auth
             AppDbContext db,
             CancellationToken ct)
         {
-            var user = await db.Users.SingleOrDefaultAsync(
+            var user = await db.PrototypeUsers.SingleOrDefaultAsync(
                 user => user.Username == request.Username,
                 ct);
 
