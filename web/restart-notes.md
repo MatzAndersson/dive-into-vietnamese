@@ -230,7 +230,7 @@ Future transcript/vocabulary direction:
 ## Completed tasks per session
 
 03/06
-## Session 8C – Verify .NET 10 upgrade completed
+Session 8C – Verify .NET 10 upgrade completed
 
 Completed manual verification after upgrading backend to .NET 10.
 
@@ -248,11 +248,12 @@ Verified:
 - Frontend starts and works.
 - Lesson flow works from frontend.
 
-Known issues after upgrade:
-- Swagger lock/API-key authorize metadata no longer works correctly because old OpenAPI security-reference syntax broke under .NET 10.
-- `.WithOpenApi()` gives deprecation warnings.
-- EF Core gives a warning about `Lesson.Level` having a database-generated default without a sentinel value.
-- Test project runs but currently has 0 discoverable tests.
+
+Known remaining warnings:
+- `.WithOpenApi()` is deprecated in .NET 10.
+- Swagger API-key lock/Authorize metadata is weakened after the OpenAPI compatibility fix.
+- EF Core warns about the `Lesson.Level` database default/sentinel value.
+- Test project currently has 0 discoverable tests.
 
 Decision:
 - .NET 10 upgrade is verified enough to keep.
