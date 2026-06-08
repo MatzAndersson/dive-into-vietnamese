@@ -30,6 +30,9 @@ namespace DiveIntoVietnamese.Api.Data
                 .HasDefaultValue(LessonLevel.Beginner);
 
             modelBuilder.Entity<User>()
+                .ToTable("Users");
+
+            modelBuilder.Entity<User>()
                 .Property(u => u.CreatedAt)
                 .HasDefaultValueSql("timezone('utc', now())");
 
