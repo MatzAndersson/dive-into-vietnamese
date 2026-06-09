@@ -230,6 +230,16 @@ Future transcript/vocabulary direction:
 ## Completed tasks per session
 
 09/06
+Session 8J completed:
+- Replaced ApiKeyFilter usage on lesson POST/PUT/DELETE with RequireAuthorization()
+- Kept lesson GET endpoints public
+- Confirmed unauthenticated POST returns 401
+- Confirmed unauthenticated PUT returns 401
+- Confirmed unauthenticated DELETE returns 401
+- Confirmed public GET still returns 200
+- ApiKeyFilter remains in the project temporarily as fallback/cleanup later
+
+09/06
 Session 8H: Map and test Identity endpoints locally
 
 Completed:

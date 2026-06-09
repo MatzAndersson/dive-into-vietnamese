@@ -12,7 +12,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
         public static IEndpointRouteBuilder MapLessonEndpoints(this IEndpointRouteBuilder app)
         {
             var g = app.MapGroup("/api/lessons").WithTags("Lessons");
-            var secured = g.MapGroup("/").AddEndpointFilter<ApiKeyFilter>();
+            var secured = g.MapGroup("/").RequireAuthorization();
 
             // GET /api/lessons
             g.MapGet("/", async (
