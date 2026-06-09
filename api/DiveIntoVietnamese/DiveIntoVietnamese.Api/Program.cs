@@ -115,6 +115,13 @@ app.MapControllers();
 
 app.MapAuthEndpoints();
 
+// Temporary for Session 8H: expose built-in ASP.NET Identity endpoints for local testing.
+// Excluded from Swagger because Swashbuckle currently has trouble generating schemas
+// for some built-in Identity endpoint request types.
+app.MapGroup("/identity")
+    .MapIdentityApi<ApplicationUser>()
+    .ExcludeFromDescription();
+
 app.Run();
 
 

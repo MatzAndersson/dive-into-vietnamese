@@ -229,6 +229,18 @@ Future transcript/vocabulary direction:
 
 ## Completed tasks per session
 
+09/06
+Session 8H: Map and test Identity endpoints locally
+
+Completed:
+- Mapped native ASP.NET Identity endpoints under /identity
+- Hid Identity endpoints from Swagger with ExcludeFromDescription because Swagger crashed on them
+- Kept old /api/auth/login and /api/auth/register temporarily
+- Tested /identity/register successfully
+- Tested /identity/login with correct password -> 200 OK
+- Tested /identity/login with wrong password -> 401 Unauthorized
+- Confirmed backend builds after stopping the running API process
+
 03/06
 Session 8C – Verify .NET 10 upgrade completed
 
