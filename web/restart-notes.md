@@ -229,15 +229,26 @@ Future transcript/vocabulary direction:
 
 ## Completed tasks per session
 
+10/06
+Session 8K completed:
+- Added Admin and Teacher roles
+- Added CanManageLessons authorization policy
+- Seeded/assigned admin@test.local to Admin in Development
+- Restricted lesson POST/PUT/DELETE to Admin or Teacher
+- Confirmed anonymous users get 401
+- Confirmed normal logged-in users get 403
+- Confirmed Admin user can create lessons
+- Public lesson GET remains open
+
 09/06
 Session 8J completed:
 - Replaced ApiKeyFilter usage on lesson POST/PUT/DELETE with RequireAuthorization()
 - Kept lesson GET endpoints public
-- Confirmed unauthenticated POST returns 401
-- Confirmed unauthenticated PUT returns 401
-- Confirmed unauthenticated DELETE returns 401
-- Confirmed public GET still returns 200
-- ApiKeyFilter remains in the project temporarily as fallback/cleanup later
+- Confirmed anonymous POST, PUT and DELETE return 401 Unauthorized
+- Confirmed public GET returns 200 OK
+- Confirmed logged-in Identity user can create a lesson
+- Confirmed Identity cookie login works with PowerShell WebSession
+- ApiKeyFilter remains in the project temporarily for later cleanup
 
 09/06
 Session 8H: Map and test Identity endpoints locally

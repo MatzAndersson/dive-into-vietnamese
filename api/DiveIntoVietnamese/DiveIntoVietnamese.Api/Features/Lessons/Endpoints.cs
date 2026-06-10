@@ -1,8 +1,8 @@
 ﻿using DiveIntoVietnamese.Api.Data;
-using DiveIntoVietnamese.Api.Features.Auth;
+
 using DiveIntoVietnamese.Api.Filters;
 
-using Microsoft.OpenApi;
+
 
 namespace DiveIntoVietnamese.Api.Features.Lessons
 {
@@ -12,7 +12,8 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
         public static IEndpointRouteBuilder MapLessonEndpoints(this IEndpointRouteBuilder app)
         {
             var g = app.MapGroup("/api/lessons").WithTags("Lessons");
-            var secured = g.MapGroup("/").RequireAuthorization();
+            var secured = g.MapGroup("/").RequireAuthorization("CanManageLessons");
+
 
             // GET /api/lessons
             g.MapGet("/", async (
@@ -46,7 +47,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                 return Results.Created($"/api/lessons/{dto.Id}", dto);
             })
             .AddEndpointFilter<ValidationFilter<Create.Request>>()
-            .WithOpenApi(RequireApiKey);
+            .WithOpenApi();
 
             // PUT /api/lessons/{id}
             secured.MapPut("/{id:int}", async (
@@ -59,7 +60,7 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                 return dto is null ? Results.NotFound() : Results.Ok(dto);
             })
             .AddEndpointFilter<ValidationFilter<Update.UpdateLessonRequest>>()
-            .WithOpenApi(RequireApiKey);
+            .WithOpenApi();
 
             // DELETE /api/lessons/{id}
             secured.MapDelete("/{id:int}", async (
@@ -70,18 +71,11 @@ namespace DiveIntoVietnamese.Api.Features.Lessons
                 var success = await Delete.HandleAsync(id, db, ct);
                 return success ? Results.NoContent() : Results.NotFound();
             })
-            .WithOpenApi(RequireApiKey);
+            .WithOpenApi();
 
             return app;
         }
 
-        // Helper to mark only these operations as requiring the ApiKey in Swagger
-        // Temporary .NET 10 upgrade fix.
-        // Actual API-key protection still happens through ApiKeyFilter.
-        // Swagger security metadata will be cleaned up later when Identity replaces this prototype setup.
-        private static OpenApiOperation RequireApiKey(OpenApiOperation op)
-        {
-            return op;
-        }
+       
     }
 }
