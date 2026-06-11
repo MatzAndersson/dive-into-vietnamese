@@ -3,7 +3,7 @@ export type LoginRequest = {
   password: string;
 };
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "https://localhost:7075";
+const API_BASE_URL = import.meta.env.VITE_API_BASE ?? "https://localhost:7075";
 
 export async function login(request: LoginRequest): Promise<void> {
   const response = await fetch(

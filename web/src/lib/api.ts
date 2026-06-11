@@ -1,10 +1,9 @@
 // src/lib/api.ts
 const API_BASE = import.meta.env.VITE_API_BASE ?? "";
-const API_KEY  = import.meta.env.VITE_API_KEY ?? "";
 
 /**
  * Generic request helper.
- * parseJson=false is used for endpoints that do not return a body (e.g., DELETE 204/200).
+ * parseJson=false is used for endpoints that do not return a body, e.g. DELETE 204.
  */
 async function request<T>(
   path: string,
@@ -13,28 +12,32 @@ async function request<T>(
 ): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     ...init,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-API-KEY": API_KEY,
       ...(init.headers || {}),
     },
   });
 
-  if (res.status === 401 || res.status === 403) {
-    throw new Error("Not authorized. Please check your login or API access.");
+  if (res.status === 401) {
+    throw new Error("You must be logged in to do this.");
   }
+
+  if (res.status === 403) {
+    throw new Error("You do not have permission to do this.");
+  }
+
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     throw new Error(text || `Request failed: ${res.status}`);
   }
 
   if (!parseJson) {
-    // e.g., DELETE 204/200 (no body)
     return undefined as T;
   }
 
-  // For GET/POST/PUT: only parse when there IS a body.
   const text = await res.text().catch(() => "");
+
   if (!text || !text.trim()) {
     return undefined as T;
   }
@@ -47,11 +50,26 @@ async function request<T>(
 }
 
 export const api = {
-  get:  <T>(p: string) => request<T>(p),
-  post: <T>(p: string, body: unknown) =>
-    request<T>(p, { method: "POST", body: JSON.stringify(body) }),
-  put:  <T>(p: string, body: unknown) =>
-    request<T>(p, { method: "PUT", body: JSON.stringify(body) }),
-  //  DELETE never parses JSON
-  del:  (p: string)    => request<void>(p, { method: "DELETE" }, /*parseJson*/ false),
+  get: <T>(path: string) => request<T>(path),
+
+  post: <T>(path: string, body: unknown) =>
+    request<T>(path, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  put: <T>(path: string, body: unknown) =>
+    request<T>(path, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
+
+  del: (path: string) =>
+    request<void>(
+      path,
+      {
+        method: "DELETE",
+      },
+      false
+    ),
 };

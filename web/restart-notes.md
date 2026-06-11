@@ -230,6 +230,15 @@ Future transcript/vocabulary direction:
 ## Completed tasks per session
 
 11/06
+Session 8M is complete:
+
+- Frontend login works
+- Identity cookie is stored/sent correctly
+- Admin create/edit/delete works from React
+- Normal public lesson pages still work
+- Frontend production build succeeds
+
+11/06
 Completed:
 - Created /login page
 - Added frontend Identity login request
