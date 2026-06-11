@@ -230,6 +230,18 @@ Future transcript/vocabulary direction:
 ## Completed tasks per session
 
 11/06
+Session 8N is complete:
+
+Completed:
+- Frontend API-key usage removed
+- /identity/register blocked outside Development
+- old prototype /api/auth endpoints hidden outside Development
+- Swagger confirmed Development-only
+- backend build succeeds
+- backend vulnerability scan clean
+- cookie/CORS setup works for frontend Identity login/admin CRUD
+
+11/06
 Session 8M is complete:
 
 - Frontend login works

@@ -158,6 +158,23 @@ app.UseHttpsRedirection();
 
 app.UseCors(ViteDev);
 
+if (!app.Environment.IsDevelopment())
+{
+    app.Use(async (context, next) =>
+    {
+        if (
+            HttpMethods.IsPost(context.Request.Method) &&
+            context.Request.Path.Equals("/identity/register", StringComparison.OrdinalIgnoreCase)
+        )
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            return;
+        }
+
+        await next();
+    });
+}
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -165,7 +182,10 @@ app.MapLessonEndpoints();
 
 app.MapControllers();
 
-app.MapAuthEndpoints();
+if (app.Environment.IsDevelopment())
+{
+    app.MapAuthEndpoints();
+}
 
 // Temporary for Session 8H: expose built-in ASP.NET Identity endpoints for local testing.
 // Excluded from Swagger because Swashbuckle currently has trouble generating schemas
