@@ -29,9 +29,10 @@ const string ViteDev = "ViteDev";
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy(ViteDev, p => p
-        .WithOrigins("http://localhost:5173")   // Vite dev server
-        .AllowAnyHeader()                       // needed for X-API-KEY
-        .AllowAnyMethod());                     // GET/POST/PUT/DELETE
+        .WithOrigins("http://localhost:5173")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials());
 });
 
 builder.Services.AddEndpointsApiExplorer();

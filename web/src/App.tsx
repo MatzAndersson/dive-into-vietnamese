@@ -4,6 +4,7 @@ import LessonsPage from "./features/lessons/pages/LessonsPage";
 import LessonDetailPage from "./features/lessons/pages/LessonDetailPage";
 import AdminLessonsPage from "./features/lessons/pages/AdminLessonsPage";
 import HomePage from "./features/lessons/pages/HomePage";
+import { LoginPage } from "./features/auth/pages/LoginPage";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/lessons/:id" element={<LessonDetailPage />} />
           <Route path="/admin/lessons" element={<AdminLessonsPage />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </main>
     </div>

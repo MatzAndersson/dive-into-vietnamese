@@ -229,6 +229,15 @@ Future transcript/vocabulary direction:
 
 ## Completed tasks per session
 
+11/06
+Completed:
+- Created /login page
+- Added frontend Identity login request
+- Used credentials: include for cookie login
+- Added CORS credentials support in backend
+- Successful login redirects to /admin/lessons
+- Failed login shows error message
+
 10/06
 Session 8K completed:
 - Added Admin and Teacher roles
@@ -955,6 +964,11 @@ Completed:
 
 
 ## Notes
+
+/api/auth/login and /api/auth/register are still old prototype auth endpoints.
+/identity/register is still publicly available locally.
+
+Important Note: public Identity registration is still available at /identity/register. That is okay locally for now, but before deployment we should disable or restrict registration.
 
 Known issue:
 
