@@ -229,6 +229,9 @@ Future transcript/vocabulary direction:
 
 ## Completed tasks per session
 
+12/06
+Session 8P: Manual frontend beta smoke test completed
+
 11/06
 Session 8N is complete:
 
