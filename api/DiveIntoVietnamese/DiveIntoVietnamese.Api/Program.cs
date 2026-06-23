@@ -25,11 +25,16 @@ builder.Services.AddControllers()
     }); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-const string ViteDev = "ViteDev";
+const string FrontendCors = "FrontendCors";
+
+var frontendOrigin =
+    builder.Configuration["AllowedOrigins:Frontend"]
+    ?? "http://localhost:5173";
+
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy(ViteDev, p => p
-        .WithOrigins("http://localhost:5173")
+    opt.AddPolicy(FrontendCors, p => p
+        .WithOrigins(frontendOrigin)
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials());
@@ -156,7 +161,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors(ViteDev);
+app.UseCors(FrontendCors);
 
 if (!app.Environment.IsDevelopment())
 {

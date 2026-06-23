@@ -989,6 +989,15 @@ Completed:
 
 ## Notes
 
+Backlog UI polish:
+Replace the built-in browser confirm dialog for deleting lessons with a custom delete confirmation modal.
+
+Reason:
+- Looks more professional
+- Can show lesson title before deletion
+- Can use brand styling
+- Can make destructive action clearer
+
 /api/auth/login and /api/auth/register are still old prototype auth endpoints.
 /identity/register is still publicly available locally.
 
