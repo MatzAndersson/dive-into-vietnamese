@@ -95,6 +95,17 @@ builder.Services.ConfigureHttpJsonOptions(o =>
 
 var app = builder.Build();
 
+if (args.Contains("--seed-production-admin", StringComparer.OrdinalIgnoreCase))
+{
+    using var scope = app.Services.CreateScope();
+
+    await ProductionIdentitySeeder.SeedAsync(
+        scope.ServiceProvider,
+        app.Configuration);
+
+    return;
+}
+
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
