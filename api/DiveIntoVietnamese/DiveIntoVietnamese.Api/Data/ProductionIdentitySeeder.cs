@@ -140,6 +140,72 @@ namespace DiveIntoVietnamese.Api.Data
             logger.LogInformation("Production identity seeding completed successfully.");
         }
 
+        public static async Task ResetAdminPasswordAsync(
+            IServiceProvider services,
+            IConfiguration configuration)
+        {
+            var logger = services
+                .GetRequiredService<ILoggerFactory>()
+                .CreateLogger("ProductionIdentitySeeder");
+
+            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+            var adminEmail = configuration["SeedAdmin:Email"];
+            var newAdminPassword = configuration["SeedAdmin:Password"];
+
+            if (string.IsNullOrWhiteSpace(adminEmail))
+            {
+                throw new InvalidOperationException("SeedAdmin:Email is missing.");
+            }
+
+            if (string.IsNullOrWhiteSpace(newAdminPassword))
+            {
+                throw new InvalidOperationException("SeedAdmin:Password is missing.");
+            }
+
+            adminEmail = adminEmail.Trim();
+
+            var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+            if (adminUser is null)
+            {
+                throw new InvalidOperationException(
+                    $"No admin user was found with email '{adminEmail}'.");
+            }
+
+            foreach (var passwordValidator in userManager.PasswordValidators)
+            {
+                var validationResult = await passwordValidator.ValidateAsync(
+                    userManager,
+                    adminUser,
+                    newAdminPassword);
+
+                if (!validationResult.Succeeded)
+                {
+                    throw new InvalidOperationException(
+                        $"New admin password is invalid: {FormatErrors(validationResult)}");
+                }
+            }
+
+            adminUser.PasswordHash = userManager.PasswordHasher.HashPassword(
+                adminUser,
+                newAdminPassword);
+
+            adminUser.SecurityStamp = Guid.NewGuid().ToString("N");
+
+            var updateResult = await userManager.UpdateAsync(adminUser);
+
+            if (!updateResult.Succeeded)
+            {
+                throw new InvalidOperationException(
+                    $"Could not reset admin password: {FormatErrors(updateResult)}");
+            }
+
+            logger.LogInformation(
+                "Production admin password was reset successfully for: {AdminEmail}",
+                adminEmail);
+        }
+
         private static string FormatErrors(IdentityResult result)
         {
             return string.Join(
