@@ -989,6 +989,18 @@ Completed:
 
 ## Notes
 
+Fix Sign In link so it's at a more suitable place
+
+"Frontend duplicate JS cleanup
+Tasks:
+Find stale JS files in src
+Check matching TS/TSX files exist
+Remove stale JS files carefully
+Check imports are extensionless
+Run npm run build
+Push and confirm Cloudflare deploy
+"
+
 Backlog UI polish:
 Replace the built-in browser confirm dialog for deleting lessons with a custom delete confirmation modal.
 

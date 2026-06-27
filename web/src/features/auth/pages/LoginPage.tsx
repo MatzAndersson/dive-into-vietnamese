@@ -33,7 +33,7 @@ export function LoginPage() {
         className="w-full rounded-2xl bg-white p-6 shadow"
       >
         <h1 className="mb-6 text-2xl font-bold text-brand-blue">
-          Admin login
+          Sign in
         </h1>
 
         <label className="mb-4 block">
