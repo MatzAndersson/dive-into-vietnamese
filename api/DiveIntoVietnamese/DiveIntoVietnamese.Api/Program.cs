@@ -232,6 +232,8 @@ app.MapGroup("/identity")
     .MapIdentityApi<ApplicationUser>()
     .ExcludeFromDescription();
 
+app.MapSessionEndpoints();
+
 app.Run();
 
 

@@ -3,6 +3,13 @@ export type LoginRequest = {
   password: string;
 };
 
+export type CurrentUser = {
+  isAuthenticated: boolean;
+  email: string | null;
+  roles: string[];
+  canManageLessons: boolean;
+};
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE ?? "https://localhost:7075";
 
 export async function login(request: LoginRequest): Promise<void> {
@@ -21,4 +28,17 @@ export async function login(request: LoginRequest): Promise<void> {
   if (!response.ok) {
     throw new Error("Invalid email or password.");
   }
+}
+
+export async function getCurrentUser(): Promise<CurrentUser> {
+  const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Could not check login status.");
+  }
+
+  return response.json();
 }
