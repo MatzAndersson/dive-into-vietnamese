@@ -117,6 +117,17 @@ if (args.Contains("--reset-production-admin-password", StringComparer.OrdinalIgn
     return;
 }
 
+if (args.Contains("--seed-production-teacher", StringComparer.OrdinalIgnoreCase))
+{
+    using var scope = app.Services.CreateScope();
+
+    await ProductionIdentitySeeder.SeedTeacherAsync(
+        scope.ServiceProvider,
+        app.Configuration);
+
+    return;
+}
+
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
