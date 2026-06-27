@@ -42,6 +42,10 @@ export function Navbar() {
           <NavLink to="/levels/advanced" className={getLinkClass}>
             {t("nav.advanced")}
           </NavLink>
+
+          <NavLink to="/login" className={getLinkClass}>
+            {t("nav.signIn")}
+          </NavLink>
         </nav>
 
         <div className="flex items-center gap-2">
