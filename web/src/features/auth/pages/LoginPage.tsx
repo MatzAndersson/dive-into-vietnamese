@@ -1,14 +1,26 @@
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { login } from "../api";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCurrentUser, login } from "../api";
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const [email, setEmail] = useState("admin@test.local");
-  const [password, setPassword] = useState("Password1");
+  const { data: currentUser } = useQuery({
+    queryKey: ["auth", "me"],
+    queryFn: getCurrentUser,
+    retry: false,
+  });
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (currentUser?.isAuthenticated) {
+    return <Navigate to="/admin/lessons" replace />;
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,6 +30,7 @@ export function LoginPage() {
 
     try {
       await login({ email, password });
+      await queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
       navigate("/admin/lessons");
     } catch {
       setError("Could not log in. Check your email and password.");
@@ -32,14 +45,10 @@ export function LoginPage() {
         onSubmit={handleSubmit}
         className="w-full rounded-2xl bg-white p-6 shadow"
       >
-        <h1 className="mb-6 text-2xl font-bold text-brand-blue">
-          Sign in
-        </h1>
+        <h1 className="mb-6 text-2xl font-bold text-brand-blue">Sign in</h1>
 
         <label className="mb-4 block">
-          <span className="mb-1 block font-medium text-brand-dark">
-            Email
-          </span>
+          <span className="mb-1 block font-medium text-brand-dark">Email</span>
           <input
             className="w-full rounded-lg border px-3 py-2"
             type="email"
@@ -73,7 +82,8 @@ export function LoginPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full cursor-pointer rounded-lg bg-brand-orange px-4 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"        >
+          className="w-full cursor-pointer rounded-lg bg-brand-orange px-4 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+        >
           {isSubmitting ? "Logging in..." : "Log in"}
         </button>
       </form>

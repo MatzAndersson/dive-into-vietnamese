@@ -72,10 +72,7 @@ export function Navbar() {
 
           {isLoggedIn ? (
             <div className="flex items-center gap-3">
-              <span className="text-sm text-gray-600">
-                Signed in
-                {currentUser.email ? ` as ${currentUser.email}` : ""}
-              </span>
+              <span className="text-sm text-gray-600">Signed in</span>
 
               <button
                 type="button"
