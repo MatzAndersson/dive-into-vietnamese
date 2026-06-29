@@ -39,6 +39,13 @@ public static class SessionEndpoints
                 CanManageLessons: canManageLessons));
         })
         .AllowAnonymous();
+        group.MapPost("/logout", async (
+        SignInManager<ApplicationUser> signInManager) =>
+        {
+            await signInManager.SignOutAsync();
+            return Results.NoContent();
+        })
+        .AllowAnonymous();
 
         return app;
     }
