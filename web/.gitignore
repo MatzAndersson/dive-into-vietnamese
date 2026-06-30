@@ -36,3 +36,6 @@ obj/
 TestResults/
 *.user
 *.rsuser
+*.db
+*.db-shm
+*.db-wal
