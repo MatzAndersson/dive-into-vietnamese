@@ -3,6 +3,7 @@ using DiveIntoVietnamese.Api.Data;
 using DiveIntoVietnamese.Api.Features.Auth;
 
 using DiveIntoVietnamese.Api.Features.Lessons;
+using DiveIntoVietnamese.Api.Features.Media;
 using DiveIntoVietnamese.Api.Middleware;
 using FluentValidation;
 
@@ -91,6 +92,32 @@ builder.Services.ConfigureHttpJsonOptions(o =>
     o.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+builder.Services
+    .AddOptions<MediaStorageOptions>()
+    .Bind(
+        builder.Configuration.GetSection(
+            MediaStorageOptions.SectionName))
+    .Validate(
+        options =>
+            Uri.TryCreate(
+                options.Url,
+                UriKind.Absolute,
+                out var uri) &&
+            uri.Scheme == Uri.UriSchemeHttps,
+        "SupabaseStorage:Url must be a valid HTTPS URL.")
+    .Validate(
+        options =>
+            !string.IsNullOrWhiteSpace(options.SecretKey),
+        "SupabaseStorage:SecretKey is required.")
+    .Validate(
+        options =>
+            !string.IsNullOrWhiteSpace(options.Bucket),
+        "SupabaseStorage:Bucket is required.")
+    .ValidateOnStart();
+
+builder.Services.AddHttpClient<
+    IMediaStorage,
+    SupabaseMediaStorage>();
 
 
 var app = builder.Build();
@@ -217,6 +244,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapLessonEndpoints();
+app.MapMediaEndpoints();
 
 app.MapControllers();
 

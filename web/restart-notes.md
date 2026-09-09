@@ -1283,7 +1283,27 @@ Locale switcher exists: no
 Current status: i18n is configured and the lessons page UI is wired for translation
 
 ## From Binh
- 
+ Most important:
+ 1. Sort out Imageurl and ConversationUrl so you can upload mp3 and png, jpg etc. through webote admin and it is directly converted to Url.
+ 2. Make all vocabulary clickable audio clips
+ 3. If possible in the Conversation text field, have a clickable audio clip for every sentence for shadowing
+
+
+ 1. Need to add Json Expectet format description below Practice links JSON
+ 2. Sort out Imageurl and ConversationUrl so you can upload mp3 and png, jpg etc. through webote admin and it is directly converted to Url.
+ 3. Add teacher page so she can upload teacher material PDF for teachers
+ 4. Make all vocabulary clickable audio clips
+ 5. Make all vocabulary and the example sentence an option to add to Anki, simple version is to make the whole vocabulary and sentence list a csv for Anki. A button at the bottom corner.
+ 6. If possible in the Conversation text field, have a clickable audio clip for every sentence for shadowing
+ 7. For the question field, have an answer button the unfolds the answers in the field, 
+ 8. in the grammar points after the number prefereably make it possible to only make the grammar in question orange, otherwise the whole sentence
+ 9. THe admin, sign in and logout move more to the right closer to the EN/VI in the navbar
+ 10. Grammar option/choice in the navbar
+ 11. Have dropdown for all levels Beginng/INtermediate/Advance. Also adding "Pronounciation" in this list as it is also part of the levels
+ Then when clicking on the Drodown in the lessonPage have: B: A1,A2; I: B1, B2; A: C1, C2
+ 12. After Levels in the Navbar should be "Listning" leads to a page similar to the other levels, but with listning topics, THe Dwopdon on the page should have the levels but for pronounciation
+
+
  Coloring
  Lesson title should be orange
  All the title for fields (vocabulary,explanatio etc.) should be blue
