@@ -2,6 +2,13 @@ import { api } from "@/lib/api";
 import { LessonsSchema, LessonSchema } from "./schema";
 import type { LessonLevel } from "./types";
 
+type MediaUploadCategory = "lesson-image" | "conversation-audio";
+
+type MediaUploadResult = {
+  url: string;
+  path: string;
+};
+
 type CreateLessonInput = {
   title: string;
   description?: string;
@@ -62,4 +69,8 @@ export async function updateLesson(id: number, input: UpdateLessonInput) {
 
 export async function deleteLesson(id: number) {
   await api.del(`/api/lessons/${id}`);
+}
+
+export async function uploadMedia(file: File, category: MediaUploadCategory) {
+  return api.upload<MediaUploadResult>(`/api/media/upload/${category}`, file);
 }

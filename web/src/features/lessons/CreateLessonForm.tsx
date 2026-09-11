@@ -1,8 +1,8 @@
-import { useEffect, useActionState, ReactNode } from "react";
+import { useEffect, useActionState, useState, ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { createLesson } from "./api";
+import { createLesson, uploadMedia } from "./api";
 import type { LessonLevel } from "./types";
 import {
   validateVocabularyJson,
@@ -19,23 +19,38 @@ const emptyToUndefined = (value: FormDataEntryValue | null) => {
   return text.length > 0 ? text : undefined;
 };
 
+const getSelectedFile = (value: FormDataEntryValue | null) => {
+  return value instanceof File && value.size > 0 ? value : undefined;
+};
+
 async function createAction(
   _prev: CreateResult | null,
   fd: FormData,
 ): Promise<CreateResult> {
   try {
+    const imageFile = getSelectedFile(fd.get("imageFile"));
+    const audioFile = getSelectedFile(fd.get("audioFile"));
+
+    const imageUrl = imageFile
+      ? (await uploadMedia(imageFile, "lesson-image")).url
+      : emptyToUndefined(fd.get("imageUrl"));
+
+    const audioUrl = audioFile
+      ? (await uploadMedia(audioFile, "conversation-audio")).url
+      : emptyToUndefined(fd.get("audioUrl"));
+
     await createLesson({
       title: String(fd.get("title") ?? "").trim(),
       description: emptyToUndefined(fd.get("description")),
       level: String(fd.get("level") ?? "Beginner") as LessonLevel,
-      imageUrl: emptyToUndefined(fd.get("imageUrl")),
+      imageUrl,
       explanation: emptyToUndefined(fd.get("explanation")),
 
       conversationJson: validateConversationJson(
         emptyToUndefined(fd.get("conversationJson")),
       ),
 
-      audioUrl: emptyToUndefined(fd.get("audioUrl")),
+      audioUrl,
 
       vocabularyJson: validateVocabularyJson(
         emptyToUndefined(fd.get("vocabularyJson")),
@@ -84,6 +99,8 @@ function SubmitBtn() {
 export default function CreateLessonForm() {
   const { t } = useTranslation();
   const qc = useQueryClient();
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>();
+  const [audioPreviewUrl, setAudioPreviewUrl] = useState<string>();
 
   const [state, action] = useActionState<CreateResult | null, FormData>(
     createAction,
@@ -95,6 +112,22 @@ export default function CreateLessonForm() {
       void qc.invalidateQueries({ queryKey: ["lessons"] });
     }
   }, [state, qc]);
+
+  useEffect(() => {
+    return () => {
+      if (imagePreviewUrl) {
+        URL.revokeObjectURL(imagePreviewUrl);
+      }
+    };
+  }, [imagePreviewUrl]);
+
+  useEffect(() => {
+    return () => {
+      if (audioPreviewUrl) {
+        URL.revokeObjectURL(audioPreviewUrl);
+      }
+    };
+  }, [audioPreviewUrl]);
 
   return (
     <form action={action} className="space-y-3">
@@ -131,6 +164,31 @@ export default function CreateLessonForm() {
       </label>
 
       <label className="block">
+        <FieldLabel>Lesson image</FieldLabel>
+        <input
+          type="file"
+          name="imageFile"
+          accept="image/jpeg,image/png,image/webp"
+          className="w-full cursor-pointer rounded border p-2 font-body text-brand-dark"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+
+            setImagePreviewUrl(file ? URL.createObjectURL(file) : undefined);
+          }}
+        />
+      </label>
+
+      <p className="text-xs text-slate-500">JPG, PNG or WebP. Maximum 5 MB.</p>
+
+      {imagePreviewUrl && (
+        <img
+          src={imagePreviewUrl}
+          alt="Lesson preview"
+          className="max-h-64 rounded-lg border object-contain"
+        />
+      )}
+
+      <label className="block">
         <FieldLabel>Image URL</FieldLabel>
         <input
           name="imageUrl"
@@ -140,7 +198,7 @@ export default function CreateLessonForm() {
       </label>
 
       <p className="text-xs text-slate-500">
-        Use a direct image URL ending in .jpg, .png, or .webp.
+        Optional fallback: use a direct JPG, PNG or WebP URL.
       </p>
 
       <label className="block">
@@ -166,6 +224,27 @@ export default function CreateLessonForm() {
       </p>
 
       <label className="block">
+        <FieldLabel>Conversation audio</FieldLabel>
+        <input
+          type="file"
+          name="audioFile"
+          accept=".mp3,.m4a,audio/mpeg,audio/mp4,audio/x-m4a"
+          className="w-full cursor-pointer rounded border p-2 font-body text-brand-dark"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+
+            setAudioPreviewUrl(file ? URL.createObjectURL(file) : undefined);
+          }}
+        />
+      </label>
+
+      <p className="text-xs text-slate-500">MP3 or M4A. Maximum 25 MB.</p>
+
+      {audioPreviewUrl && (
+        <audio controls src={audioPreviewUrl} className="w-full" />
+      )}
+
+      <label className="block">
         <FieldLabel>Conversation audio URL</FieldLabel>
         <input
           name="audioUrl"
@@ -175,7 +254,7 @@ export default function CreateLessonForm() {
       </label>
 
       <p className="text-xs text-slate-500">
-        Use a direct audio URL ending in .mp3, .wav, or .ogg.
+        Optional fallback: use a direct MP3 or M4A URL.
       </p>
 
       <label className="block">

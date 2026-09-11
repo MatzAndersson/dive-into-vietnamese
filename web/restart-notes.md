@@ -1128,6 +1128,13 @@ Notes:
 - no sorting/reordering of vocabulary items yet
 ## Backlog:
 
+YSort out the uploading choices of image and audio, to something similar to the below:
+Image source
+[ Upload from device ▼ ]
+
+Upload from device
+Use image URL"
+
 Update to NEt 10 later
 
 Backlog / future polish:

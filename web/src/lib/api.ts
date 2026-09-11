@@ -8,7 +8,7 @@ const API_BASE = import.meta.env.VITE_API_BASE ?? "";
 async function request<T>(
   path: string,
   init: RequestInit = {},
-  parseJson: boolean = true
+  parseJson: boolean = true,
 ): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     ...init,
@@ -64,12 +64,22 @@ export const api = {
       body: JSON.stringify(body),
     }),
 
+  upload: <T>(path: string, file: File) =>
+    request<T>(path, {
+      method: "POST",
+      headers: {
+        "Content-Type": file.type,
+        "X-File-Name": file.name,
+      },
+      body: file,
+    }),
+
   del: (path: string) =>
     request<void>(
       path,
       {
         method: "DELETE",
       },
-      false
+      false,
     ),
 };
