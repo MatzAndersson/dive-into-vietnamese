@@ -291,7 +291,12 @@ export default function LessonDetailPage() {
             </div>
 
             {lesson.audioUrl && (
-              <audio controls src={lesson.audioUrl} className="mb-4 w-full">
+              <audio
+                controls
+                controlsList="nodownload"
+                src={lesson.audioUrl}
+                className="mb-4 w-full"
+              >
                 Your browser does not support the audio element.
               </audio>
             )}
@@ -357,6 +362,7 @@ export default function LessonDetailPage() {
                           {item.audioUrl && (
                             <audio
                               controls
+                              controlsList="nodownload"
                               src={item.audioUrl}
                               className="mt-2 w-full"
                             >

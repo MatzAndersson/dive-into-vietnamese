@@ -1128,6 +1128,9 @@ Notes:
 - no sorting/reordering of vocabulary items yet
 ## Backlog:
 
+
+Evaluate private media storage + signed URLs before commercial launch!! Must fix before launch!!
+
 YSort out the uploading choices of image and audio, to something similar to the below:
 Image source
 [ Upload from device ▼ ]
