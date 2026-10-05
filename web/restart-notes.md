@@ -1128,6 +1128,7 @@ Notes:
 - no sorting/reordering of vocabulary items yet
 ## Backlog:
 
+NOte: LessonLevel-validation bug should be fixed at some point
 
 Evaluate private media storage + signed URLs before commercial launch!! Must fix before launch!!
 
@@ -1299,9 +1300,8 @@ Current status: i18n is configured and the lessons page UI is wired for translat
  3. If possible in the Conversation text field, have a clickable audio clip for every sentence for shadowing
 
 
- 1. Need to add Json Expectet format description below Practice links JSON
- 2. Sort out Imageurl and ConversationUrl so you can upload mp3 and png, jpg etc. through webote admin and it is directly converted to Url.
- 3. Add teacher page so she can upload teacher material PDF for teachers
+ 2. Need to add Json Expectet format description below Practice links JSON
+  3. Add teacher page so she can upload teacher material PDF for teachers
  4. Make all vocabulary clickable audio clips
  5. Make all vocabulary and the example sentence an option to add to Anki, simple version is to make the whole vocabulary and sentence list a csv for Anki. A button at the bottom corner.
  6. If possible in the Conversation text field, have a clickable audio clip for every sentence for shadowing
