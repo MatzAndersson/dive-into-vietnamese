@@ -25,7 +25,13 @@
     "beginner": "Beginner",
     "intermediate": "Intermediate",
     "advanced": "Advanced",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "admin": "Admin",
+    "signedIn": "Signed in",
+    "logout": "Logout",
+    "loggingOut": "Logging out...",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "home": {
     "eyebrow": "Southern Vietnamese learning",
