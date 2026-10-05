@@ -402,6 +402,10 @@ export default function AdminLessonsPage() {
               </label>
 
               <p className="text-xs text-slate-500">
+                {t("practiceLinksExpectedFormat")}
+              </p>
+
+              <p className="text-xs text-slate-500">
                 Add external practice activities here, for example Wordwall
                 links. The note field can explain if the student needs a free
                 account.

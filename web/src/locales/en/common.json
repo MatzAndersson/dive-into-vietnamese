@@ -53,5 +53,6 @@
   "cancel": "Cancel",
   "saveChanges": "Save changes",
   "edit": "Edit",
-  "vietnameseLesson": "Vietnamese lesson"
+  "vietnameseLesson": "Vietnamese lesson",
+  "practiceLinksExpectedFormat": "Expected format: [{\"type\":\"practiceLink\",\"title\":\"Practice activity\",\"description\":\"Complete this activity.\",\"url\":\"https://example.com\",\"buttonText\":\"Open activity\",\"note\":\"Optional note\"}]. The note field is optional."
 }

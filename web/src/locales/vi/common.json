@@ -53,5 +53,6 @@
   "cancel": "Hủy",
   "saveChanges": "Lưu thay đổi",
   "edit": "Chỉnh sửa",
-  "vietnameseLesson": "Bài học tiếng Việt"
+  "vietnameseLesson": "Bài học tiếng Việt",
+  "practiceLinksExpectedFormat": "Định dạng yêu cầu: [{\"type\":\"practiceLink\",\"title\":\"Practice activity\",\"description\":\"Complete this activity.\",\"url\":\"https://example.com\",\"buttonText\":\"Open activity\",\"note\":\"Optional note\"}]. Trường note là tùy chọn."
 }
