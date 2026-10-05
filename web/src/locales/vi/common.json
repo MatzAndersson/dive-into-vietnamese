@@ -25,7 +25,13 @@
     "beginner": "Sơ cấp",
     "intermediate": "Trung cấp",
     "advanced": "Nâng cao",
-    "signIn": "Đăng nhập"
+    "signIn": "Đăng nhập",
+    "admin": "Quản trị",
+    "signedIn": "Đã đăng nhập",
+    "logout": "Đăng xuất",
+    "loggingOut": "Đang đăng xuất...",
+    "openMenu": "Mở menu",
+    "closeMenu": "Đóng menu"
   },
   "home": {
     "eyebrow": "Học tiếng Việt giọng miền Nam",
