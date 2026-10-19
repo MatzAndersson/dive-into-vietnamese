@@ -13,6 +13,7 @@ type ConversationLine = {
 
 type QuestionItem = {
   question: string;
+  answer?: string;
 };
 
 type GrammarItem = {
@@ -134,21 +135,26 @@ export function validateQuestionsJson(value: string | undefined) {
       throw new Error("Questions JSON must be an array.");
     }
 
-    const hasInvalidItem = parsed.some((item) => {
+    for (const item of parsed) {
       if (typeof item !== "object" || item === null || Array.isArray(item)) {
-        return true;
+        throw new Error("Each question item must include a non-empty question string.");
       }
 
       const questionItem = item as Partial<QuestionItem>;
 
-      return (
+      if (
         typeof questionItem.question !== "string" ||
         !questionItem.question.trim()
-      );
-    });
+      ) {
+        throw new Error("Each question item must include a non-empty question string.");
+      }
 
-    if (hasInvalidItem) {
-      throw new Error("Each question item must include a question field.");
+      if (
+        questionItem.answer !== undefined &&
+        (typeof questionItem.answer !== "string" || !questionItem.answer.trim())
+      ) {
+        throw new Error("The optional answer field must be a non-empty string.");
+      }
     }
 
     return value;

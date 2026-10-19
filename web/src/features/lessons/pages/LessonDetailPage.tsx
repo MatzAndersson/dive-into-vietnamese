@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getLessonById } from "../api";
+import QuestionAnswer from "../components/QuestionAnswer";
 
 type ConversationLine = {
   speaker: string;
@@ -36,6 +37,7 @@ type ExerciseItem = {
 
 type LessonQuestion = {
   question: string;
+  answer?: string;
 };
 
 function parseVocabulary(vocabularyJson?: string | null): VocabularyItem[] {
@@ -77,7 +79,9 @@ function parseQuestions(json?: string | null): LessonQuestion[] {
         item !== null &&
         !Array.isArray(item) &&
         typeof (item as Partial<LessonQuestion>).question === "string" &&
-        Boolean((item as Partial<LessonQuestion>).question?.trim()),
+        Boolean((item as Partial<LessonQuestion>).question?.trim()) &&
+        ((item as Partial<LessonQuestion>).answer === undefined ||
+          typeof (item as Partial<LessonQuestion>).answer === "string"),
     );
   } catch {
     return [];
@@ -402,10 +406,13 @@ export default function LessonDetailPage() {
               <ol className="list-decimal space-y-2 pl-5">
                 {questions.map((item, index) => (
                   <li
-                    key={`${item.question}-${index}`}
+                    key={`${lessonId}-${item.question}-${item.answer ?? ""}-${index}`}
                     className="text-slate-700"
                   >
                     {item.question}
+                    {item.answer?.trim() && (
+                      <QuestionAnswer answer={item.answer} />
+                    )}
                   </li>
                 ))}
               </ol>

@@ -60,5 +60,8 @@
   "saveChanges": "Save changes",
   "edit": "Edit",
   "vietnameseLesson": "Vietnamese lesson",
-  "practiceLinksExpectedFormat": "Expected format: [{\"type\":\"practiceLink\",\"title\":\"Practice activity\",\"description\":\"Complete this activity.\",\"url\":\"https://example.com\",\"buttonText\":\"Open activity\",\"note\":\"Optional note\"}]. The note field is optional."
+  "practiceLinksExpectedFormat": "Expected format: [{\"type\":\"practiceLink\",\"title\":\"Practice activity\",\"description\":\"Complete this activity.\",\"url\":\"https://example.com\",\"buttonText\":\"Open activity\",\"note\":\"Optional note\"}]. The note field is optional.",
+  "showAnswer": "Show Answer",
+  "hideAnswer": "Hide Answer",
+  "questionsExpectedFormat": "Expected format: [{\"question\":\"What is this conversation about?\",\"answer\":\"Greetings.\"}]. The answer field is optional; omit it for question-only items."
 }

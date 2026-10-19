@@ -60,5 +60,8 @@
   "saveChanges": "Lưu thay đổi",
   "edit": "Chỉnh sửa",
   "vietnameseLesson": "Bài học tiếng Việt",
-  "practiceLinksExpectedFormat": "Định dạng yêu cầu: [{\"type\":\"practiceLink\",\"title\":\"Practice activity\",\"description\":\"Complete this activity.\",\"url\":\"https://example.com\",\"buttonText\":\"Open activity\",\"note\":\"Optional note\"}]. Trường note là tùy chọn."
+  "practiceLinksExpectedFormat": "Định dạng yêu cầu: [{\"type\":\"practiceLink\",\"title\":\"Practice activity\",\"description\":\"Complete this activity.\",\"url\":\"https://example.com\",\"buttonText\":\"Open activity\",\"note\":\"Optional note\"}]. Trường note là tùy chọn.",
+  "showAnswer": "Hiện đáp án",
+  "hideAnswer": "Ẩn đáp án",
+  "questionsExpectedFormat": "Định dạng yêu cầu: [{\"question\":\"What is this conversation about?\",\"answer\":\"Greetings.\"}]. Trường answer là tùy chọn; có thể bỏ qua nếu chỉ có câu hỏi."
 }
