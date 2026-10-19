@@ -368,13 +368,13 @@ export default function AdminLessonsPage() {
                 <textarea
                   name="questionsJson"
                   defaultValue={editingLesson.questionsJson ?? ""}
-                  placeholder='[{"question":"What is this conversation about?"}]'
+                  placeholder='[{"question":"What is this conversation about?","answer":"Greetings."}]'
                   className="min-h-24 w-full rounded border p-2 font-mono text-sm text-brand-dark"
                 />
               </label>
 
               <p className="text-xs text-slate-500">
-                {`Expected format: [{"question":"What is this conversation about?"}]`}
+                {t("questionsExpectedFormat")}
               </p>
 
               <label className="block">
